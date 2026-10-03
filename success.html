@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light dark"/>
+  <script>(function(){var L=["en","ru","fa","ar","es","ne","fr"],m=location.search.match(/[?&]lang=([a-zA-Z]{2})/),l=m?m[1].toLowerCase():null;try{l=l&&L.indexOf(l)>-1?l:(localStorage.getItem("nullvpn_lang")||"");}catch(e){l="";}if(l&&L.indexOf(l)>-1){document.documentElement.lang=l;document.documentElement.dir=(l==="fa"||l==="ar")?"rtl":"ltr";if(l!=="en"){document.documentElement.classList.add("nv-l");setTimeout(function(){document.documentElement.classList.remove("nv-l")},2000);}}})();</script>
+  <style>html.nv-l .nav-inner{visibility:hidden}html.nv-l .success-card{visibility:hidden}</style>
+  <link rel="preload" href="/fonts/manrope-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <meta name="theme-color" content="#f7e7ce"/>
+  <meta name="theme-color" content="#0a0f1a" media="(prefers-color-scheme: dark)"/>
+  <script src="branding.js?v=5" defer></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>Payment Successful — NullVPN</title>
+  <meta name="description" content="Payment confirmed. Your NullVPN subscription is active — connection details and next steps."/>
+  <meta name="robots" content="noindex"/>
+  <link rel="canonical" href="https://nullvpn.net/success.html"/>
+  <meta property="og:title" content="Payment Successful — NullVPN"/>
+  <meta property="og:description" content="NullVPN — private connectivity designed for difficult networks."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://nullvpn.net/success.html"/>
+  <meta property="og:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <meta property="og:site_name" content="NullVPN"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:locale:alternate" content="ru_RU"/>
+  <meta property="og:locale:alternate" content="fa_IR"/>
+  <meta property="og:locale:alternate" content="ar_AR"/>
+  <meta property="og:locale:alternate" content="es_ES"/>
+  <meta property="og:locale:alternate" content="ne_NP"/>
+  <meta property="og:locale:alternate" content="fr_FR"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Payment Successful — NullVPN"/>
+  <meta name="twitter:description" content="NullVPN — private connectivity designed for difficult networks."/>
+  <meta name="twitter:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta name="twitter:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <link rel="stylesheet" href="style.css?v=61"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <style>
+    .success-section{min-height:60vh;display:flex;align-items:center;justify-content:center;padding:40px 16px}
+    .success-card{text-align:center;max-width:480px;width:100%}
+    .success-icon{width:80px;height:80px;border-radius:50%;background:var(--accent2);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:40px;color:#fff;animation:successPop .5s cubic-bezier(.34,1.56,.64,1) both}
+    @keyframes successPop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+    @media (prefers-reduced-motion: reduce){.success-icon{animation:none}}
+    .success-card h1{font-size:2rem;margin:0 0 8px;color:var(--text)}
+    .success-card .subtitle{color:var(--text2);font-size:1.1rem;margin-bottom:32px}
+    /* r91: payment IDs can be 64+ char hex hashes — one unbreakable monospace
+       token measured row.scrollWidth 648px vs 430px available (480px card),
+       pushing the copy chip out of the box at the worst moment (just paid).
+       Anywhere-wrap the value; the chip drops to a second line instead. */
+    .success-details{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:32px;text-align:start}
+    .success-details .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border,#e5e7eb)}
+    .success-details .row:last-child{border-bottom:none}
+    .success-details .row .label{color:var(--text2);font-size:.9rem}
+    .success-details .row .value{font-weight:600;color:var(--text);font-size:.9rem;overflow-wrap:anywhere;min-width:0}
+    /* r77: payment-ID copy chip — wraps value+chip so the row's space-between
+       keeps label left / group right; compact icon-only variant of .copy-chip. */
+    .success-details .row .paywrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;row-gap:4px}
+    .copy-chip.copy-solo{padding:4px 7px;font-size:.85rem;line-height:1}
+    .success-card .btn-primary{display:inline-block;text-decoration:none;margin-inline-end:12px}
+    .success-card .btn-outline{display:inline-block;text-decoration:none}
+    .success-card .copy-strip{justify-content:center;margin-top:16px}
+    .success-note{color:var(--text2);font-size:.85rem;margin-top:24px;line-height:1.6}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-top-row">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <div class="nav-actions">
+          <a href="download.html" class="btn-nav" data-i18n="nav.download">Download App</a>
+          <a href="contact.html" class="btn-nav" data-i18n="nav.contact">Contact</a>
+          <a href="pricing.html" class="btn-nav-primary" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+        </div>
+        <div class="nav-controls">
+          <div class="lang-selector">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">EN</button>
+            <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" title="Русский">РУ</button>
+            <button class="lang-btn" data-lang="fa" onclick="setLang('fa')" title="فارسی">فا</button>
+            <button class="lang-btn" data-lang="ar" onclick="setLang('ar')" title="العربية">ع</button>
+            <button class="lang-btn" data-lang="es" onclick="setLang('es')" title="Español">ES</button>
+            <button class="lang-btn" data-lang="ne" onclick="setLang('ne')" title="नेपाली">ने</button>
+            <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" title="Français">FR</button>
+          </div>
+          <div class="theme-toggle">
+            <button class="theme-btn" id="themeLight" onclick="setTheme('light')" data-i18n-aria="theme.light" aria-label="Light mode">☀️</button>
+            <button class="theme-btn" id="themeDark" onclick="setTheme('dark')" data-i18n-aria="theme.dark" aria-label="Dark mode">🌙</button>
+          </div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+        <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+        <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+        <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+        <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1" class="success-section">
+    <div class="container">
+      <div class="success-card">
+        <div class="success-icon" aria-hidden="true">✓</div>
+        <h1 data-i18n="success.h1">Payment Successful!</h1>
+        <p class="subtitle" data-i18n="success.sub">Your premium access is now active.</p>
+        <div class="success-details">
+          <div class="row">
+            <span class="label" data-i18n="success.plan.label">Plan</span>
+            <span class="value" id="successPlan">—</span>
+          </div>
+          <div class="row">
+            <span class="label" data-i18n="success.status.label">Status</span>
+            <span class="value" style="color:var(--accent-text)" data-i18n="success.active">Active</span>
+          </div>
+          <div class="row">
+            <span class="label" data-i18n="success.payment.label">Payment ID</span>
+            <span class="paywrap"><span class="value" id="successPaymentId" style="font-size:.8rem;font-family:monospace">—</span><button type="button" class="copy-chip copy-solo" id="copyPaymentId" data-copy="" data-i18n-aria="a11y.copy.payment" aria-label="Copy payment ID" title="Copy payment ID" hidden><span class="copy-ico" aria-hidden="true">⧉</span></button></span>
+          </div>
+        </div>
+        <a href="download.html" class="btn-primary btn-large" data-i18n="nav.download">Download App</a>
+        <a href="pricing.html" class="btn-outline btn-large" data-i18n="success.back.pricing">Back to Pricing</a>
+        <p class="success-note" data-i18n="success.note.app">Open the NullVPN app and log in to activate your premium subscription. If you already have the app, your premium will activate automatically on next launch.</p>
+        <p class="success-note" data-i18n="success.note.help">Need help? Telegram <a href="https://t.me/nullvpn_net" target="_blank" rel="noopener" referrerpolicy="no-referrer">@nullvpn_net</a> · <a href="mailto:support@nullvpn.net?subject=NullVPN%20Support">support@nullvpn.net</a></p>
+        <div class="copy-strip" role="group" data-i18n-aria="a11y.copy.group" aria-label="Copy contact handles">
+          <button type="button" class="copy-chip" data-copy="support@nullvpn.net" data-i18n-aria="a11y.copy.email" aria-label="Copy support e-mail address">support@nullvpn.net <span class="copy-ico" aria-hidden="true">⧉</span></button>
+          <button type="button" class="copy-chip" data-copy="@nullvpn_net" data-i18n-aria="a11y.copy.tg" aria-label="Copy Telegram handle">@nullvpn_net <span class="copy-ico" aria-hidden="true">⧉</span></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <p data-i18n="footer.tagline">Private internet for everyone, everywhere.</p>
+        <div class="footer-links-social">
+          <a href="contact.html" data-i18n="nav.contact">Contact</a>
+          <a href="https://t.me/nullvpn_net" target="_blank" rel="noopener" data-i18n="footer.support" referrerpolicy="no-referrer">Support</a>
+          <a href="mailto:support@nullvpn.net?subject=NullVPN%20Support">support@nullvpn.net</a>
+          <a href="pricing.html" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+          <a href="web3.html">TON Web3</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.pages">Pages</h4>
+        <ul>
+          <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+          <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+          <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+          <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.legal">Legal</h4>
+        <ul>
+          <li><a href="refund.html" data-i18n="footer.refund">Refund Policy</a></li>
+          <li><a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+          <li><a href="terms.html" data-i18n="footer.terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p data-i18n="footer.copy">© 2026 NullVPN. Available on Web2, TON Web3, and all HTTP networks.</p></div>
+  </footer>
+
+  <script src="i18n.js?v=71"></script>
+  <script>
+    function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t);document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');}
+    (function(){var t=localStorage.getItem('theme')||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');})();
+    (function(){
+      var params=new URLSearchParams(window.location.search);
+      var planKeyMap={monthly:'success.plan.monthly',quarterly:'success.plan.quarterly',annual:'success.plan.annual'};
+      var plan=params.get('plan')||'';
+      /* r102: long payment IDs (113-char JWT-ish strings seen in the wild)
+         used to wrap into a 3-line monospace blob inside the details card —
+         r91 made that survivable, truncation makes it readable. Show
+         first12…last8 (enough to match the ID against the bot/wallet
+         receipt), keep the FULL value in the title tooltip and in the copy
+         chip's data-copy so verification and copying are both lossless. */
+      var raw=params.get('payment_id')||'';
+      var pid=raw ? (raw.length>24 ? raw.slice(0,12)+'\u2026'+raw.slice(-8) : raw) : '\u2014';
+      var planEl=document.getElementById('successPlan');
+      if(planKeyMap[plan]){planEl.setAttribute('data-i18n',planKeyMap[plan]);if(window.setLang)window.setLang(document.documentElement.lang||'en');}
+      else if(plan){planEl.textContent=plan;}
+      document.getElementById('successPaymentId').textContent=pid;
+      if(raw)document.getElementById('successPaymentId').title=raw;
+      /* r77: expose the copy chip only when a real payment ID arrived —
+         copying the '—' placeholder would be noise. The shared copy-chip
+         engine (i18n.js section 5) reads data-copy at click time, so
+         setting the attribute here (after i18n.js loaded) just works. */
+      var payChip=document.getElementById('copyPaymentId');
+      if(payChip&&raw){payChip.setAttribute('data-copy',raw);payChip.hidden=false;}
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# RFC 9116 security.txt — NullVPN (nullvpn.net)
+# Contact channels are the ones the site itself publishes on /contact.html
+# and every page footer. No PGP key is published yet, so no Encryption
+# field; no bounty program exists, so no CSAF/Policy incentives claimed.
+Contact: mailto:support@nullvpn.net
+Contact: https://t.me/nullvpn_net
+Expires: 2027-04-02T00:00:00Z
+Preferred-Languages: en, ru, fa, ar, es, ne, fr
+Canonical: https://nullvpn.net/.well-known/security.txt
+Policy: https://nullvpn.net/terms.html

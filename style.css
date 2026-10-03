@@ -1,0 +1,1522 @@
+/* Design tokens — aligned with the NullVPN cabinet (bedolaga-cabinet).
+   Light = the cabinet's champagne theme, dark = its navy slate theme.
+   Accent follows the cabinet's operator-tuned palette (default blue-500);
+   branding.js keeps it in sync with GET /api/cabinet/branding/colors. */
+:root {
+  --bg: #f7e7ce;            /* cabinet lightBackground (champagne-200) */
+  --bg2: #fef9f0;           /* cabinet lightSurface (champagne-50) */
+  --bg3: #f0e2c7;           /* deep fill (between champagne-100/300) */
+  --border: #e8d4b5;        /* champagne-300 */
+  --border-strong: #8a744a; /* r98: functional boundaries (inputs/outline controls/chips) — 3:1 vs all surfaces (WCAG 1.4.11; 3.69/4.28/3.51) */
+  --accent: #3b82f6;        /* cabinet accent (blue-500) */
+  --accent2: #2563eb;       /* accent-600 hover shade */
+  --accent-rgb: 59, 130, 246;
+  --accent2-rgb: 37, 99, 235;
+  --text: #1f1a12;          /* cabinet lightText */
+  --text2: #6a5a39;         /* cabinet lightTextSecondary, darkened r46 for AA (4.25→5.51 on bg) */
+  --accent-text: #1d4ed8;   /* r46: accent as TEXT (links/badges) — AA on champagne (3.03→5.51) */
+  --accent3: #1d4ed8;       /* r46: primary-button hover bg — white text AA (6.70) */
+  --radius: 16px;           /* cabinet bento radius */
+  --font: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: Outfit, Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;      /* native form controls match the champagne theme */
+}
+
+[data-theme="dark"] {
+  --bg: #0a0f1a;            /* cabinet darkBackground (dark-950) */
+  --bg2: #0f172a;           /* cabinet darkSurface (dark-900) */
+  --bg3: #1e293b;           /* dark-800 */
+  --border: #293548;        /* dark-700 at ~60% mix */
+  --border-strong: #64748b; /* r98: slate-500 — functional boundaries 3:1 vs all dark surfaces (4.03/3.75/3.07; WCAG 1.4.11) */
+  --accent: #3b82f6;
+  --accent2: #2563eb;
+  --accent-rgb: 59, 130, 246;
+  --accent2-rgb: 37, 99, 235;
+  --text: #f1f5f9;          /* cabinet darkText (dark-100) */
+  --text2: #94a3b8;         /* cabinet darkTextSecondary (dark-400) */
+  --accent-text: #60a5fa;   /* r46: dark-mode text accent lift (5.21→7.54 on bg) */
+  --accent3: #1d4ed8;       /* r46: primary-button hover bg — white text AA both themes */
+  color-scheme: dark;       /* native inputs/scrollbars render dark */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.6; font-size: 16px; }
+
+/* Theme switching crossfade (r43): armed via html.theme-anim after first
+   paint (i18n.js) so the stored theme applies instantly on navigation and
+   manual toggles animate. Reduced-motion users keep instant switches. */
+html.theme-anim body { transition: background-color 0.3s ease, color 0.3s ease; }
+html.theme-anim .navbar { transition: background-color 0.3s ease, border-color 0.3s ease; }
+@media (prefers-reduced-motion: reduce) {
+  html.theme-anim body,
+  html.theme-anim .navbar { transition: none; }
+}
+
+/* ── Self-hosted fonts — r54 ──────────────────────────────────────────────
+   Replaces the render-blocking fonts.googleapis.com stylesheet. Every visitor
+   IP used to leak to Google on every page view (a real GDPR issue, see the
+   2022 German courts ruling on embedded Google Fonts) — ironic for a VPN
+   site. Same families, same subsets (latin / latin-ext / cyrillic), same
+   unicode-ranges as Google serves: zero visual change, bytes now first-party.
+   Manrope & Outfit are variable (wght 200-800 / 100-900) — 5+4 static
+   requests collapse into one file per subset. font-display: swap + <link
+   rel=preload> on the two latin variable files keeps first paint fast. */
+/* r58: IBM Plex Mono @font-face rules removed — no markup has ever used the
+   .mono/.checkout-* selectors (grep-verified r54 and r58). The woff2 files
+   stay in /fonts (inert, never fetched) for painless future re-enable. */
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 200 800; font-display: swap; src: url(/fonts/manrope-var-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 200 800; font-display: swap; src: url(/fonts/manrope-var-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 200 800; font-display: swap; src: url(/fonts/manrope-var-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/outfit-var-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/outfit-var-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+a { color: var(--accent-text); text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { a:hover { opacity: 0.8; } }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ========== BUTTONS — unified hover for ALL variants ========== */
+.btn-primary,
+.btn-outline,
+.btn-ghost,
+.btn-nav,
+.btn-nav-primary {
+  display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: var(--font);
+  /* r53: was white-space:nowrap — long localized CTAs (index.feat.compare ≈47
+     chars in ALL 7 locales) overflowed 343px containers at 375px, forcing a
+     71px horizontal scroll. Buttons may now wrap; text-wrap balances the two
+     lines where supported, long words still never break mid-word. */
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+              box-shadow 0.18s ease, transform 0.12s ease, opacity 0.18s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover,
+  .btn-outline:hover,
+  .btn-ghost:hover,
+  .btn-nav:hover,
+  .btn-nav-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(var(--accent-rgb),0.25);
+    opacity: 1;
+  }
+}
+.btn-primary:active,
+.btn-outline:active,
+.btn-ghost:active,
+.btn-nav:active,
+.btn-nav-primary:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Solid green primary */
+.btn-primary {
+  background: var(--accent2);
+  color: #fff;
+  border: 1.5px solid var(--accent2);
+}
+@media (hover: hover) and (pointer: fine) { .btn-primary:hover { background: var(--accent3); border-color: var(--accent3); } }
+
+/* Outline */
+.btn-outline {
+  background: transparent;
+  color: var(--accent-text);
+  border: 1.5px solid var(--accent);
+}
+@media (hover: hover) and (pointer: fine) { .btn-outline:hover { background: var(--accent2); color: #fff; border-color: var(--accent2); } }
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border-strong); /* r98: border IS the control identity — 1.4.11 */}
+@media (hover: hover) and (pointer: fine) { .btn-ghost:hover { border-color: var(--accent-text); color: var(--accent-text); } }
+
+/* Nav ghost */
+.btn-nav {
+  background: var(--bg3);
+  color: var(--text);
+  border: 1px solid var(--border-strong); /* r98: bg3 fill alone is sub-3:1 vs bg */}
+@media (hover: hover) and (pointer: fine) { .btn-nav:hover { background: var(--accent2); color: #fff; border-color: var(--accent2); } }
+
+/* Nav primary CTA */
+.btn-nav-primary {
+  /* r83: accent2 not accent — white text here is 0.9rem/600, far below the
+     large-text threshold, and white on accent is 3.68:1 (< 4.5 AA). On
+     accent2 it is 5.17:1 in both themes (same surface btn-primary already
+     uses). */
+  background: var(--accent2);
+  color: #fff;
+  border: 1.5px solid var(--accent2);
+}
+@media (hover: hover) and (pointer: fine) { .btn-nav-primary:hover { background: var(--accent3); border-color: var(--accent3); } } /* r83: hover lifts to accent3 like btn-primary (base moved to accent2 this round) */
+
+.btn-large { padding: 14px 36px; font-size: 1rem; }
+.btn-full   { width: 100%; display: block; }
+
+/* ========== NAVBAR ========== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(245,245,245,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+[data-theme="dark"] .navbar { background: rgba(13,13,13,0.96); }
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0 0 0;
+}
+
+/* Top row: logo + actions + controls */
+.nav-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-right: auto;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.logo span { color: var(--accent-text); }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Nav links row — YOUR DESIGN: sits below the top row */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+.nav-links a {
+  color: var(--text2);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+.nav-links a.active {
+  color: var(--text);
+  opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-links a:hover { color: var(--text); opacity: 1; }
+}
+
+/* r72 — mobile navbar density pass. Measured at 375px: the three nav CTAs
+   wrap into two 45px rows and the links wrap into two, putting a ~282px
+   sticky bar over the content — 38% of a phone viewport, permanently.
+   Tighter metrics let the CTAs share one row and slim the links row: same
+   links, same CTAs, same behaviour — just reading space back. (A scroll-
+   based nav tuck was considered and REJECTED: hiding marketing CTAs while
+   scrolling is conversion optics this site shouldn't gamble on.) */
+@media (max-width: 560px) {
+  .btn-nav, .btn-nav-primary { padding: 8px 12px; font-size: .84rem; }
+  .nav-actions { gap: 6px; }
+  .nav-top-row { gap: 8px; padding-bottom: 8px; }
+  .nav-links { gap: 6px 14px; padding: 6px 0; }
+  .nav-links a { font-size: .85rem; }
+}
+
+/* ========== THEME TOGGLE ========== */
+.theme-toggle { display: flex; align-items: center; gap: 4px; }
+.theme-btn {
+  background: var(--bg3);
+  border: 1px solid var(--border-strong); /* r99: functional control boundary (1.4.11) — was mis-filed decorative in r98 */
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  color: var(--text2);
+}
+[data-theme="dark"] .theme-btn { background: var(--bg3); color: #ccc; }
+/* r99: hover lifts the boundary+glyph instead of blending the whole button —
+   opacity .8 pulled the active button's white-on-accent2 toward the 4.5 AA
+   line (opacity-blend trap); the current-state button needs no hover lift. */
+@media (hover: hover) and (pointer: fine) { .theme-btn:hover:not(.active) { border-color: var(--accent-text); color: var(--accent-text); } }
+.theme-btn.active { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+
+/* ========== LANGUAGE SELECTOR ========== */
+.lang-selector {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  background: rgba(0,0,0,0.04);
+  border: 1px solid var(--border-strong); /* r98 */
+  border-radius: 8px;
+  padding: 3px;
+}
+[data-theme="dark"] .lang-selector { background: rgba(255,255,255,0.04); }
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 7px;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+  transition: all 0.15s ease;
+  font-family: var(--font);
+}
+@media (hover: hover) and (pointer: fine) { .lang-btn:hover { color: var(--text); background: rgba(var(--accent-rgb),0.12); } }
+.lang-btn.active { background: var(--accent2); color: #fff; } /* r83: accent2 — 0.72rem/700 white on accent was 3.68:1, AA needs 4.5; 5.17 on accent2 */
+
+/* ========== HERO (sub-pages) ========== */
+.hero { padding: 80px 24px 60px; text-align: center; }
+.hero-inner { max-width: 800px; margin: 0 auto; }
+.badge { display: inline-block; background: rgba(var(--accent-rgb),0.15); border: 1px solid rgba(var(--accent-rgb),0.3); color: var(--accent-text); padding: 6px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 600; margin-bottom: 28px; }
+.hero h1 { font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+.hero h1 span { color: var(--accent-text); }
+.hero-sub { color: var(--text2); font-size: 1.1rem; margin-bottom: 36px; }
+.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+.hero-trust { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; color: var(--text2); font-size: 0.9rem; }
+.hero-trust span { display: flex; align-items: center; gap: 6px; }
+
+/* ========== SOCIAL PROOF ========== */
+.social-proof { padding: 40px 24px; border-bottom: 1px solid var(--border); text-align: center; }
+.sp-heading { font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 700; margin-bottom: 8px; }
+.sp-tagline { color: var(--text2); font-size: 1rem; margin-bottom: 16px; }
+
+/* ========== FEATURES TEASER ========== */
+.features-teaser { padding: 72px 24px; background: var(--bg2); }
+.features-teaser h1, .features-teaser h2 { text-align: center; font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 40px; font-weight: 700; }
+.feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 36px; }
+.feat-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: border-color 0.18s ease, box-shadow 0.18s ease; }
+@media (hover: hover) and (pointer: fine) { .feat-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(var(--accent-rgb),0.12); } }
+.feat-icon { font-size: 1.8rem; margin-bottom: 12px; }
+.feat-card h3 { font-size: 1rem; margin-bottom: 8px; font-weight: 600; }
+.feat-card p { color: var(--text2); font-size: 0.9rem; line-height: 1.6; }
+
+/* Wide "coming soon" feature card (e.g., Ad Guard) — spans full grid row */
+.feat-card--wide {
+  grid-column: 1 / -1;
+  border-style: dashed;
+  border-color: var(--accent);
+  background: linear-gradient(90deg, rgba(var(--accent-rgb),0.06), transparent 60%);
+}
+[data-theme="dark"] .feat-card--wide { background: linear-gradient(90deg, rgba(var(--accent-rgb),0.10), transparent 60%); }
+.feat-card--wide h3 { color: var(--accent-text); }
+.feat-card--wide h3::after {
+  content: "SOON";
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-inline-start: 10px; /* r105: was margin-left — in RTL the ::after sits at line-end and needs the gap on its inline-start side */
+  vertical-align: 2px;
+  opacity: 0.85;
+}
+/* r105: the pill is purely visual — CSS generated content joins the
+   accessible name, so screen readers heard "Ad Guard coming soon SOON"
+   (and the h3 text already says "coming soon"). The alternative-text
+   syntax marks it decorative for AT; @supports keeps the visible pill
+   on engines that can't parse the syntax (declaration dropped whole). */
+@supports (content: "x" / "") {
+  .feat-card--wide h3::after { content: "SOON" / ""; }
+}
+
+/* Accessibility: visible keyboard focus + reduced motion */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* ========== WHY SECTION ========== */
+.why-section { padding: 64px 24px; background: var(--bg); }
+.why-section h2 { font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 700; margin-bottom: 20px; }
+.why-section p { color: var(--text2); margin-bottom: 14px; font-size: 0.95rem; line-height: 1.7; }
+.why-section strong { color: var(--text); }
+
+/* ========== CTA BANNER ========== */
+.cta-banner {
+  padding: 72px 24px;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb),0.10) 0%, rgba(var(--accent2-rgb),0.07) 100%);
+  text-align: center;
+  border-top: 1px solid rgba(var(--accent-rgb),0.18);
+  border-bottom: 1px solid rgba(var(--accent-rgb),0.18);
+}
+.cta-banner h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; margin-bottom: 10px; }
+.cta-banner p { color: var(--text2); margin-bottom: 24px; font-size: 1rem; }
+.cta-small { margin-top: 16px; font-size: 0.9rem; color: var(--text2); }
+
+/* ========== PAGE HERO (sub-pages) ========== */
+.page-hero { padding: 72px 24px 52px; text-align: center; border-bottom: 1px solid var(--border); }
+.page-hero h1 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+.page-hero h1 span { color: var(--accent-text); }
+.page-hero p { color: var(--text2); font-size: 1rem; }
+
+/* ========== FEATURES FULL ========== */
+.features-full { padding: 72px 24px; }
+.feature-row { display: grid; grid-template-columns: 1fr 180px; gap: 48px; align-items: center; padding: 52px 0; border-bottom: 1px solid var(--border); }
+.feature-row.reverse { grid-template-columns: 180px 1fr; }
+.feature-row.reverse .feature-text { order: 2; }
+.feature-row.reverse .feature-visual { order: 1; }
+.feature-tag { display: inline-block; background: rgba(var(--accent-rgb),0.13); color: var(--accent-text); padding: 4px 12px; border-radius: 100px; font-size: 0.78rem; font-weight: 600; margin-bottom: 12px; }
+.feature-text h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 14px; }
+.feature-text p { color: var(--text2); margin-bottom: 10px; font-size: 0.95rem; }
+.feature-visual { font-size: 4.5rem; text-align: center; }
+
+/* ========== STEPS ========== */
+.steps-section { padding: 72px 24px; }
+.steps-list { display: flex; flex-direction: column; gap: 0; }
+.step { display: flex; gap: 28px; align-items: flex-start; padding: 44px 0; border-bottom: 1px solid var(--border); }
+.step-number { font-size: 3rem; font-weight: 800; color: rgba(var(--accent-rgb),0.28); min-width: 72px; line-height: 1; }
+.step-content h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+.step-content p { color: var(--text2); font-size: 0.95rem; }
+.hiw-note { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin-top: 28px; }
+.hiw-note h3 { font-weight: 600; margin-bottom: 8px; }
+.hiw-note p { color: var(--text2); font-size: 0.95rem; }
+
+/* ========== PRICING ========== */
+.pricing-section { padding: 72px 24px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 40px; }
+.pricing-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 24px; position: relative; }
+.pricing-card.featured { border-color: var(--accent); background: linear-gradient(160deg, rgba(var(--accent-rgb),0.08) 0%, var(--bg2) 60%); }
+.popular-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--accent2); color: #fff; padding: 3px 14px; border-radius: 100px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; } /* r83: accent2 — 0.78rem/700 white on accent was 3.68:1; 5.17 on accent2 */
+.pricing-card h3 { font-size: 1rem; color: var(--text2); margin-bottom: 10px; }
+/* r92: tabular digits - $3.00/$10.00/$35.00 keep decimal points vertically
+   aligned across the three plan cards (Manrope digits are proportional). */
+.price { font-size: 2.8rem; font-weight: 800; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+.price span { font-size: 0.95rem; font-weight: 400; color: var(--text2); }
+.price-note { color: var(--text2); font-size: 0.82rem; margin-bottom: 20px; }
+.pricing-features { list-style: none; margin-bottom: 24px; display: flex; flex-direction: column; gap: 9px; }
+.pricing-features li { color: var(--text2); font-size: 0.92rem; }
+.pricing-note { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin-top: 20px; }
+.pricing-note h3 { font-weight: 600; margin-bottom: 8px; }
+.pricing-note p { color: var(--text2); margin-bottom: 8px; font-size: 0.93rem; }
+
+/* ========== FAQ ========== */
+.faq-section { padding: 72px 24px; }
+.faq-container { max-width: 800px; }
+.faq-item { padding: 24px 0; border-bottom: 1px solid var(--border); }
+.faq-item h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+.faq-item p { color: var(--text2); font-size: 0.93rem; line-height: 1.7; }
+
+/* ========== CONTACT ========== */
+.contact-section { padding: 72px 24px; }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.contact-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 24px; text-align: center; }
+.contact-card.featured-contact { border-color: var(--accent); }
+.contact-icon { font-size: 2.2rem; margin-bottom: 14px; }
+.contact-card h3 { font-weight: 600; margin-bottom: 10px; }
+.contact-card p { color: var(--text2); margin-bottom: 18px; font-size: 0.93rem; }
+/* Support-card buttons carry long labels (email address, telegram handle):
+   let them wrap instead of overflowing the card at narrow widths. */
+.contact-card .btn-full { white-space: normal; }
+.contact-card .btn-full + .btn-full { margin-top: 10px; }
+
+/* ========== FOOTER ========== */
+.footer { padding: 52px 24px 0; border-top: 1px solid var(--border); }
+.footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 36px; }
+.footer-brand p { color: var(--text2); margin-top: 8px; font-size: 0.88rem; line-height: 1.5; }
+.footer-links-social { display: flex; gap: 14px; margin-top: 14px; flex-wrap: wrap; }
+.footer-links-social a { color: var(--text2); font-size: 0.84rem; transition: color 0.18s ease; text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .footer-links-social a:hover { color: var(--accent-text); opacity: 1; } }
+.footer-nav h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 14px; }
+.footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.footer-nav a { color: var(--text2); font-size: 0.88rem; transition: color 0.18s ease; text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .footer-nav a:hover { color: var(--text); opacity: 1; } }
+.footer-bottom { border-top: 1px solid var(--border); padding: 18px 0; text-align: center; color: var(--text2); font-size: 0.82rem; }
+
+/* ========== PROBLEMS ========== */
+.problems { padding: 72px 24px; }
+.problems h2 { text-align: center; font-size: clamp(1.3rem, 3vw, 1.8rem); margin-bottom: 40px; font-weight: 700; }
+.problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+.problem-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; }
+.problem-icon { font-size: 1.8rem; display: block; margin-bottom: 10px; }
+.problem-card p { color: var(--text2); font-size: 0.9rem; }
+
+/* ========== RTL SUPPORT ========== */
+[dir="rtl"] .nav-top-row { flex-direction: row-reverse; }
+[dir="rtl"] .logo { margin-right: 0; margin-left: auto; }
+[dir="rtl"] .hero-btns { flex-direction: row-reverse; }
+[dir="rtl"] .feature-row { grid-template-columns: 180px 1fr; }
+[dir="rtl"] .feature-row.reverse { grid-template-columns: 1fr 180px; }
+[dir="rtl"] .step { flex-direction: row-reverse; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .nav-top-row { gap: 8px; }
+  .logo { order: 1; margin-right: 0; width: 100%; text-align: left; }
+  .nav-actions { order: 2; width: 100%; justify-content: center; gap: 6px; }
+  .nav-controls { order: 3; width: 100%; justify-content: center; }
+
+  /* Nav links — YOUR DESIGN stays at bottom of navbar */
+  .nav-links { gap: 14px; padding: 8px 0; }
+
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .feature-row, .feature-row.reverse { grid-template-columns: 1fr; }
+  .feature-visual { display: none; }
+  .step { flex-direction: column; gap: 10px; }
+  .step-number { font-size: 2rem; min-width: unset; }
+  .cta-banner .btn-primary { width: 100%; max-width: 320px; }
+  .lang-selector { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .features-teaser,
+  .why-section,
+  .cta-banner,
+  .pricing-section,
+  .faq-section,
+  .contact-section,
+  .features-full,
+  .steps-section { padding-left: 16px; padding-right: 16px; }
+  .feat-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ── Countries Section ──────────────────────────────────────────────────── */
+.countries-section {
+  padding: 3rem 1.25rem 3.5rem;
+  background: var(--bg-secondary, #f0f0f0);
+  border-top: 1px solid var(--border, #e0e0e0);
+  border-bottom: 1px solid var(--border, #e0e0e0);
+}
+[data-theme="dark"] .countries-section {
+  background: var(--bg-secondary, #0f172a);
+}
+.countries-section h2 {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  margin-bottom: 0.5rem;
+}
+.country-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.75rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+.country-flags span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--bg, #fff);
+  border: 1px solid var(--border, #ddd);
+  border-radius: 999px;
+  padding: 0.28rem 0.75rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+[data-theme="dark"] .country-flags span {
+  background: var(--bg-card, #1e293b);
+  border-color: var(--border, #444);
+}
+@media (hover: hover) and (pointer: fine) {
+  .country-flags span:hover {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+    transform: translateY(-1px);
+  }
+}
+@media (max-width: 480px) {
+  .country-flags { gap: 0.4rem 0.5rem; }
+  .country-flags span { font-size: 0.8rem; padding: 0.25rem 0.6rem; }
+}
+
+
+/* ── Footer payment line ────────────────────────────────────────────────── */
+.footer-payment-line {
+  font-size: 0.78rem;
+  color: var(--text-muted, #888);
+  margin: 0.3rem 0 0.6rem;
+}
+
+/* ── RTL (Arabic) layout fixes ──────────────────────────────────────────── */
+[dir="rtl"] .nav-inner,
+[dir="rtl"] .nav-top-row,
+[dir="rtl"] .footer-inner,
+[dir="rtl"] .feat-grid,
+[dir="rtl"] .country-flags {
+  direction: rtl;
+}
+[dir="rtl"] .logo { margin-left: auto; margin-right: 0; }
+[dir="rtl"] .nav-actions { margin-right: auto; margin-left: 0; }
+
+/* --- Capability status (index) --- */
+.cap-status { padding: 64px 24px; border-bottom: 1px solid var(--border); background: var(--bg2); }
+.cap-status h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; text-align: center; margin-bottom: 8px; }
+.cap-status .sp-tagline { text-align: center; margin-bottom: 32px; }
+.cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 0 auto; }
+@media (max-width: 720px) { .cap-grid { grid-template-columns: 1fr; } }
+.cap-col { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+.cap-col h3 { font-size: .95rem; font-weight: 700; margin-bottom: 14px; color: var(--accent2); }
+.cap-col--dev h3 { color: var(--text2); }
+.cap-col ul { list-style: none; margin: 0; padding: 0; }
+.cap-col li { padding: 7px 0 7px 26px; position: relative; font-size: .93rem; color: var(--text); border-bottom: 1px dashed var(--border); }
+.cap-col li:last-child { border-bottom: none; }
+.cap-col li::before { content: '✓'; position: absolute; left: 0; color: var(--accent-text); font-weight: 700; }
+.cap-col--dev li::before { content: '•'; color: var(--text2); }
+
+/* --- Privacy data table --- */
+.priv-table-wrap h4 { font-size: .95rem; font-weight: 700; margin: 18px 0 8px; }
+.tbl-scroll { overflow-x: auto; margin: 14px 0 20px; border: 1px solid var(--border); border-radius: 12px; -webkit-overflow-scrolling: touch; scrollbar-width: thin; /* r103: match the page's thin themed scrollbar (width doesn't inherit) */ }
+.data-table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: .88rem; }
+.data-table th { text-align: left; padding: 10px 14px; background: var(--bg3); color: var(--text); font-weight: 700; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table td:first-child { color: var(--text); font-weight: 600; }
+/* r83: row headers — the privacy table's first column is th[scope="row"] now
+   (screen readers associate the label with every cell in the row). Keep the
+   exact td:first-child look: th defaults (bg3 background, bold 700, nowrap,
+   middle align) would visibly regress the table. Padding (10px 14px),
+   border-bottom, and text-align already match the .data-table th rule above;
+   the [dir="rtl"] th override keeps working for free. */
+.data-table tbody th[scope="row"] { background: transparent; color: var(--text); font-weight: 600; white-space: normal; vertical-align: top; }
+.data-table tr:last-child th { border-bottom: none; }
+/* r58: italic dropped — Manrope/Outfit are variable wght-only fonts with no
+   italic axis, so font-style:italic rendered a SYNTHETIC oblique slant (worst
+   on Cyrillic/Devanagari). Muted color carries the aside tone instead. */
+.tbl-note { font-size: .85rem; color: var(--text2); }
+
+/* --- Refund page --- */
+.ref-lead { background: linear-gradient(90deg, rgba(var(--accent-rgb),0.10), transparent 70%); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 12px; padding: 18px 22px; margin-bottom: 8px; }
+.ref-lead p { font-size: 1.05rem; font-weight: 600; color: var(--text); margin: 0; }
+.ref-cta { display: flex; gap: 14px; flex-wrap: wrap; padding: 26px 0 6px; }
+.terms-related { padding: 18px 0 26px; color: var(--text2); font-size: .9rem; }
+
+/* --- Download verify + release metadata --- */
+.dl-verify { padding: 40px 24px 72px; }
+.dl-verify .container { max-width: 680px; }
+.dl-verify h3 { font-size: 1.05rem; font-weight: 700; margin: 22px 0 10px; }
+.dl-verify p { color: var(--text2); font-size: .95rem; }
+.dl-steps { margin: 10px 0 0 20px; color: var(--text2); font-size: .93rem; }
+.dl-steps li { padding: 6px 0; }
+.rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 26px; }
+.rel-grid > div { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.rel-grid dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text2); }
+.rel-grid dd { margin: 4px 0 0; font-weight: 700; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; word-break: break-all; }
+
+/* --- RTL overrides for round-4/5 components --- */
+[dir="rtl"] .cap-col li { padding-left: 0; padding-right: 26px; }
+[dir="rtl"] .cap-col li::before { left: auto; right: 0; }
+[dir="rtl"] .ref-lead { border-left: 1px solid var(--border); border-right: 3px solid var(--accent); }
+[dir="rtl"] .dl-steps { margin-left: 0; margin-right: 20px; }
+[dir="rtl"] .data-table th { text-align: right; }
+[dir="rtl"] .tbl-scroll { direction: rtl; }
+
+/* ============================================================
+   Round 6 — UX features: FAQ filter, verified stamp, back-to-top
+   ============================================================ */
+
+/* visually hidden (screen-reader only) */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* --- FAQ live filter --- */
+.faq-filter { position: relative; margin-bottom: 6px; }
+.faq-filter input {
+  width: 100%; box-sizing: border-box;
+  padding: 13px 44px 13px 16px;
+  background: var(--bg2); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: 10px; /* r98: input boundary 1.4.11 */
+  font-size: .95rem; font-family: var(--font);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+/* r58: opacity .8 removed — blended placeholder hit 4.01:1 on bg2; the token
+   alone reads muted and passes AA (6.39:1). */
+.faq-filter input::placeholder { color: var(--text2); }
+.faq-filter input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb),.15); }
+.faq-filter input::-webkit-search-cancel-button { display: none; } /* custom clear button instead */
+.faq-filter-clear {
+  position: absolute; top: 50%; inset-inline-end: 10px; transform: translateY(-50%);
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  background: var(--bg3); color: var(--text2);
+  border: none; border-radius: 50%; cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+@media (hover: hover) and (pointer: fine) { .faq-filter-clear:hover { background: var(--border); color: var(--text); } }
+.faq-filter-clear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.faq-filter-clear[hidden] { display: none; } /* [hidden] must beat display:flex */
+.faq-filter-status { min-height: 1.2em; margin: 0 0 12px; font-size: .83rem; color: var(--text2); }
+.faq-filter-status.is-note { font-style: italic; } /* r100: transient system note (language-switch reset) reads as feedback, not results */
+/* ── FAQ category chips — r49 ───────────────────────────────────────────── */
+.faq-cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 10px; }
+.faq-cat {
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  padding: 7px 14px; border-radius: 999px;
+  background: var(--bg2); color: var(--text2);
+  border: 1px solid var(--border-strong); cursor: pointer; /* r98: chip boundary 1.4.11 */
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+[data-theme="dark"] .faq-cat { background: var(--bg3); }
+@media (hover: hover) and (pointer: fine) { .faq-cat:hover { color: var(--accent-text); border-color: var(--accent); } }
+.faq-cat:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.faq-cat.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+@media (hover: hover) and (pointer: fine) { .faq-cat.active:hover { color: #fff; } }
+
+/* ── Legal-page table of contents — r52 ───────────────────────────────── */
+.page-toc { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 6px; padding: 12px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; }
+[data-theme="dark"] .page-toc { background: var(--bg3); }
+.page-toc-title { flex: none; font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text2); margin-inline-end: 4px; }
+.page-toc a { font-size: .82rem; font-weight: 600; padding: 5px 11px; border-radius: 999px; background: var(--bg); color: var(--text2); border: 1px solid var(--border-strong); text-decoration: none; /* r98 */ transition: color .15s ease, border-color .15s ease, background .15s ease; /* r134: background joins — toc-active bg no longer snaps */ }
+@media (hover: hover) and (pointer: fine) { .page-toc a:hover { color: var(--accent-text); border-color: var(--accent); } }
+.page-toc a.toc-active { color: var(--accent-text); border-color: var(--accent); background: rgba(var(--accent-rgb),.10); }
+[data-theme="dark"] .page-toc a.toc-active { background: rgba(255,255,255,.08); }
+.page-toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media print { .faq-cats { display: none !important; } }
+@media print { .faq-filter { display: none !important; } } /* r95: dead search chrome on paper */
+[dir="rtl"] .faq-filter input { padding: 13px 16px 13px 44px; }
+
+/* --- capability "last verified" stamp --- */
+.cap-verified { margin: 22px 0 0; font-size: .85rem; color: var(--text2); }
+.cap-verified time { font-weight: 600; color: var(--text); }
+.cap-verified::before { content: "✓"; color: var(--accent-text); font-weight: 700; margin-inline-end: 8px; }
+
+/* --- back-to-top button (created by i18n.js engine on every page) --- */
+.back-to-top {
+  position: fixed; bottom: 22px; inset-inline-end: 22px; z-index: 70;
+  width: 46px; height: 46px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff;
+  border: none; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,.28);
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: opacity .25s ease, transform .25s ease, visibility .25s ease, background .15s ease;
+}
+.back-to-top.show { opacity: 1; visibility: visible; transform: none; }
+@media (hover: hover) and (pointer: fine) { .back-to-top:hover { background: var(--accent2); } }
+.back-to-top:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+[data-theme="dark"] .back-to-top { box-shadow: 0 6px 18px rgba(0,0,0,.55); }
+
+/* --- ?perf=1 Web Vitals HUD (r70; engine section 16) — maintainer-only
+   diagnostics chip, painted ONLY when the query param is present. Sits at the
+   inline-START corner, mirroring the back-to-top button at inline-END so the
+   two never collide in either direction. aria-hidden + pointer-events:none —
+   it is a readout, not a control, and must never intercept clicks or SR
+   focus. Site's own IBM Plex Mono keeps it visually native; dark glass keeps
+   it legible over both themes without media queries. ---------------------- */
+.perf-hud {
+  position: fixed; bottom: 22px; inset-inline-start: 22px; z-index: 60;
+  max-width: min(92vw, 560px);
+  padding: 8px 12px; border-radius: 10px;
+  background: rgba(10, 15, 26, 0.82);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #e8f0ff; font: 500 11px/1.6 "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: 0.02em; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none; user-select: none;
+}
+@media print { .perf-hud { display: none; } }
+
+/* ============================================================
+   Print stylesheet — legal pages (terms/privacy/refund) should
+   print/export cleanly. Forces light palette, hides app chrome,
+   keeps content readable with sensible page breaks.
+   ============================================================ */
+/* r91: explicit paper margins — tighter than browser defaults (~19mm
+   in some UAs) so the wide comparison matrix and privacy data-table
+   gain ~15mm of usable width per sheet; uniform on all sides. Page
+   context applies only to paged media, so screen rendering is untouched. */
+@page { margin: 14mm 12mm; }
+@media print {
+  :root {
+    --bg: #ffffff; --bg2: #ffffff; --bg3: #f2f2f2;
+    --border: #cccccc; --text: #111111; --text2: #333333;
+    --accent: #2563eb; --accent2: #1d4ed8;
+  }
+  [data-theme="dark"] {
+    --bg: #ffffff; --bg2: #ffffff; --bg3: #f2f2f2;
+    --border: #cccccc; --text: #111111; --text2: #333333;
+    --accent: #2563eb; --accent2: #1d4ed8;
+  }
+  html, body { background: #fff !important; color: #111 !important; }
+  nav.navbar, .theme-toggle, .lang-selector, .back-to-top, .cta-banner,
+  .btn-nav, .btn-nav-primary, .btn-primary, .btn-large, .faq-filter,
+  .faq-filter-clear, .comp-table-box::after, .skip-link, .share-chip,
+  .copy-text-chip,
+  /* r113: the checkout dialog is fixed-position interactive chrome — on
+     paper it renders as a 60%-opacity black slab (Chromium repeats fixed
+     boxes on every printed page) hiding the content under dead controls. */
+  .checkout-overlay { display: none !important; }
+  /* r90: main joins the padding rule — 13 pages now use <main id="main">
+     instead of <section id="main"> (landmark navigation), so the print
+     compression must match the new tag too. */
+  section, main { padding: 14px 0 !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+  .page-hero { padding: 24px 0 10px !important; }
+  .footer { page-break-inside: avoid; }
+  .faq-item, .cap-col, .comp-note, .data-table tr, .ref-lead, .card, .feat-card { page-break-inside: avoid; }
+  /* r52: the privacy data-table block reuses .faq-item — exempt it or the
+     ~full-page block is punted wholesale, leaving a blank printed page.
+     Row-level tr avoid stays, so rows never split. */
+  .faq-item.priv-table-wrap { page-break-inside: auto; }
+  .data-table thead { display: table-header-group; } /* repeat header row across page breaks */
+  .page-toc { page-break-inside: avoid; }
+  a { color: #111; text-decoration: none; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .82em; color: #555; word-break: break-all; }
+  .comp-table-wrap { overflow: visible !important; }
+  .comp-table-box::after { display: none !important; }
+  table { min-width: 0 !important; font-size: 10.5pt; }
+  th:first-child, td:first-child { position: static !important; box-shadow: none !important; }
+  /* r71 legend + r72: verdict colours and their legend swatches must survive
+     printing — browsers strip background colours by default, which would
+     print an uninterpretable colour-coded table. Explicit exact-fidelity. */
+  td.highlight, .lg-swatch, .yes, .no, .partial {
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  h1 { font-size: 22pt; } h2 { font-size: 16pt; } h3 { font-size: 13pt; }
+  /* r50: scroll-reveal must never blank out printed sections */
+  body.reveal-scope > section, body.reveal-scope main > section { opacity: 1 !important; transform: none !important; transition: none !important; }
+  /* r93: print provenance - legal pages opt in via --print-src on <body>;
+     printed ToS/privacy/refund copies carry their canonical source URL
+     (content:none elsewhere = nothing renders). */
+  body::after { content: var(--print-src, none); display: block; margin-top: 10pt; font-size: 9pt; color: #555; }
+}
+
+/* ========== CABINET DESIGN ALIGNMENT — typography & signature effects =======
+   Visual language ported from bedolaga-cabinet (the product's own UI):
+   Outfit display headings, Manrope body, bento cards, Linear shadows,
+   animated conic-gradient border on the featured card, glow hovers,
+   thin themed scrollbars, entrance animations (reduced-motion safe). */
+
+/* Typography hierarchy — Outfit for display headings, Manrope everywhere */
+h1, h2, h3, .logo, .sp-heading, .price {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+.logo { font-weight: 800; }
+/* r58: .mono/.checkout-content/.checkout-deeplink rule removed — the selectors
+   match no markup (grep-verified r54, re-verified r58); dead code. */
+
+/* Entrance animation — cabinet's fadeIn/slideUp easing */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.feat-card, .pricing-card, .cap-col, .contact-card, .method-card,
+.why-card, .step-card, .card {
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.pricing-card:nth-child(2) { animation-delay: 0.07s; }
+.pricing-card:nth-child(3) { animation-delay: 0.14s; }
+.feat-card:nth-child(2), .cap-col:nth-child(2), .contact-card:nth-child(2) { animation-delay: 0.06s; }
+.feat-card:nth-child(3), .cap-col:nth-child(3), .contact-card:nth-child(3) { animation-delay: 0.12s; }
+.feat-card:nth-child(4), .cap-col:nth-child(4), .contact-card:nth-child(4) { animation-delay: 0.18s; }
+
+/* Animated conic-gradient border — the cabinet's signature
+   (.hover-border-gradient) ported to the featured pricing card. The inner
+   fill keeps the accent tint gradient; the border ring rotates. */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes border-rotate { to { --border-angle: 360deg; } }
+.pricing-card.featured {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(160deg, rgba(var(--accent-rgb),0.08) 0%, var(--bg2) 60%) padding-box,
+    conic-gradient(from var(--border-angle),
+      var(--accent) 0%, transparent 25%, transparent 75%, var(--accent) 100%) border-box;
+  animation: border-rotate 3s linear infinite, fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.15);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card.featured { animation-play-state: paused; }
+}
+
+/* Card shadow vocabulary — cabinet's linear/card shadows */
+@media (hover: hover) and (pointer: fine) {
+  .feat-card:hover, .cap-col:hover, .contact-card:hover, .method-card:hover {
+    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.18);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="dark"] .feat-card:hover,
+  [data-theme="dark"] .cap-col:hover,
+  [data-theme="dark"] .contact-card:hover,
+  [data-theme="dark"] .method-card:hover {
+    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* Text selection — accent tinted (cabinet-like) */
+/* r94: prose links get an accent underline - color-only link distinction
+   fails WCAG 1.4.1 (Use of Color) and disappears entirely under forced-colors.
+   Scoped to running-text containers; buttons/chips/nav keep their treatments. */
+.faq-item p a, .success-note a, .hiw-note a, .nf-sub a, .dh-sub a,
+.os-hint a, .terms-related a, .comp-note a, .ref-lead a, .of-live a,
+.contact-sub a, .dl-sub a {
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--accent-rgb), 0.5);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* r94: Windows High Contrast - the verdict system keeps brand colors as a
+   redundant cue (text glyphs already carry the meaning); primary CTAs stay
+   branded. Everything else inherits system colors by design. */
+@media (forced-colors: active) {
+  .yes, .no, .partial, .lg-swatch { forced-color-adjust: none; }
+  .btn-primary, .btn-nav-primary { forced-color-adjust: none; }
+}
+
+/* r108: prefers-reduced-transparency joins the modern a11y media-query
+   family (reduced-motion r74/r101, prefers-contrast r59/r90,
+   forced-colors r94). Users who enable the OS "Reduce transparency"
+   setting get fully opaque surfaces: the glass navbar drops its
+   0.96-alpha wash + 12px blur and the perf HUD its 0.82 wash + 8px blur
+   — same hues as the defaults at alpha 1, only the see-through
+   compositing is removed. Tint overlays (accent chips) and modal scrims
+   are intentional dimming, not glass, and stay. */
+@media (prefers-reduced-transparency: reduce) {
+  .navbar { background: rgb(245,245,245); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  [data-theme="dark"] .navbar { background: rgb(13,13,13); }
+  .perf-hud { background: rgb(10,15,26); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+::selection { background: rgba(var(--accent-rgb), 0.28); }
+
+/* r89: native controls take the brand accent — accent-color themes any
+   checkbox/radio/progress the estate grows later, caret-color puts the
+   brand hue in the FAQ search input's caret (the only native text entry
+   point today). UAs pick a clashing default blue otherwise. */
+:root { accent-color: var(--accent); }
+.faq-filter input { caret-color: var(--accent-text); }
+
+/* Thin themed scrollbars — 6px, cabinet token colors */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+@media (hover: hover) and (pointer: fine) { ::-webkit-scrollbar-thumb:hover { background: var(--text2); } }
+
+/* r87: standard scrollbar properties — Firefox ignores the ::-webkit-* block
+   above, so its scrollable regions (comparison table wrap, legal ToC, any
+   clipped column) rendered fat OS-default scrollbars that clash with the
+   site's thin 6px WebKit theme. Both properties are inherited, so one
+   declaration on html covers every scrollable descendant; the border token
+   matches the WebKit thumb, transparent matches the WebKit track. Safari 18+
+   also picks this up where its scrollbar styling stays unstyled. */
+/* r103: thin themed scrollbar. r104: scrollbar-gutter: stable — reserving the
+   vertical gutter keeps the content width constant when the r44 modal lock
+   toggles body overflow (classic-scrollbar platforms used to shift the whole
+   page ~15px on every checkout open/close). No-op on overlay-scrollbar
+   platforms (macOS, most mobile). */
+html { scrollbar-width: thin; scrollbar-color: var(--border) transparent; scrollbar-gutter: stable; }
+
+/* Focus glow on primary CTA — cabinet's linear-glow vocabulary */
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.3), 0 0 0 3px rgba(var(--accent-rgb), 0.25);
+}
+
+/* --- copy-to-clipboard chips (contact page Support card; engine-managed) --- */
+.copy-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.copy-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px; min-height: 44px; border-radius: 10px;
+  border: 1px solid var(--border-strong); background: var(--bg3); /* r98 */
+  color: var(--text); font: inherit; font-size: .88rem;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, transform .15s ease, color .15s ease;
+}
+@media (hover: hover) and (pointer: fine) { .copy-chip:hover { border-color: var(--accent); background: var(--bg2); } }
+.copy-chip:active { transform: scale(.97); }
+.copy-chip .copy-ico { color: var(--text2); font-size: .95rem; line-height: 1; }
+.copy-chip.copied { border-color: var(--accent-text); color: var(--accent-text); }
+.copy-chip.copied .copy-ico { color: var(--accent-text); }
+.copy-chip.copyfail { border-color: #c0392b; color: #c0392b; }
+.copy-chip.copyfail .copy-ico { color: #c0392b; }
+[data-theme="dark"] .copy-chip { background: rgba(255,255,255,.06); }
+@media (hover: hover) and (pointer: fine) { [data-theme="dark"] .copy-chip:hover { background: rgba(255,255,255,.10); } }
+
+/* --- share chips (r61; engine section 12) — native share sheet when the
+   browser offers one, clipboard-copy fallback otherwise. Visual language
+   mirrors .copy-chip (same family: radius, states, dark lift) so the two
+   chip types read as one system. Placed beside primary CTAs: index
+   cta-banner and the download hero. min-height matches the 44px touch
+   target; the SVG icon re-colours with the chip via currentColor. ------- */
+.share-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; min-height: 44px; border-radius: 10px;
+  border: 1px solid var(--border-strong); background: var(--bg3); /* r98 */
+  color: var(--text); font: inherit; font-size: .88rem; font-weight: 600;
+  cursor: pointer; vertical-align: middle; margin-inline-start: 14px;
+  transition: border-color .15s ease, background .15s ease, transform .15s ease, color .15s ease;
+}
+@media (hover: hover) and (pointer: fine) { .share-chip:hover { border-color: var(--accent); background: var(--bg2); } }
+.share-chip:active { transform: scale(.97); }
+.share-chip:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+.share-chip .share-ico { display: inline-flex; color: var(--text2); }
+.share-chip .share-ico svg { display: block; }
+.share-chip.copied { border-color: var(--accent-text); color: var(--accent-text); }
+.share-chip.copied .share-ico { color: var(--accent-text); }
+.share-chip.copyfail { border-color: #c0392b; color: #c0392b; }
+.share-chip.copyfail .share-ico { color: #c0392b; }
+[data-theme="dark"] .share-chip { background: rgba(255,255,255,.06); }
+@media (hover: hover) and (pointer: fine) { [data-theme="dark"] .share-chip:hover { background: rgba(255,255,255,.10); } }
+/* r63 — wrap/squish guards: long localized labels (सेयर गर्नुहोस्, Compartir,
+   Поделиться) must never break mid-word, and the icon must never compress
+   when the label fills the chip on narrow screens. */
+.share-chip { white-space: nowrap; }
+.share-chip .share-ico { flex: none; }
+/* r65 — FAQ per-answer share: a quiet, icon-only variant of .share-chip
+   appended to each answer paragraph (injected by the r42 anchor block, bound
+   by the delegated share engine). No visible label — the answer is the
+   context; the accessible name comes from share.answer ×7. margin-inline-start
+   keeps the gap logical in RTL; the copied/copyfail and dark states above
+   apply unchanged. Print: hidden via the .share-chip rule in @media print. */
+.share-chip.faq-share {
+  padding: 6px; min-height: 0; gap: 0;
+  margin-inline-start: 10px;
+  border-radius: 8px;
+  color: var(--text2);
+}
+.share-chip.faq-share .share-ico svg { width: 15px; height: 15px; }
+@media (hover: hover) and (pointer: fine) {
+  .share-chip.faq-share:hover { border-color: var(--accent); background: var(--bg2); color: var(--accent); }
+  .share-chip.faq-share:hover .share-ico { color: var(--accent); }
+}
+/* Touch: the quiet desktop chip is only ~29px — too small for fingers. Give
+   it a real 44px target, matching the .faq-anchor coarse bump. */
+@media (pointer: coarse) {
+  .share-chip.faq-share { min-width: 44px; min-height: 44px; padding: 10px; }
+}
+
+/* --- text-export chip (r73; engine section 14) — visual twin of .share-chip,
+   deliberately a SEPARATE class: the delegated share engine binds .share-chip
+   and would open a share sheet for the page URL, while this chip copies a
+   plain-text summary of the comparison (chat-pasteable, Telegram audience).
+   Same visual language (radius, states, dark lift) so all chips read as one
+   family. Sits with the legend above the table. ---------------------------- */
+.copy-text-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; min-height: 44px; border-radius: 10px;
+  border: 1px solid var(--border-strong); background: var(--bg3); /* r98 */
+  color: var(--text); font: inherit; font-size: .88rem; font-weight: 600;
+  cursor: pointer; margin: 12px 0 0;
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+@media (hover: hover) and (pointer: fine) { .copy-text-chip:hover { border-color: var(--accent); background: var(--bg2); } }
+.copy-text-chip:active { transform: scale(.97); }
+.copy-text-chip:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+.copy-text-chip .share-ico { display: inline-flex; color: var(--text2); flex: none; }
+.copy-text-chip .share-ico svg { display: block; }
+.copy-text-chip.copied { border-color: var(--accent-text); color: var(--accent-text); }
+.copy-text-chip.copied .share-ico { color: var(--accent-text); }
+.copy-text-chip.copyfail { border-color: #c0392b; color: #c0392b; }
+[data-theme="dark"] .copy-text-chip { background: rgba(255,255,255,.06); }
+@media (hover: hover) and (pointer: fine) { [data-theme="dark"] .copy-text-chip:hover { background: rgba(255,255,255,.10); } }
+.copy-text-chip { white-space: nowrap; }
+.comp-tools { display: flex; }
+
+/* ── Touch feedback — r53 ────────────────────────────────────────────────
+   Every :hover visual above is now gated behind (hover: hover) and
+   (pointer: fine), so touch devices no longer get sticky hover states.
+   These :active rules give taps their own immediate, self-releasing
+   feedback instead (hover can never provide that on touch). */
+a:active { opacity: .7; }
+.btn-primary:active, .btn-outline:active, .btn-ghost:active,
+.btn-nav:active, .btn-nav-primary:active { transform: translateY(0) scale(.98); opacity: .9; }
+.theme-btn:active, .lang-btn:active { opacity: .7; }
+.faq-cat:active, .faq-filter-clear:active, .page-toc a:active,
+.back-to-top:active { transform: scale(.95); }
+
+/* ── Skip-to-content link (WCAG 2.4.1) — r33 ───────────────────────────── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 16px;
+  z-index: 3000;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  background: var(--accent2); /* r83: was accent — 0.95rem/700 white on accent = 3.68:1 < 4.5 AA; 5.17 on accent2 */
+  color: #fff;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+  transition: top .2s ease;
+}
+.skip-link:focus, .skip-link:focus-visible {
+  top: 16px;
+  outline: 3px solid var(--accent2);
+  outline-offset: 2px;
+}
+[dir="rtl"] .skip-link { left: auto; right: 16px; }
+
+/* keyboard focus ring for contact copy chips — r33 */
+.copy-chip:focus-visible {
+  outline: 3px solid rgba(var(--accent-rgb), .55);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+[data-theme="dark"] .copy-chip:focus-visible {
+  outline-color: rgba(var(--accent-rgb), .8);
+}
+
+/* ── Current-page nav indicator — r34 ──────────────────────────────────── */
+.nav-links a[aria-current="page"] { color: var(--accent-text); font-weight: 700; }
+.btn-nav[aria-current="page"]:not(.btn-nav-primary) {
+  border-color: var(--accent-text);
+  color: var(--accent-text);
+  background: rgba(var(--accent-rgb), .08);
+}
+.btn-nav-primary[aria-current="page"] {
+  outline: 3px solid rgba(255, 255, 255, .45);
+  outline-offset: 2px;
+}
+
+/* ── Global keyboard focus ring — r34, recolored r85 ───────────────────── */
+/* :where() = zero specificity, so existing bespoke focus designs win.      */
+/* r85: the ring color was rgba(accent,.55) (dark .8) — a blend computes to */
+/* ~1.98:1 against the light surface and ~3.75:1 dark, failing WCAG 1.4.11  */
+/* non-text 3:1 for focus indicators in light. Replaced with the estate's   */
+/* own component convention (back-to-top r6, share-chip r64, copy-chip r70, */
+/* row-anchor r68, offline/404 banners all use 2px var(--text)): #1f1a12 on */
+/* light and #f1f5f9 on dark clear 3:1 by a wide margin on both sides of    */
+/* the ring — including against accent-filled buttons (3.33 light / 4.66    */
+/* dark), so accent surfaces keep a legible ring too. The dark-only alpha   */
+/* override is gone — var(--text) is already theme-correct.                 */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+/* r51 — browsers without :focus-visible (Safari < 15.4) drop the :focus-visible
+   rules above entirely, leaving keyboard users with UA defaults only. Provide
+   a branded ring via plain :focus there. Modern browsers never match this. */
+@supports not selector(:focus-visible) {
+  a:focus, button:focus, input:focus, select:focus, textarea:focus, summary:focus {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+  }
+}
+/* r51 — programmatic-focus jump targets (#main skip target, deep-linked FAQ
+   items) must not flash a huge outline box; their cues are the scroll/:target
+   highlight and the SR announcement. Declared AFTER the @supports block so it
+   wins the equal-specificity cascade there too. */
+#main:focus, .faq-item:focus, main h2[id]:focus { outline: none; }
+/* r110: fragment-jumped step headings (how-it-works h2 tabindex=-1) mirror
+   the .faq-item contract — no focus ring on deep-link jump; the anchor
+   chip inside keeps its own :focus-visible ring for keyboard users. */
+
+/* refund copy-strip takes its own row under the CTA buttons — r34 */
+.ref-cta .copy-strip { flex-basis: 100%; }
+
+/* ── Typographic polish — r37 ──────────────────────────────────────────── */
+/* Balanced headings avoid orphan words on wrapped lines; pretty keeps      */
+/* paragraph ragged edges healthy. Progressive enhancement: unsupported     */
+/* browsers ignore both.                                                    */
+h1, h2, h3, h4 { text-wrap: balance; }
+p, li, dd, dt, figcaption { text-wrap: pretty; }
+/* r106: rag control for long legal prose and multi-column/print fragmentation —
+   keep at least three lines on either side of any break (browsers honor this
+   for @page printing and CSS columns; no-op for single-column screen flow). */
+p, li, dd, dt, figcaption { orphans: 3; widows: 3; }
+
+/* 404 card: center the compact language selector — r37 */
+.nf-card .lang-selector { justify-content: center; margin: 0 auto 20px; }
+
+/* ── Download platform hint — r38 ──────────────────────────────────────── */
+/* ── r46: scroll progress bar ─────────────────────────────────────────────── */
+/* Fixed 3px accent bar at the very top; width tracks reading progress.      */
+/* Decorative (aria-hidden), pointer-transparent, mirrored in RTL, hidden    */
+/* in print. JS lives in i18n.js feature layer (rAF-throttled, passive).     */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-text));
+  z-index: 400;
+  pointer-events: none;
+}
+[dir="rtl"] #scroll-progress {
+  left: auto;
+  right: 0;
+  background: linear-gradient(270deg, var(--accent), var(--accent-text));
+}
+@media print { #scroll-progress { display: none; } }
+
+/* ── r45: global [hidden] guard ───────────────────────────────────────────── */
+/* Author display values (.os-hint display:block, .btn-ghost inline-block)    */
+/* beat the UA's [hidden] { display: none } — download.html has shown BOTH    */
+/* platform hints since r38, and a hidden .btn would stay visible. Restore    */
+/* the expected semantics site-wide.                                          */
+[hidden] { display: none !important; }
+
+.os-hint {
+  display: block;
+  max-width: 620px;
+  margin: 14px auto 0;
+  padding: 10px 16px;
+  font-size: 0.92rem;
+  color: var(--text);
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  border-radius: 10px;
+}
+.os-hint-alt { border-style: dashed; }
+
+/* ── FAQ permalink anchors — r42 ────────────────────────────────────────── */
+.faq-item h3 { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.faq-anchor {
+  flex: none;
+  font-size: 0.85em;
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: 6px;
+  color: var(--text2);
+  text-decoration: none;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.faq-anchor:hover, .faq-anchor:focus-visible { opacity: 1; color: var(--accent-text); background: rgba(var(--accent-rgb), 0.1); }
+.faq-anchor.copied { opacity: 1; color: var(--accent-text); background: rgba(var(--accent-rgb), 0.16); }
+/* r135 — hover affordances for CONTENT surfaces ───────────────────────────
+   Audit: the interactive chrome (buttons, chips, links, permalinks) had
+   hover states; the big content surfaces (pricing cards, FAQ rows,
+   data-table rows) rendered flat under the pointer. Tints bring hover
+   feedback to parity site-wide. All colors are var()-tokened (light+dark
+   flip for free); every state change is gated behind
+   (hover:hover)+(pointer:fine) so touch devices never get sticky hover
+   states (r105 lesson); prefers-reduced-motion keeps the color fades but
+   drops the card lift. Placement matters: this block sits BEFORE the
+   .faq-item:target rule so the deep-link highlight outranks the hover
+   tint when both apply (equal specificity, later rule wins). */
+.pricing-card {
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.faq-item { transition: background-color .15s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .pricing-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    transform: translateY(-2px);
+  }
+  .pricing-card.featured:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(var(--accent-rgb), .16);
+  }
+  /* Row tints use the r80 features-page token (accent .04) — one shade
+     under the .faq-item:target highlight (accent .07), so hover reads as
+     "approaching", target as "arrived". Comparison keeps its r59 column
+     spotlight; a row tint there would fight it, so it's intentionally
+     excluded. */
+  .faq-item:hover { background: rgba(var(--accent-rgb), .04); }
+  .data-table tbody tr:hover { background: rgba(var(--accent-rgb), .04); }
+}
+[data-theme="dark"] .pricing-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.45); }
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card:hover { transform: none; }
+}
+
+/* r62 — coarse pointers: the permalink is a hover-polished affordance on
+   desktop but touch has no hover, so keep it fully visible and give it a
+   real touch target (~36px) instead of the desktop 22px hit area. */
+@media (pointer: coarse) {
+  .faq-anchor { opacity: 1; padding: 9px 12px; font-size: 0.95em; }
+}
+/* Deep-linked answer (#faq-N) gets a soft highlight once scrolled to. */
+.faq-item:target {
+  background: rgba(var(--accent-rgb), 0.07);
+  border-radius: 12px;
+  margin: 0 -14px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+@media print { .faq-anchor { display: none; } }
+
+/* --- row permalinks (r68; comparison table) — the r42 FAQ anchor pattern
+   applied to row labels: a quiet '#' beside each row name, hover-revealed on
+   fine pointers, always visible on touch. Click copies canonical + #row-slug,
+   pins the row (inline CSS in comparison.html mirrors the r66 column pin),
+   and announces through #copyLive. Copied/hover/focus states reuse the
+   faq-anchor language so the two permalink families read as one system. -- */
+.row-anchor {
+  float: inline-end;
+  font-size: 0.8em;
+  line-height: 1;
+  padding: 3px 7px;
+  margin-inline-start: 8px;
+  border-radius: 6px;
+  color: var(--text2);
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.row-anchor:hover, .row-anchor:focus-visible { opacity: 1; color: var(--accent-text); background: rgba(var(--accent-rgb), 0.1); }
+.row-anchor:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.row-anchor.copied { opacity: 1; color: var(--accent-text); background: rgba(var(--accent-rgb), 0.16); }
+/* Touch: no hover to reveal — keep it visible with a real target. */
+@media (pointer: coarse) {
+  .row-anchor { opacity: 1; padding: 8px 10px; font-size: 0.9em; }
+}
+@media print { .row-anchor { display: none; } }
+
+/* ── Anchor offset — r41, r80 ─────────────────────────────────────────── */
+/* Smooth-scrolling to #plans / #main previously landed beneath the sticky   */
+/* navbar; scroll-margin reserves its height on every jump/deep link.        */
+/* r80: the navbar's height is NOT a constant — it stacks to 4 rows on the   */
+/* legal pages (165px desktop) and wraps to 224-269px on mobile locales,     */
+/* so fixed values (84px desktop / 168px ≤768px, r41) landed targets up to   */
+/* ~100px UNDER it (measured: privacy ToC jump, 375px and 1280px). i18n.js   */
+/* now measures the real .navbar into --nav-h (ResizeObserver, r80) and this */
+/* rule reserves exactly that + 50px drift/breathing headroom. The r79       */
+/* page-local values on pricing/features stay — their navbars are short.     */
+/* No-JS fallback 120px + 50 covers the tallest desktop variant.             */
+/* r84: tr[id] (comparison's 11 deep-linked rows, features' 5 — both missed  */
+/* by section/div) and th[id] (comparison's 5 #col-* share chips) join the   */
+/* formula: native fragment re-anchoring gave them scroll-margin 0, landing  */
+/* rows BEHIND the sticky navbar on every viewport (measured rowTop 0 vs     */
+/* navH 109 desktop, -14 vs 224 mobile) — r82's ItemList advertises these    */
+/* URLs to crawlers, so the landing is a public first impression. The        */
+/* features page-local tr margins out-rank this rule (higher specificity).   */
+/* r115: heading ids join the formula — r110's 7 how-it-works h2 slugs       */
+/* landed BEHIND the navbar (measured #pay-when-ready top -14px vs navH      */
+/* 109 desktop), the exact signature the r84 note recorded for tr/th.        */
+/* section/div/tr/th miss h1-h6; every future heading slug inherits the      */
+/* correct clearance automatically. Screen rendering unaffected —            */
+/* scroll-margin only participates in fragment scrolling.                    */
+section[id], div[id], tr[id], th[id],
+h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] { scroll-margin-top: calc(var(--nav-h, 120px) + 50px); }
+
+/* ── Download hero CTA row — r40 (primary + ghost, wraps on narrow) ────── */
+.dh-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ── r132: pre-paint install reveal (download.html only) ────────────────── */
+/* The r45 install CTA used to reveal inside the beforeinstallprompt handler
+   — post-paint, so .dh-cta re-wrapped 2→3 lines on EVERY repeat visit
+   (r131 root cause: deterministic ~0.010 local CLS). download.html's head
+   boot now adds html.bip-ready pre-parse when the BIP capability flag
+   ('nv_bip', lifecycle in i18n.js section 9) is set and the view is not
+   standalone. !important is REQUIRED: r45's site-wide author guard
+   "[hidden] { display: none !important }" outranks any non-important author
+   display (that guard exists because .os-hint/.btn author displays beat the
+   UA [hidden] rule); within the author-important tier this higher-specificity
+   rule wins, so the CTA occupies its layout slot at FIRST PAINT — zero shift
+   by construction. Hide paths (click /
+   appinstalled / 4s no-BIP timeout / standalone launch) remove the class
+   BEFORE setting [hidden], because this rule outranks the attribute. */
+.bip-ready #dl-install { display: inline-block !important; }
+/* Paper has no install prompt; a visible install button is dead chrome
+   (same policy as .share-chip). The .bip-ready variant is REQUIRED here:
+   bare #dl-install (1,0,0) LOSES to the reveal rule (1,1,0) even in the
+   author-important tier; the variant ties it at (1,1,0) and, coming later
+   in the sheet, wins the cascade. */
+@media print {
+  .bip-ready #dl-install,
+  #dl-install { display: none !important; }
+}
+
+/* ── Scroll reveal — r39 ───────────────────────────────────────────────── */
+/* i18n.js adds .reveal-scope to <body> ONLY when IntersectionObserver      */
+/* exists and prefers-reduced-motion is not set; sections then start        */
+/* slightly shifted/faded and settle in on first intersection. Without JS   */
+/* (or with reduced motion) everything stays fully visible.                 */
+body.reveal-scope > section:not(.reveal-in),
+body.reveal-scope main > section:not(.reveal-in) {
+  opacity: 0;
+  transform: translateY(14px);
+}
+body.reveal-scope > section,
+body.reveal-scope main > section {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.reveal-scope > section,
+  body.reveal-scope main > section {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============ r56: FAQ no-results empty state ============ */
+/* Shown by applyFaqFilter (i18n.js) when a query/category narrows the grid  */
+/* to zero items. Dashed border signals "not a real card"; tokens follow the */
+/* chip design system so light/dark both resolve without extra rules.        */
+.faq-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  padding: 34px 20px;
+  margin-top: 14px;
+  background: var(--bg2);
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  color: var(--text2);
+}
+.faq-empty svg { color: var(--accent); opacity: .8; margin-bottom: 4px; }
+.faq-empty .faq-empty-title { font-weight: 700; color: var(--text); }
+.faq-empty .faq-empty-sub { font-size: .9rem; }
+.faq-empty .faq-empty-reset { margin-top: 10px; min-height: 44px; }
+
+/* ============ r56: theme-toggle view transition ============ */
+/* branding.js wraps the global setTheme with a circular reveal driven by    */
+/* clip-path keyframes on ::view-transition-new(root). Suppressing the       */
+/* default cross-fade keeps the reveal crisp (old snapshot stays static      */
+/* underneath). Browsers without the API never run the JS, so these rules    */
+/* are inert there; no reduced-motion override needed (JS skips the API).    */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* ============ r65: cross-document view transitions ============ */
+/* Navigating between pages of the site cross-fades instead of hard-cutting  */
+/* (Chromium 126+ enables @view-transition; every other browser ignores the  */
+/* rule and keeps today's instant swap — a pure progressive enhancement).    */
+/* The theme-toggle reveal above is a same-document startViewTransition and  */
+/* is untouched by this rule. Guarded for reduced-motion users, mirroring    */
+/* the UA's own opt-out, so the preference always wins.                      */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+/* ============ r57: FAQ search-hit highlighting ============ */
+/* applyFaqFilter (i18n.js) wraps query matches in <mark>, per text node so  */
+/* nested links survive. Token-tinted background reads as "highlight" in    */
+/* both themes without a hardcoded yellow; clone keeps multi-line marks     */
+/* clean at wrap points.                                                    */
+.faq-item mark {
+  background: rgba(var(--accent-rgb), 0.16);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+[data-theme="dark"] .faq-item mark { background: rgba(var(--accent-rgb), 0.30); }
+
+/* "/" affordance for the FAQ search field — a quiet kbd chip, GitHub-style. */
+/* Hidden while the field is focused (typing) or once the clear button shows */
+/* (value present), so it never collides with the clear × at the same spot.  */
+/* inset-inline-end keeps it on the correct side in RTL locales.             */
+.faq-filter-kbd {
+  position: absolute; top: 50%; inset-inline-end: 14px; transform: translateY(-50%);
+  pointer-events: none;
+  font-family: var(--font); font-size: .78rem; line-height: 1;
+  color: var(--text2); background: var(--bg3);
+  border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 5px;
+  padding: 3px 7px;
+}
+.faq-filter:focus-within .faq-filter-kbd,
+.faq-filter-clear:not([hidden]) ~ .faq-filter-kbd { display: none; }
+
+/* ============ r59: prefers-contrast: more ============ */
+/* OS-level "increase contrast" preference: lift the muted token so secondary
+   text stops depending on size/weight defaults. Color-only change — zero
+   layout risk; both themes keep their hue families. light #55482e = 6.97–8.51
+   across bg/bg2/bg3; dark #c3cedd = 9.19–12.04 (baseline was 5.2–6.4 / 5.7–7.5). */
+/* r90: borders join the lift — baseline borders measured 1.13–1.55:1 against
+   the surfaces (WCAG 1.4.11 non-text wants ≥3:1). light #8f7448 = 3.45–4.21,
+   dark #64789a = 3.27–4.28, computed against all three bg tokens per theme;
+   both stay inside their theme's hue family. */
+@media (prefers-contrast: more) {
+  :root { --text2: #55482e; --border: #8f7448; }
+  [data-theme="dark"] { --text2: #c3cedd; --border: #64789a; }
+}
+/* ── r134: QR phone-transfer card (download.html) ───────────────────────── */
+/* Desktop-only DISPLAY: a phone does not scan itself. All styling is
+   unconditional — the media query ONLY toggles display — so the card renders
+   identically wherever it is ever shown (a headless/edge environment that
+   fails the gate cannot produce a half-styled card; found in r134 QA when a
+   forced-display probe rendered an unstyled row). The card is appended by
+   i18n.js section 15 at engine eval (pre-paint) so the reveal cannot shift
+   layout; the canvas is internally 8px/module (2x the CSS display size at
+   the default 148px) for crisp edges. */
+.qr-card { display: none; flex-direction: column; align-items: center; gap: 10px; margin: 34px auto 0; max-width: 340px; padding: 22px 24px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; text-align: center; }
+[data-theme="dark"] .qr-card { background: var(--bg3); }
+.qr-card .qr-title { margin: 0; font-size: 1.02rem; font-weight: 700; color: var(--text); }
+.qr-card canvas {
+  width: 148px;
+  height: 148px;
+  border-radius: 10px;
+  background: #fff; /* scanners want a light field regardless of theme */
+  box-shadow: 0 0 0 1px var(--border);
+}
+.qr-card .qr-sub { margin: 0; font-size: .84rem; line-height: 1.5; color: var(--text2); text-wrap: pretty; }
+@media (hover: hover) and (pointer: fine) and (min-width: 720px) {
+  .qr-card { display: flex; }
+}
+/* Paper: the QR links back to this very page — dead chrome on print
+   (same policy as the install CTA and share chips). */
+@media print { .qr-card, .print-row { display: none !important; } }
+
+/* ── r134: "Save as PDF" chip (legal trio) ──────────────────────────────── */
+/* Sits after the .page-toc toolbar, right-aligned, reusing the ghost-chip
+   family's visual grammar (border chip, accent on hover, focus-visible). */
+.print-row { display: flex; justify-content: flex-end; margin: 10px 0 0; }
+.print-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text2);
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.print-chip::before { content: "\2302"; font-size: .95rem; line-height: 1; }
+@media (hover: hover) and (pointer: fine) { .print-chip:hover { color: var(--accent-text); border-color: var(--accent); background: rgba(var(--accent-rgb), .07); } }
+.print-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.print-chip:active { transform: scale(.97); }
+[dir="rtl"] .print-row { justify-content: flex-start; }

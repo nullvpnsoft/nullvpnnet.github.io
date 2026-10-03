@@ -1,0 +1,42 @@
+# NullVPN
+
+> NullVPN is a privacy-first VPN service built for difficult networks: passwordless sign-in, automatic backup routes, instant setup, and no activity logs. One service plan with monthly, quarterly, and annual billing, payable by debit/credit card or crypto (USDT / TON). The website is fully available in 7 languages and keeps a TON Web3 presence that stays reachable when the main site is blocked. Sign-up and account management run through the Telegram bot @nullvpnnetbot.
+
+The comparison page holds an honest feature-by-feature table against NordVPN, ExpressVPN, and ProtonVPN. Refunds: full refund within 48 hours if the service does not work in your location. Deep links: most content surfaces (FAQ answers, pricing plans, features rows, comparison rows/columns, legal clauses) can be linked to directly via their URL fragments.
+
+## Main pages
+
+- [Home](https://nullvpn.net/): overview of the service, core promises, and quick start.
+- [Features](https://nullvpn.net/features.html): privacy, reliability, payments, speed, and accessibility deep-dives; each row is deep-linkable.
+- [Pricing](https://nullvpn.net/pricing.html): the single plan with monthly, quarterly, and annual billing periods and payment options.
+- [Comparison](https://nullvpn.net/comparison.html): feature-by-feature table versus NordVPN, ExpressVPN, and ProtonVPN; rows and columns are deep-linkable.
+- [How it works](https://nullvpn.net/how-it-works.html): why it differs from consumer VPNs and how the tunnel handles restrictive networks.
+- [Download](https://nullvpn.net/download.html): official Android builds with checksums published on GitHub Releases.
+- [Web3 / TON](https://nullvpn.net/web3.html): how to reach the service over TON when the website is blocked.
+- [FAQ](https://nullvpn.net/faq.html): searchable, category-filtered answers on how it works, privacy, payments, and devices.
+- [Contact](https://nullvpn.net/contact.html): support channels and community links.
+
+## Legal
+
+- [Terms of Service](https://nullvpn.net/terms.html)
+- [Privacy Policy](https://nullvpn.net/privacy.html): no activity logs, minimal data, certified third-party payment processors.
+- [Refund Policy](https://nullvpn.net/refund.html): full refund within 48 hours if the service does not work in your location.
+
+## Support
+
+- Telegram support: https://t.me/nullvpn_net
+- Email: support@nullvpn.net
+- Telegram bot (sign-up and account management): https://t.me/nullvpnnetbot
+
+## Languages
+
+Every page is served from a single URL per language; text is switched client-side. Append `?lang=xx` to any URL to open it in a specific language — supported codes: en (English), ru (Russian), fa (Farsi), ar (Arabic), es (Spanish), ne (Nepali), fr (French). The choice persists for the visitor across the site.
+
+## Security
+
+Security researchers: vulnerability reports are accepted through the channels listed in the RFC 9116 file at /.well-known/security.txt (same channels as Support above).
+
+## Privacy engineering
+
+- Outbound links carry referrerpolicy="no-referrer" — following a link never leaks the visitor's page URL (including ?lang=xx and deep-link fragments) to third-party hosts.
+- The site ships no client-side tracking, no cookies, and no third-party scripts beyond its own first-party assets.

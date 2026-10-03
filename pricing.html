@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light dark"/>
+  <script>(function(){var L=["en","ru","fa","ar","es","ne","fr"],m=location.search.match(/[?&]lang=([a-zA-Z]{2})/),l=m?m[1].toLowerCase():null;try{l=l&&L.indexOf(l)>-1?l:(localStorage.getItem("nullvpn_lang")||"");}catch(e){l="";}if(l&&L.indexOf(l)>-1){document.documentElement.lang=l;document.documentElement.dir=(l==="fa"||l==="ar")?"rtl":"ltr";if(l!=="en"){document.documentElement.classList.add("nv-l");setTimeout(function(){document.documentElement.classList.remove("nv-l")},2000);}}})();</script>
+  <style>html.nv-l .nav-inner{visibility:hidden}</style>
+  <link rel="preload" href="/fonts/manrope-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <meta name="theme-color" content="#f7e7ce"/>
+  <meta name="theme-color" content="#0a0f1a" media="(prefers-color-scheme: dark)"/>
+  <script src="branding.js?v=5" defer></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="NullVPN pricing — one plan at $3/month. Debit/credit cards or crypto."/>
+  <title>Pricing — NullVPN</title>
+  <link rel="canonical" href="https://nullvpn.net/pricing.html"/>
+  <meta property="og:title" content="Pricing — NullVPN"/>
+  <meta property="og:description" content="NullVPN pricing — one plan at $3/month. Debit/credit cards or crypto."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://nullvpn.net/pricing.html"/>
+  <meta property="og:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <meta property="og:site_name" content="NullVPN"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:locale:alternate" content="ru_RU"/>
+  <meta property="og:locale:alternate" content="fa_IR"/>
+  <meta property="og:locale:alternate" content="ar_AR"/>
+  <meta property="og:locale:alternate" content="es_ES"/>
+  <meta property="og:locale:alternate" content="ne_NP"/>
+  <meta property="og:locale:alternate" content="fr_FR"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Pricing — NullVPN"/>
+  <meta name="twitter:description" content="NullVPN pricing — one plan at $3/month. Debit/credit cards or crypto."/>
+  <meta name="twitter:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta name="twitter:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <link rel="stylesheet" href="style.css?v=61"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <style>
+/* r78: #plan-* deep links — support chats share exact-plan URLs
+   (nullvpn.net/pricing.html#plan-annual lands on the annual card, which
+   scroll-margin (global div[id] rule) keeps clear of the fixed navbar).
+   The quiet accent ring marks the target without fighting the featured
+   card's gradient; purely visual, no i18n surface. */
+.pricing-card:target{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.28)}
+/* r86: plan title row — mirrors the FAQ h3 flex (style.css .faq-item h3):
+   title left, the r86 '#' permalink chip pinned at the card's far edge. */
+.pricing-card h3{display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+/* the desktop navbar is two rows (109px) — the global 84px div[id] margin
+   lands the card title ON the navbar edge; this page-local bump (with room
+   for the reveal-entrance drift that :target navigation lands mid-flight)
+   keeps the title clear. r79: mobile navbar wraps to 224px (en) / 269px
+   (fr/ru) — 140px left ~113px of the card under it at 375px; reserve 300px: the
+   documented worst-case two-row height (269px) + entrance-drift headroom + clearance on narrow screens. */
+.pricing-card[id]{scroll-margin-top:140px}
+@media (max-width:768px){.pricing-card[id]{scroll-margin-top:300px}}
+.checkout-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;animation:checkoutFade .2s ease both}
+.checkout-modal{background:var(--bg2,#fff);border:1px solid var(--border-strong,#64748b);border-radius:16px; /* r98: dialog boundary 1.4.11 */padding:32px;max-width:420px;width:100%;max-height:calc(100vh - 32px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable; /* r101: landscape phones — the fixed overlay centers a dialog taller than the viewport; without a scroll escape the CTAs were unreachable (no Escape key on mobile). r103: thin themed scrollbar + stable gutter so the overflow scrollbar never shifts the dialog content */position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3);color:var(--text,#111);animation:checkoutIn .28s cubic-bezier(.16,1,.3,1) both}
+@keyframes checkoutFade{from{opacity:0}to{opacity:1}}
+@keyframes checkoutIn{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:none}}
+/* r96: honor prefers-reduced-motion — entrance motion off, static render
+   (keyframes start at opacity:0, so removing the animation is the safe path) */
+@media (prefers-reduced-motion: reduce){.checkout-overlay,.checkout-modal{animation:none}.checkout-close{transition:none}.checkout-plan{transition:none}}
+@media (max-width:480px){.checkout-modal{padding:24px 20px;border-radius:14px}}
+.checkout-close{position:absolute;top:10px;right:12px;background:none;border:none;font-size:26px;cursor:pointer;color:var(--text2,#666);line-height:1;padding:6px 11px;border-radius:10px;transition:color .2s ease,background-color .2s ease}
+.checkout-close:hover{color:var(--text,#111);background:var(--bg3,transparent)}
+.checkout-modal h3{margin:0 0 20px;font-size:1.4rem;color:var(--text,#111)}
+.checkout-amount{font-size:2rem;font-weight:800;color:var(--accent);text-align:center;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.checkout-label{color:var(--text2,#666);font-size:.9rem;margin:16px 0 8px;text-align:center}
+.checkout-note{text-align:center;color:var(--text2,#666);font-size:.8rem;margin:14px 0 0}
+.checkout-modal .btn-primary{margin-top:12px;display:block;text-align:center;text-decoration:none}
+.checkout-modal .btn-ghost{margin-top:12px;display:block;text-align:center;text-decoration:none}
+.checkout-modal .btn-full{width:100%;box-sizing:border-box}
+/* r101: in-modal plan switcher — same chip language as faq-cat (r98 boundary) */
+.checkout-plans{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 0 14px}
+.checkout-plan{font-family:inherit;font-size:.82rem;font-weight:600;padding:6px 13px;border-radius:999px;background:var(--bg3);color:var(--text2);border:1px solid var(--border-strong,#64748b);cursor:pointer; /* r101: chip boundary 1.4.11 */transition:background .15s ease,color .15s ease,border-color .15s ease,transform .12s ease /* r107: transform joins so the press scales */}
+@media (hover: hover) and (pointer: fine) { .checkout-plan:hover { color: var(--accent-text); border-color: var(--accent); } }
+.checkout-plan:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.checkout-plan.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+@media (hover: hover) and (pointer: fine) { .checkout-plan.active:hover { color: #fff; } }
+.checkout-plan:active { transform: scale(.95); } /* r107: press feedback — mirrors the .faq-cat/.copy-chip tactile language; the last primary control without it. Reduced-motion gate above already zeroes the transition (instant release). */
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "NullVPN Subscription",
+  "serviceType": "Virtual Private Network",
+  "url": "https://nullvpn.net/pricing.html",
+  "description": "Private VPN subscription with unlimited devices and bandwidth, a strict no-logs policy, and instant provisioning. Pay with debit/credit cards or crypto.",
+  "provider": {
+    "@type": "Organization",
+    "name": "NullVPN",
+    "url": "https://nullvpn.net/"
+  },
+  "areaServed": "Worldwide",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Monthly",
+      "description": "1-month plan, $3 per month",
+      "price": "3.00",
+      "priceCurrency": "USD",
+      "url": "https://nullvpn.net/pricing.html",
+      "availability": "https://schema.org/InStock"
+    },
+    {
+      "@type": "Offer",
+      "name": "Quarterly",
+      "description": "3-month plan, $10 billed quarterly",
+      "price": "10.00",
+      "priceCurrency": "USD",
+      "url": "https://nullvpn.net/pricing.html",
+      "availability": "https://schema.org/InStock"
+    },
+    {
+      "@type": "Offer",
+      "name": "Annual",
+      "description": "12-month plan, $35 billed yearly",
+      "price": "35.00",
+      "priceCurrency": "USD",
+      "url": "https://nullvpn.net/pricing.html",
+      "availability": "https://schema.org/InStock"
+    }
+  ]
+}
+  </script>
+  <!-- r67: BreadcrumbList — Home > Pricing. Static JSON-LD; the name matches
+       the site's nav/footer label. Search engines use it for result subtitles. -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://nullvpn.net/"},{"@type":"ListItem","position":2,"name":"Pricing","item":"https://nullvpn.net/pricing.html"}]}
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-top-row">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <div class="nav-actions">
+          <a href="download.html" class="btn-nav" data-i18n="nav.download">Download App</a>
+          <a href="contact.html" class="btn-nav" data-i18n="nav.contact">Contact</a>
+          <a aria-current="page" href="pricing.html" class="btn-nav-primary" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+        </div>
+        <div class="nav-controls">
+          <div class="lang-selector">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">EN</button>
+            <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" title="Русский">РУ</button>
+            <button class="lang-btn" data-lang="fa" onclick="setLang('fa')" title="فارسی">فا</button>
+            <button class="lang-btn" data-lang="ar" onclick="setLang('ar')" title="العربية">ع</button>
+            <button class="lang-btn" data-lang="es" onclick="setLang('es')" title="Español">ES</button>
+            <button class="lang-btn" data-lang="ne" onclick="setLang('ne')" title="नेपाली">ने</button>
+            <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" title="Français">FR</button>
+          </div>
+          <div class="theme-toggle">
+            <button class="theme-btn" id="themeLight" onclick="setTheme('light')" data-i18n-aria="theme.light" aria-label="Light mode">☀️</button>
+            <button class="theme-btn" id="themeDark" onclick="setTheme('dark')" data-i18n-aria="theme.dark" aria-label="Dark mode">🌙</button>
+          </div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+        <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+        <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+        <li><a aria-current="page" href="pricing.html" class="active" data-i18n="nav.pricing">Pricing</a></li>
+        <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1" class="page-hero">
+    <div class="container">
+      <h1><span data-i18n="price.h1a">Simple, honest</span><br/><span data-i18n="price.h1b">pricing.</span></h1>
+      <p data-i18n="price.sub">One plan. Everything included. Pay with debit/credit cards or crypto. No surprises.</p>
+    </div>
+  </main>
+
+  <section class="pricing-section" id="plans">
+    <div class="container">
+      <h2 style="text-align:center;margin-bottom:32px;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:700" data-i18n="price.h">Pricing</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card" id="plan-monthly">
+          <h3 data-i18n="price.p1.name">Monthly</h3>
+          <div class="price"><span data-i18n="price.p1.amount">$3</span><span data-i18n="price.permon">/mo</span></div>
+          <p class="price-note" data-i18n="price.p1.note">Debit/credit cards or crypto</p>
+          <ul class="pricing-features">
+            <li data-i18n="price.feat.1">✔ Up to 10 devices</li>
+            <li data-i18n="price.feat.2">✔ Unlimited bandwidth</li>
+            <li data-i18n="price.feat.3">✔ Private tunnel endpoint</li>
+            <li data-i18n="price.feat.4">✔ Works on demanding networks</li>
+            <li data-i18n="price.feat.5">✔ Auto-provisioned instantly</li>
+            <li data-i18n="price.feat.6">✔ No activity logs</li>
+          </ul>
+          <button class="btn-outline btn-full" onclick="openCheckout('monthly')" data-i18n="price.cta">Get Premium →</button>
+        </div>
+        <div class="pricing-card featured" id="plan-quarterly">
+          <div class="popular-badge" data-i18n="price.popular">Most Popular</div>
+          <h3 data-i18n="price.p3.name">Quarterly</h3>
+          <div class="price"><span data-i18n="price.p3.amount">$10</span><span data-i18n="price.perqtr">/3 mo</span></div>
+          <p class="price-note" data-i18n="price.p3.note">Billed every 3 months</p>
+          <ul class="pricing-features">
+            <li data-i18n="price.feat.1">✔ Up to 10 devices</li>
+            <li data-i18n="price.feat.2">✔ Unlimited bandwidth</li>
+            <li data-i18n="price.feat.3">✔ Private tunnel endpoint</li>
+            <li data-i18n="price.feat.4">✔ Works on demanding networks</li>
+            <li data-i18n="price.feat.5">✔ Auto-provisioned instantly</li>
+            <li data-i18n="price.feat.6">✔ No activity logs</li>
+            <li data-i18n="price.feat.7">✔ Priority Telegram support</li>
+          </ul>
+          <button class="btn-primary btn-full" onclick="openCheckout('quarterly')" data-i18n="price.cta">Get Premium →</button>
+        </div>
+        <div class="pricing-card" id="plan-annual">
+          <h3 data-i18n="price.p4.name">Annual</h3>
+          <div class="price"><span data-i18n="price.p4.amount">$35</span><span data-i18n="price.peryear">/yr</span></div>
+          <p class="price-note" data-i18n="price.p4.note">Billed once a year</p>
+          <ul class="pricing-features">
+            <li data-i18n="price.feat.1">✔ Up to 10 devices</li>
+            <li data-i18n="price.feat.2">✔ Unlimited bandwidth</li>
+            <li data-i18n="price.feat.3">✔ Private tunnel endpoint</li>
+            <li data-i18n="price.feat.4">✔ Works on demanding networks</li>
+            <li data-i18n="price.feat.5">✔ Auto-provisioned instantly</li>
+            <li data-i18n="price.feat.6">✔ No activity logs</li>
+            <li data-i18n="price.feat.7">✔ Priority Telegram support</li>
+          </ul>
+          <button class="btn-outline btn-full" onclick="openCheckout('annual')" data-i18n="price.cta">Get Premium →</button>
+        </div>
+      </div>
+      <div class="pricing-note">
+        <h3 data-i18n="price.howpay.h">How payment works</h3>
+        <p data-i18n="price.howpay.p1">Choose your plan and pay with debit/credit cards or crypto. Your connection is provisioned automatically within seconds.</p>
+        <p data-i18n="price.howpay.p2">No email. No account. No personal information. Fully anonymous.</p>
+      </div>
+      <!-- r125: refund assurance restored to the point of purchase. The
+           price.refund.h/p keys date from the owner-verified r3 decision
+           ("48h refund rule stated at the pricing page") but their hosting
+           element was dropped in a later pricing restructure — the keys
+           stayed translated x7 and unused ever since (a dead-key class the
+           r119 audit's list missed). Re-attached as a second .pricing-note;
+           no new i18n keys, no buster bump (HTML is network-first). -->
+      <div class="pricing-note">
+        <h3 data-i18n="price.refund.h">Refund policy</h3>
+        <p data-i18n="price.refund.p">If NullVPN does not work in your location within 48 hours of purchase, contact us on Telegram for a full refund. No questions asked.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2 data-i18n="price.cta.h">Ready when you are.</h2>
+      <p data-i18n="price.cta.p">Pay with card or TON, connect instantly. That's it.</p>
+      <a href="#plans" class="btn-primary btn-large" data-i18n="price.cta.btn">View Plans →</a>
+      <button type="button" class="share-chip" data-i18n-aria="share.btn" aria-label="Share NullVPN"><span data-i18n="share.btn">Share</span><span class="share-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span></button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <p data-i18n="footer.tagline">Private internet for everyone, everywhere.</p>
+        <div class="footer-links-social">
+          <a href="contact.html" data-i18n="nav.contact">Contact</a>
+          <a href="https://t.me/nullvpn_net" target="_blank" rel="noopener" data-i18n="footer.support" referrerpolicy="no-referrer">Support</a>
+          <a href="mailto:support@nullvpn.net?subject=NullVPN%20Support">support@nullvpn.net</a>
+          <a href="pricing.html" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+          <a href="web3.html">TON Web3</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.pages">Pages</h4>
+        <ul>
+          <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+          <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+          <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+          <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.legal">Legal</h4>
+        <ul>
+          <li><a href="refund.html" data-i18n="footer.refund">Refund Policy</a></li>
+          <li><a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+          <li><a href="terms.html" data-i18n="footer.terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p data-i18n="footer.copy">© 2026 NullVPN. Available on Web2, TON Web3, and all HTTP networks.</p></div>
+  </footer>
+
+  <script src="i18n.js?v=71"></script>
+  <script>
+    function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t);document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');}
+    (function(){var t=localStorage.getItem('theme')||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');})();
+  </script>
+
+<!-- Checkout Modal -->
+<div id="checkoutModal" class="checkout-overlay" style="display:none">
+  <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <button class="checkout-close" onclick="closeCheckout()" data-i18n-aria="checkout.close" aria-label="Close">&times;</button>
+    <h3 id="checkoutTitle"><span id="checkoutPlanName" data-i18n="price.p1.name">Monthly</span> · <span data-i18n="checkout.title">Checkout</span></h3>
+    <div class="checkout-plans" role="group" data-i18n-aria="price.h" aria-label="Pricing">
+      <button type="button" class="checkout-plan active" data-plan="monthly" data-i18n="price.p1.name" aria-pressed="true">Monthly</button>
+      <button type="button" class="checkout-plan" data-plan="quarterly" data-i18n="price.p3.name" aria-pressed="false">Quarterly</button>
+      <button type="button" class="checkout-plan" data-plan="annual" data-i18n="price.p4.name" aria-pressed="false">Annual</button>
+    </div>
+    <div class="checkout-amount" id="checkoutAmount">$3</div>
+    <p class="checkout-label" id="checkoutLeadBot" data-i18n="checkout.handoff.lead">Our Telegram bot is a backup purchase channel — pay there with debit/credit cards or crypto (TON / USDT).</p>
+    <p class="checkout-label" id="checkoutLeadOnline" style="display:none" data-i18n="checkout.online.lead">Pay by debit/credit cards or crypto (TON / USDT) on our secure checkout.</p>
+    <a id="checkoutOnlineCta" class="btn-primary btn-full" href="#" target="_blank" rel="noopener" style="display:none" data-i18n="checkout.online.cta">Pay online — secure checkout →</a>
+    <a id="checkoutBotCta" class="btn-primary btn-full" href="https://t.me/nullvpnnetbot" target="_blank" rel="noopener" data-i18n="checkout.handoff.cta" referrerpolicy="no-referrer">Continue in Telegram Bot →</a>
+    <p class="checkout-note" data-i18n="checkout.handoff.note">Your subscription activates automatically after payment.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Payment routing: two paths, zero hard dependency.
+  // 1) Hosted checkout (bedolaga cabinet guest landing) — active when
+  //    landingSlug is set AND the landing is live (probed on first open;
+  //    GET {apiBase}/api/cabinet/landing/{slug} is public, no auth).
+  //    CTA opens the cabinet SPA guest page {checkoutBase}/buy/{slug}
+  //    (the bot renders JSON, not HTML, at /cabinet/landing/*).
+  // 2) Telegram bot hand-off — always-on fallback (bedolaga handles
+  //    CryptoBot TON/USDT + card and activates the subscription).
+  var CHECKOUT={
+    apiBase:'https://api.nullvpn.net',
+    checkoutBase:'https://cdn.nullvpn.net',
+    landingSlug:'standard',
+    botUrl:'https://t.me/nullvpnnetbot'
+  };
+  var PLANS={
+    monthly:{price:'$3',nameKey:'price.p1.name',name:'Monthly'},
+    quarterly:{price:'$10',nameKey:'price.p3.name',name:'Quarterly'},
+    annual:{price:'$35',nameKey:'price.p4.name',name:'Annual'}
+  };
+  var AMOUNTS={en:{monthly:'$3',quarterly:'$10',annual:'$35'},ru:{monthly:'300 ₽',quarterly:'1 000 ₽',annual:'3 500 ₽'}};
+  function planAmount(plan){var m=AMOUNTS[document.documentElement.lang]||AMOUNTS.en;return m[plan]||AMOUNTS.en[plan];}
+  var landingState=null; // null=unprobed, false=unavailable, true=ready
+
+  function showOnline(){
+    var lb=document.getElementById('checkoutLeadBot');
+    var lo=document.getElementById('checkoutLeadOnline');
+    var oc=document.getElementById('checkoutOnlineCta');
+    var bc=document.getElementById('checkoutBotCta');
+    if(lb)lb.style.display='none';
+    if(lo)lo.style.display='';
+    if(oc){oc.style.display='';oc.href=CHECKOUT.checkoutBase+'/buy/'+encodeURIComponent(CHECKOUT.landingSlug);}
+    if(bc){bc.classList.remove('btn-primary');bc.classList.add('btn-ghost');}
+  }
+
+  function probeLanding(){
+    if(!CHECKOUT.landingSlug)return;
+    try{
+      fetch(CHECKOUT.apiBase+'/api/cabinet/landing/'+encodeURIComponent(CHECKOUT.landingSlug),{signal:AbortSignal.timeout(3500)})
+        .then(function(r){return r.ok?r.json():null;})
+        .then(function(d){
+          if(d&&d.tariffs&&d.tariffs.length>0){
+            landingState=true;
+            var m=document.getElementById('checkoutModal');
+            if(m&&m.style.display!=='none')showOnline();
+          }else{landingState=false;}
+        })
+        .catch(function(){landingState=false;});
+    }catch(e){landingState=false;}
+  }
+
+  // r101: plan switcher — the modal is a mini-checkout now. updatePlan is the
+  // single mutation path (h3 name + amount + chip state) shared by the plan
+  // cards (openCheckout) and the in-modal chips; the h3 keeps the plan name so
+  // the dialog's accessible name (aria-labelledby) tracks every switch.
+  function updatePlan(plan){
+    var p=PLANS[plan];if(!p)return;
+    var nameEl=document.getElementById('checkoutPlanName');
+    if(nameEl){nameEl.setAttribute('data-i18n',p.nameKey);nameEl.textContent=p.name;
+      // r44: re-apply translations so the freshly swapped plan name renders in
+      // the CURRENT language immediately (was: EN name until next setLang).
+      try { if (window.setLang) window.setLang(document.documentElement.lang || 'en'); } catch (_) {} }
+    document.getElementById('checkoutAmount').textContent=planAmount(plan);
+    var chips=document.querySelectorAll('.checkout-plan');
+    for(var i=0;i<chips.length;i++){
+      var on=chips[i].getAttribute('data-plan')===plan;
+      chips[i].classList.toggle('active',on);
+      chips[i].setAttribute('aria-pressed',on?'true':'false');
+    }
+  }
+  window.openCheckout=function(plan){
+    updatePlan(plan);
+    document.getElementById('checkoutModal').style.display='flex';
+    document.body.style.overflow='hidden'; /* r44: background scroll lock */
+    window.__checkoutReturnFocus=document.activeElement; /* r44: restore on close */
+    var closeBtn=document.querySelector('.checkout-close');
+    if(closeBtn)closeBtn.focus();
+    if(CHECKOUT.landingSlug&&landingState===null)probeLanding();
+    else if(CHECKOUT.landingSlug&&landingState===true)showOnline();
+  };
+
+  window.closeCheckout=function(){
+    document.getElementById('checkoutModal').style.display='none';
+    document.body.style.overflow='';
+    try { if (window.__checkoutReturnFocus && document.contains(window.__checkoutReturnFocus)) window.__checkoutReturnFocus.focus(); } catch (_) {}
+    window.__checkoutReturnFocus=null;
+  };
+
+  document.getElementById('checkoutModal').addEventListener('click',function(e){
+    if(e.target===this)closeCheckout();
+  });
+
+  /* r101: in-modal plan switching — one delegated listener on the group */
+  document.querySelector('.checkout-plans').addEventListener('click',function(e){
+    var b=e.target.closest('.checkout-plan');
+    if(b)updatePlan(b.getAttribute('data-plan'));
+  });
+
+  document.addEventListener('keydown',function(e){
+    var m=document.getElementById('checkoutModal');
+    if(e.key==='Escape'){
+      if(m&&m.style.display!=='none')closeCheckout();
+    }
+    /* r44: focus trap — Tab cycles inside the open dialog */
+    if(e.key==='Tab'&&m&&m.style.display!=='none'){
+      var f=m.querySelectorAll('button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
+      if(!f.length)return;
+      var first=f[0],last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    }
+  });
+})();
+</script>
+</body>
+</html>

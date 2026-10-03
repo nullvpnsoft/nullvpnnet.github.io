@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light dark"/>
+  <script>(function(){var L=["en","ru","fa","ar","es","ne","fr"],m=location.search.match(/[?&]lang=([a-zA-Z]{2})/),l=m?m[1].toLowerCase():null;try{l=l&&L.indexOf(l)>-1?l:(localStorage.getItem("nullvpn_lang")||"");}catch(e){l="";}if(l&&L.indexOf(l)>-1){document.documentElement.lang=l;document.documentElement.dir=(l==="fa"||l==="ar")?"rtl":"ltr";if(l!=="en"){document.documentElement.classList.add("nv-l");setTimeout(function(){document.documentElement.classList.remove("nv-l")},2000);}}})();</script>
+  <style>html.nv-l .nav-inner{visibility:hidden}</style>
+  <link rel="preload" href="/fonts/manrope-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <meta name="theme-color" content="#f7e7ce"/>
+  <meta name="theme-color" content="#0a0f1a" media="(prefers-color-scheme: dark)"/>
+  <script src="branding.js?v=5" defer></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="NullVPN vs NordVPN vs ExpressVPN vs ProtonVPN — an honest feature comparison."/>
+  <title>Compare VPNs — NullVPN</title>
+  <link rel="canonical" href="https://nullvpn.net/comparison.html"/>
+  <meta property="og:title" content="Compare VPNs — NullVPN"/>
+  <meta property="og:description" content="NullVPN vs NordVPN vs ExpressVPN vs ProtonVPN — an honest feature comparison."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://nullvpn.net/comparison.html"/>
+  <meta property="og:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <meta property="og:site_name" content="NullVPN"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:locale:alternate" content="ru_RU"/>
+  <meta property="og:locale:alternate" content="fa_IR"/>
+  <meta property="og:locale:alternate" content="ar_AR"/>
+  <meta property="og:locale:alternate" content="es_ES"/>
+  <meta property="og:locale:alternate" content="ne_NP"/>
+  <meta property="og:locale:alternate" content="fr_FR"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Compare VPNs — NullVPN"/>
+  <meta name="twitter:description" content="NullVPN vs NordVPN vs ExpressVPN vs ProtonVPN — an honest feature comparison."/>
+  <meta name="twitter:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta name="twitter:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <link rel="stylesheet" href="style.css?v=61"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <style>
+    .comp-section{padding:64px 24px;}
+    /* r6: wrapper lets the scroll-fade hint sit above the scrolling table
+       without moving (pseudo-elements inside the scroll container would scroll). */
+    .comp-table-box{position:relative;}
+    .comp-table-box::after{content:"";position:absolute;top:0;bottom:0;inset-inline-end:0;width:42px;background:linear-gradient(to left,var(--bg),transparent);pointer-events:none;}
+    [dir="rtl"] .comp-table-box::after{background:linear-gradient(to right,var(--bg),transparent);}
+    @media(min-width:1024px){.comp-table-box::after{display:none;}} /* table usually fits — no false hint */
+    .comp-table-wrap{overflow-x:auto;margin-top:32px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;-webkit-overflow-scrolling:touch;}
+    .comp-table-wrap::-webkit-scrollbar{height:8px;}
+    .comp-table-wrap::-webkit-scrollbar-track{background:transparent;}
+    .comp-table-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+    table{width:100%;min-width:640px;border-collapse:collapse;font-size:.92rem;}
+    th{background:var(--bg3);color:var(--text);font-weight:700;padding:14px 16px;text-align:start;white-space:nowrap;}
+    th.highlight{background:var(--accent2);color:#fff;}
+    td{padding:13px 16px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;}
+    td.highlight{background:rgba(var(--accent-rgb),.06);color:var(--text);font-weight:500;}
+    tr:last-child td{border-bottom:none;}
+    /* r6: sticky feature column — freeze the row label while values scroll.
+       Logical inset works in both LTR and RTL; solid bg hides content sliding
+       underneath; edge divider marks the freeze line. */
+    th:first-child,td:first-child{position:sticky;inset-inline-start:0;z-index:2;background:var(--bg);box-shadow:inset -1px 0 0 var(--border);}
+    [dir="rtl"] th:first-child,[dir="rtl"] td:first-child{box-shadow:inset 1px 0 0 var(--border);}
+    th:first-child{background:var(--bg3);z-index:3;}
+    /* r6: zebra striping for row tracking across 6 columns */
+    tbody tr:nth-child(even) td{background:rgba(127,127,127,.05);}
+    tbody tr:nth-child(even) td.highlight{background:rgba(var(--accent-rgb),.10);}
+    tbody tr:nth-child(even) td:first-child{background:var(--bg2);}
+    /* r83: tbody row headers — the first column is th[scope="row"] now
+       (screen readers associate the label with every cell in the row).
+       [scope] attribute selectors out-rank the th:first-child sticky rules
+       above, so the thead is untouched while row headers stay VISUALLY
+       IDENTICAL to the td they replaced (th defaults — bold, nowrap, bg3 —
+       would blow up the sticky column). Opaque bg required: the column is
+       sticky, translucency would let scrolled content show through. */
+    tbody th[scope="row"]{padding:13px 16px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;background:var(--bg);font-weight:400;text-align:start;white-space:normal;}
+    tbody tr:nth-child(even) th[scope="row"]{background:var(--bg2);}
+    tr:last-child th[scope="row"]{border-bottom:none;}
+    [data-theme="dark"] tbody tr:nth-child(even) td{background:rgba(127,127,127,.08);}
+    [data-theme="dark"] tbody tr:nth-child(even) td:first-child{background:var(--bg2);}
+    /* r59: hover column spotlight — engine in i18n.js (11), desktop pointers
+       only. Specificity mirrors the zebra rules so the tint wins on odd AND
+       even rows; the highlighted NullVPN column keeps a stronger tint under
+       the spotlight. Header uses accent3 because white on accent is 3.68:1
+       (< 4.5) while white on accent3 is 6.7:1 in both themes. */
+    td.comp-col-spot{background:rgba(var(--accent-rgb),.10);}
+    td.highlight.comp-col-spot{background:rgba(var(--accent-rgb),.18);}
+    tbody tr:nth-child(even) td.comp-col-spot{background:rgba(var(--accent-rgb),.14);}
+    tbody tr:nth-child(even) td.highlight.comp-col-spot{background:rgba(var(--accent-rgb),.22);}
+    th.comp-col-spot{background:var(--accent3);color:#fff;}
+    /* r66: PINNED column — arrived via a #col-X share link. The hover
+       spotlight's persistent cousin: same tint family (zebra-aware
+       specificity mirrors the spot rules), a hair stronger, plus a 1px ring
+       so the pin stays legible next to a hover spotlight on another column.
+       The pinned header gets the accent3 treatment and a light bottom bar
+       that reads as a selected tab. Arrival pulse is one-shot and gated on
+       reduced-motion (static tint is the fallback). */
+    td.comp-col-pin{background:rgba(var(--accent-rgb),.12);box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.45);}
+    td.highlight.comp-col-pin{background:rgba(var(--accent-rgb),.20);}
+    tbody tr:nth-child(even) td.comp-col-pin{background:rgba(var(--accent-rgb),.16);}
+    tbody tr:nth-child(even) td.highlight.comp-col-pin{background:rgba(var(--accent-rgb),.24);}
+    th.comp-col-pin{background:var(--accent3);color:#fff;box-shadow:inset 0 -3px 0 rgba(255,255,255,.85);}
+    /* r68: PINNED ROW — the row permalink's highlight, mirroring the column
+       pin family (r66). Selector specificity EQUALS the zebra rules, so these
+       must stay AFTER them (and after the dark zebra override) to win. */
+    tbody tr.comp-row-pin td{background:rgba(var(--accent-rgb),.12);box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.45);}
+    tbody tr.comp-row-pin td.highlight{background:rgba(var(--accent-rgb),.20);}
+    [data-theme="dark"] tbody tr.comp-row-pin td{background:rgba(var(--accent-rgb),.12);}
+    tbody tr.comp-row-pin td:first-child{background:rgba(var(--accent-rgb),.16);color:var(--text);}
+    /* r83: the row-pin tint must reach the new th row header too — placed
+       after the r83 continuity zebra so it wins the equal-specificity tie. */
+    tbody tr.comp-row-pin th[scope="row"]{background:rgba(var(--accent-rgb),.16);color:var(--text);}
+    @media (prefers-reduced-motion: no-preference){
+      tbody tr.comp-row-pin td{animation:compPinIn .55s ease-out;}
+      tbody tr.comp-row-pin th[scope="row"]{animation:compPinIn .55s ease-out;}
+    }
+    @media (prefers-reduced-motion: no-preference){
+      @keyframes compPinIn{from{background-color:rgba(var(--accent-rgb),.34);}}
+      td.comp-col-pin,th.comp-col-pin{animation:compPinIn .55s ease-out;}
+    }
+    /* r84: :target ring parity — every other deep-linkable estate surface
+       rings its target on arrival (r79 features rows, r78 pricing cards,
+       .faq-item via style.css covers FAQ + legal clauses). Comparison's 16
+       shareable targets (11 rows + 5 columns) relied on the JS pin tint
+       alone, which fires late and was moot while the row sat behind the
+       navbar (fixed estate-wide by the r84 style.css tr[id]/th[id] rule).
+       Same ring geometry as features' tr:target; the pin tint stays the
+       JS-driven complement, so a pinned row shows ring + tint together. */
+    .comp-table-wrap tbody tr:target{box-shadow:0 0 0 3px rgba(var(--accent-rgb),.28);}
+    .comp-table-wrap thead th:target{box-shadow:0 0 0 3px rgba(var(--accent-rgb),.28);}
+    /* r88: the matrix finally carries a real <caption> — the HTML-native way
+       to name a data table (announced by screen readers on table entry, a
+       complement to the r85 region aria-label which names the scroll
+       container, not the table). Styled as a quiet estate eyebrow so it
+       reads as table context, not a competing heading. text-align:start
+       keeps it flush-left in RTL locales; caption-side:top is the default
+       but stated explicitly so a future caption-side experiment can't
+       silently strand the label under the matrix. */
+    .comp-table-wrap caption{caption-side:top;text-align:start;padding:0 0 12px;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);}
+    /* r66: plan header cells become flex columns so the per-column share chip
+       sits under the provider name; nowrap on the label is kept by the chip
+       being its own flex line. Chip reuses .share-chip.faq-share styling —
+       only the inline-start margin is reset (it belongs to inline prose). */
+    th.comp-colhead{text-align:start;}
+    th.comp-colhead .share-chip.faq-share.comp-share{margin-inline-start:0;margin-top:6px;}
+    /* r67: verdict legend — sits above the table so the colour code is read
+       BEFORE scanning 66 cells. Swatch colours are the literal .yes/.no/
+       .partial values (with dark-theme counterparts), border-radius matches
+       the site's chip language, flex:none keeps dots square under wrap. */
+    .comp-legend{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:0 0 16px;padding:0;font-size:.86rem;color:var(--text2);}
+    .comp-legend li{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;}
+    .lg-swatch{width:12px;height:12px;border-radius:4px;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);}
+    [data-theme="dark"] .lg-swatch{box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);}
+    .lg-yes{background:var(--accent-text);}
+    .lg-partial{background:#8a5a00;}
+    [data-theme="dark"] .lg-partial{background:#fbbf24;}
+    .lg-no{background:#b91c1c;}
+    [data-theme="dark"] .lg-no{background:#f87171;}
+    /* r60: sticky header row (desktop ≥1024px). The wrapper's overflow-x:auto
+       computes overflow-y to auto, which would trap sticky inside a
+       never-vertically-scrolling container — but at this width the table fits
+       in every locale (verified 1024px × 7 langs, zero page overflow), so the
+       wrapper can drop horizontal scrolling entirely and thead th sticks
+       against the page scroll instead. top:108px tucks the header 0.6px under
+       the stable two-row navbar (108.6px across all 7 locales) so no sliver of
+       scrolling content peeks between them; z-index 5 keeps rows sliding
+       beneath while staying under the navbar (z-index 100). The box-shadow
+       divider replaces the border that border-collapse cannot carry on a
+       stuck cell. 641–1023px keeps the in-wrapper horizontal scroll with the
+       sticky first column (r6), where per-row reading makes a fixed header
+       less critical. */
+    @media(min-width:1024px){
+      .comp-table-wrap{overflow-x:visible;}
+      thead th{position:sticky;top:108px;z-index:5;box-shadow:0 1px 0 var(--border);}
+    }
+    /* r60: print de-stickying — paged media gives sticky cells no useful
+       scrollport and Chrome can pin them mid-page; print already unwraps the
+       table (style.css print block). */
+    @media print{
+      thead th{position:static;box-shadow:none;}
+      /* r93: the 752px matrix needs the full landscape sheet - portrait
+         would clip or shrink 6 columns onto one page width. */
+      @page{size:landscape;}
+    }
+    @media(max-width:640px){
+      table{font-size:.8rem;min-width:560px;}
+      th{padding:10px;}
+      td{padding:9px 10px;}
+      th:first-child,td:first-child{min-width:138px;max-width:190px;}
+    }
+    .yes{color:var(--accent-text);font-weight:600;}
+    td.highlight.yes{color:var(--accent-text);}
+    .no{color:#b91c1c;font-weight:600;}
+    [data-theme="dark"] .no{color:#f87171;}
+    .partial{color:#8a5a00;font-weight:600;}
+    [data-theme="dark"] .partial{color:#fbbf24;}
+    @media(hover:hover){
+      tbody tr:hover td.highlight{background:rgba(var(--accent-rgb),.14);}
+      tbody tr:nth-child(even):hover td.highlight{background:rgba(var(--accent-rgb),.18);}
+    }
+    .comp-note{max-width:720px;margin:40px auto 0;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px 32px;}
+    .comp-note h3{font-weight:600;margin-bottom:10px;}
+    .comp-note p{color:var(--text2);font-size:.93rem;line-height:1.7;margin-bottom:8px;}
+  </style>
+  <!-- r67: BreadcrumbList — Home > Compare. Static JSON-LD; the name matches
+       the site's nav/footer label. Search engines use it for result subtitles. -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://nullvpn.net/"},{"@type":"ListItem","position":2,"name":"Compare","item":"https://nullvpn.net/comparison.html"}]}
+  </script>
+  <!-- r82: ItemList — the eleven comparison rows as structured data, each
+       item's url pointing at its deep-link anchor (mirrors the r80 features
+       ItemList convention). -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Works on restrictive networks","url":"https://nullvpn.net/comparison.html#row-works-strict"},{"@type":"ListItem","position":2,"name":"Works behind strict NAT and firewalls at work/school","url":"https://nullvpn.net/comparison.html#row-works-mobile"},{"@type":"ListItem","position":3,"name":"No activity logs (by design)","url":"https://nullvpn.net/comparison.html#row-nologs"},{"@type":"ListItem","position":4,"name":"Flexible payment","url":"https://nullvpn.net/comparison.html#row-anonpay"},{"@type":"ListItem","position":5,"name":"Token-based sign-in, no passwords","url":"https://nullvpn.net/comparison.html#row-noaccount"},{"@type":"ListItem","position":6,"name":"No app store required","url":"https://nullvpn.net/comparison.html#row-noappstore"},{"@type":"ListItem","position":7,"name":"Multi-layer encryption","url":"https://nullvpn.net/comparison.html#row-obfuscation"},{"@type":"ListItem","position":8,"name":"Automatic backup routes","url":"https://nullvpn.net/comparison.html#row-autofailover"},{"@type":"ListItem","position":9,"name":"Dedicated personal server","url":"https://nullvpn.net/comparison.html#row-dedicated"},{"@type":"ListItem","position":10,"name":"Reachable via Web3 mirror","url":"https://nullvpn.net/comparison.html#row-reachable"},{"@type":"ListItem","position":11,"name":"Setup time","url":"https://nullvpn.net/comparison.html#row-setuptime"}]}
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-top-row">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <div class="nav-actions">
+          <a href="download.html" class="btn-nav" data-i18n="nav.download">Download App</a>
+          <a href="contact.html" class="btn-nav" data-i18n="nav.contact">Contact</a>
+          <a href="pricing.html" class="btn-nav-primary" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+        </div>
+        <div class="nav-controls">
+          <div class="lang-selector">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">EN</button>
+            <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" title="Русский">РУ</button>
+            <button class="lang-btn" data-lang="fa" onclick="setLang('fa')" title="فارسی">فا</button>
+            <button class="lang-btn" data-lang="ar" onclick="setLang('ar')" title="العربية">ع</button>
+            <button class="lang-btn" data-lang="es" onclick="setLang('es')" title="Español">ES</button>
+            <button class="lang-btn" data-lang="ne" onclick="setLang('ne')" title="नेपाली">ने</button>
+            <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" title="Français">FR</button>
+          </div>
+          <div class="theme-toggle">
+            <button class="theme-btn" id="themeLight" onclick="setTheme('light')" data-i18n-aria="theme.light" aria-label="Light mode">☀️</button>
+            <button class="theme-btn" id="themeDark" onclick="setTheme('dark')" data-i18n-aria="theme.dark" aria-label="Dark mode">🌙</button>
+          </div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+        <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+        <li><a aria-current="page" href="comparison.html" class="active" data-i18n="nav.compare">Compare</a></li>
+        <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+        <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1" class="page-hero">
+    <div class="container">
+      <h1><span data-i18n="comp.h1a">NullVPN vs.</span><br/><span data-i18n="comp.h1b">the rest.</span></h1>
+      <p data-i18n="comp.sub">An honest comparison for people who actually need their tunnel to keep working on difficult networks.</p>
+    </div>
+  </main>
+
+  <section class="comp-section">
+    <div class="container">
+      <!-- r66 legend → r67: the status colours (accent green / amber / red)
+           were never decoded for the reader. A compact legend above the table
+           names the three verdicts; swatches use the EXACT cell colours
+           (including the dark-theme variants) so the mapping is unambiguous.
+           The list is plain visible content — no aria tricks needed. -->
+      <ul class="comp-legend">
+        <li><span class="lg-swatch lg-yes" aria-hidden="true"></span><span data-i18n="comp.legend.yes">Works as claimed</span></li>
+        <li><span class="lg-swatch lg-partial" aria-hidden="true"></span><span data-i18n="comp.legend.partial">Partially</span></li>
+        <li><span class="lg-swatch lg-no" aria-hidden="true"></span><span data-i18n="comp.legend.no">Does not deliver</span></li>
+      </ul>
+      <!-- r73: text export — builds a chat-pasteable summary of the matrix
+           (row labels + per-plan verdicts, current locale, canonical URL
+           attribution) from the live DOM. Deliberately NOT .share-chip: the
+           delegated share engine would open a share sheet for the page URL;
+           this copies TEXT, so it carries its own class and handler
+           (engine section 14). -->
+      <div class="comp-tools">
+        <button type="button" class="copy-text-chip"><span data-i18n="comp.copy.text">Copy as text</span><span class="share-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></button>
+      </div>
+      <div class="comp-table-box">
+      <!-- r85: keyboard-scrollable region (WCAG 2.1.1) — see features.html
+           r85 note. This matrix is the widest scroll on the estate and the
+           one r82's ItemList advertises. -->
+      <div class="comp-table-wrap" tabindex="0" role="region" aria-label="VPN comparison matrix" data-i18n-aria="a11y.tbl.comparison">
+        <table>
+          <caption data-i18n="comp.table.caption">Feature matrix — identical criteria checked for every service.</caption>
+          <thead>
+            <tr>
+              <!-- r83: scope estate convention — thead cols + tbody row
+                   headers (first column is th[scope=row] now, visually
+                   identical via the r83 continuity rules above). -->
+              <th scope="col" data-i18n="comp.table.feature">Feature</th>
+              <!-- r66: col-* ids turn each plan column into a deep-linkable,
+                   shareable target (see i18n.js section 14 pin engine) -->
+              <th scope="col" class="highlight" id="col-nullvpn">NullVPN</th>
+              <th scope="col" data-i18n="comp.table.nordvpn" id="col-nordvpn">NordVPN</th>
+              <th scope="col" data-i18n="comp.table.expressvpn" id="col-expressvpn">ExpressVPN</th>
+              <th scope="col" data-i18n="comp.table.protonvpn" id="col-protonvpn">ProtonVPN</th>
+              <th scope="col" data-i18n="comp.table.outline" id="col-selfhosted">Self-hosted proxies</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row-works-strict"><th scope="row" data-i18n="comp.row.works.strict">Works on restrictive networks</th><td class="highlight yes" data-i18n="comp.val.yes">Yes ✔</td><td class="no" data-i18n="comp.val.unreliable">Unreliable ✘</td><td class="no" data-i18n="comp.val.unreliable">Unreliable ✘</td><td class="partial" data-i18n="comp.val.partial">Partial</td><td class="partial" data-i18n="comp.val.manual">Manual setup</td></tr>
+            <tr id="row-works-mobile"><th scope="row" data-i18n="comp.row.works.mobile">Works behind strict NAT and firewalls at work/school</th><td class="highlight yes" data-i18n="comp.val.yes">Yes ✔</td><td class="no" data-i18n="comp.val.blocked">Struggles ✘</td><td class="partial" data-i18n="comp.val.unreliable">Unreliable ✘</td><td class="partial" data-i18n="comp.val.partial">Partial</td><td class="partial" data-i18n="comp.val.manual">Manual setup</td></tr>
+            <tr id="row-nologs"><th scope="row" data-i18n="comp.row.nologs">No activity logs (by design)</th><td class="highlight yes" data-i18n="comp.val.yes">Yes ✔</td><td class="partial" data-i18n="comp.val.policyonly">Policy only</td><td class="partial" data-i18n="comp.val.policyonly">Policy only</td><td class="partial" data-i18n="comp.val.policyonly">Policy only</td><td class="yes" data-i18n="comp.val.yes">Yes ✔</td></tr>
+            <tr id="row-anonpay"><th scope="row" data-i18n="comp.row.anonpay">Flexible payment</th><td class="highlight yes" data-i18n="comp.val.ton">Debit/credit cards · Crypto ✔</td><td class="no" data-i18n="comp.val.cardpaypal">Card/PayPal</td><td class="no" data-i18n="comp.val.cardpaypal">Card/PayPal</td><td class="no" data-i18n="comp.val.cardpaypal">Card/PayPal</td><td class="no" data-i18n="comp.val.cardoutline">Card ✘</td></tr>
+            <tr id="row-noaccount"><th scope="row" data-i18n="comp.row.noaccount">Token-based sign-in, no passwords</th><td class="highlight yes" data-i18n="comp.val.yes">Yes ✔</td><td class="no" data-i18n="comp.val.required">Required ✘</td><td class="no" data-i18n="comp.val.required">Required ✘</td><td class="no" data-i18n="comp.val.required">Required ✘</td><td class="partial" data-i18n="comp.val.depends">Depends</td></tr>
+            <tr id="row-noappstore"><th scope="row" data-i18n="comp.row.noappstore">No app store required</th><td class="highlight yes" data-i18n="comp.val.directapk">Direct APK ✔</td><td class="no" data-i18n="comp.val.appstore">App store ✘</td><td class="no" data-i18n="comp.val.appstore">App store ✘</td><td class="no" data-i18n="comp.val.appstore">App store ✘</td><td class="partial" data-i18n="comp.varies">Varies</td></tr>
+            <tr id="row-obfuscation"><th scope="row" data-i18n="comp.row.obfuscation">Multi-layer encryption</th><td class="highlight yes" data-i18n="comp.val.deep">Deep ✔</td><td class="partial" data-i18n="comp.val.obfservers">Multi-layer ✔</td><td class="partial" data-i18n="comp.val.lightway">Lightway</td><td class="partial" data-i18n="comp.val.stealth">Stealth</td><td class="partial" data-i18n="comp.val.some">Some</td></tr>
+            <tr id="row-autofailover"><th scope="row" data-i18n="comp.row.autofailover">Automatic backup routes</th><td class="highlight yes" data-i18n="comp.val.yes">Yes ✔</td><td class="no" data-i18n="comp.val.no">No ✘</td><td class="no" data-i18n="comp.val.no">No ✘</td><td class="no" data-i18n="comp.val.no">No ✘</td><td class="no" data-i18n="comp.val.no">No ✘</td></tr>
+            <tr id="row-dedicated"><th scope="row" data-i18n="comp.row.dedicated">Dedicated personal server</th><td class="highlight yes" data-i18n="comp.val.yes">Yes ✔</td><td class="no" data-i18n="comp.val.shared">Shared ✘</td><td class="no" data-i18n="comp.val.shared">Shared ✘</td><td class="no" data-i18n="comp.val.shared">Shared ✘</td><td class="no" data-i18n="comp.val.selfhosted">Self-hosted</td></tr>
+            <tr id="row-reachable"><th scope="row" data-i18n="comp.row.reachable">Reachable via Web3 mirror</th><td class="highlight yes" data-i18n="comp.val.telegramweb3">Telegram + Web3 ✔</td><td class="no" data-i18n="comp.val.websiteonly">Website only ✘</td><td class="no" data-i18n="comp.val.websiteonly">Website only ✘</td><td class="no" data-i18n="comp.val.websiteonly">Website only ✘</td><td class="partial" data-i18n="comp.varies">Varies</td></tr>
+            <tr id="row-setuptime"><th scope="row" data-i18n="comp.row.setuptime">Setup time</th><td class="highlight yes" data-i18n="comp.val.seconds60">60 seconds</td><td class="partial" data-i18n="comp.val.minutes5">5+ min</td><td class="partial" data-i18n="comp.val.minutes5">5+ min</td><td class="partial" data-i18n="comp.val.minutes5">5+ min</td><td class="no" data-i18n="comp.val.hours">Hours (manual)</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="comp-note">
+        <h3 data-i18n="comp.note.h">Why NullVPN is built differently</h3>
+        <p data-i18n="comp.note.p1">Consumer VPNs are built for general privacy in open markets. They route many users through shared servers, and they are not optimised for difficult network environments.</p>
+        <p data-i18n="comp.note.p2">NullVPN is designed from the ground up for one purpose: a reliable private tunnel that keeps working on any network — mobile, fixed, public, or restrictive. Every design decision flows from that single goal.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2 data-i18n="comp.cta.h">Stop Playing VPN Whack-a-Mole</h2>
+      <p data-i18n="comp.cta.p">Tired of buying a new VPN subscription every month? Try something architecturally different.</p>
+      <a href="pricing.html" class="btn-primary btn-large" data-i18n="comp.cta.btn">Get NullVPN from $3/month →</a>
+      <button type="button" class="share-chip" data-i18n-aria="share.btn" aria-label="Share NullVPN"><span data-i18n="share.btn">Share</span><span class="share-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span></button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <p data-i18n="footer.tagline">Private internet for everyone, everywhere.</p>
+        <div class="footer-links-social">
+          <a href="contact.html" data-i18n="nav.contact">Contact</a>
+          <a href="https://t.me/nullvpn_net" target="_blank" rel="noopener" data-i18n="footer.support" referrerpolicy="no-referrer">Support</a>
+          <a href="mailto:support@nullvpn.net?subject=NullVPN%20Support">support@nullvpn.net</a>
+          <a href="pricing.html" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+          <a href="web3.html">TON Web3</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.pages">Pages</h4>
+        <ul>
+          <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+          <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+          <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+          <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.legal">Legal</h4>
+        <ul>
+          <li><a href="refund.html" data-i18n="footer.refund">Refund Policy</a></li>
+          <li><a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+          <li><a href="terms.html" data-i18n="footer.terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p data-i18n="footer.copy">© 2026 NullVPN. Available on Web2, TON Web3, and all HTTP networks.</p></div>
+  </footer>
+
+  <script src="i18n.js?v=71"></script>
+  <script>
+    function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t);document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');}
+    (function(){var t=localStorage.getItem('theme')||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');})();
+    /* r84: the r68 pin engine scrolls its target with the live --nav-h margin,
+       but on a deep-link load it can race the webfont (navbar short pre-font)
+       and land 1-50px behind the final navbar. Re-firing the engine's own
+       hashchange listener once fonts settle re-scrolls with the final margin;
+       applyCompPin is idempotent (unpins → repins → rescroll) and is the only
+       hashchange listener on the estate, so the synthetic dispatch is inert
+       for everything else. */
+    (function(){
+      if (!/^#(col-|row-)/.test(location.hash)) return;
+      var retarget = function(){ window.dispatchEvent(new Event('hashchange')); };
+      if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+        document.fonts.ready.then(function(){ setTimeout(retarget, 60); });
+      } else {
+        setTimeout(retarget, 350);
+      }
+    })();
+  </script>
+</body>
+</html>

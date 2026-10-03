@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light dark"/>
+  <script>(function(){var L=["en","ru","fa","ar","es","ne","fr"],m=location.search.match(/[?&]lang=([a-zA-Z]{2})/),l=m?m[1].toLowerCase():null;try{l=l&&L.indexOf(l)>-1?l:(localStorage.getItem("nullvpn_lang")||"");}catch(e){l="";}if(l&&L.indexOf(l)>-1){document.documentElement.lang=l;document.documentElement.dir=(l==="fa"||l==="ar")?"rtl":"ltr";if(l!=="en"){document.documentElement.classList.add("nv-l");setTimeout(function(){document.documentElement.classList.remove("nv-l")},2000);}}})();</script>
+  <script>/* r132: pre-paint install reveal — flag managed by i18n.js section 9 */try{if(localStorage.getItem("nv_bip")==="1"&&!(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)){document.documentElement.classList.add("bip-ready");}}catch(e){}</script>
+  <style>html.nv-l .nav-inner{visibility:hidden}html.nv-l .dh-cta,html.nv-l .dh-note{visibility:hidden}</style>
+  <link rel="preload" href="/fonts/manrope-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <meta name="theme-color" content="#f7e7ce"/>
+  <!-- r75: preconnect — the release-metadata fetcher hits api.github.com on
+       every visit (CORS fetch); opening the connection early shaves DNS+TLS
+       (~100-200ms) off the meta grid fill. -->
+  <link rel="preconnect" href="https://api.github.com" crossorigin/>
+  <meta name="theme-color" content="#0a0f1a" media="(prefers-color-scheme: dark)"/>
+  <script src="branding.js?v=5" defer></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="description" content="Download the NullVPN app — official Android builds with checksums on GitHub Releases."/>
+  <title>NullVPN — Download the app</title>
+  <link rel="canonical" href="https://nullvpn.net/download.html"/>
+  <!-- r57: explicit app entity for search engines. No aggregateRating (never
+       fabricated) and no softwareVersion (filled live by the release fetcher
+       below) — only stable facts belong in structured data. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "NullVPN",
+    "operatingSystem": "Android",
+    "applicationCategory": "SecurityApplication",
+    "url": "https://nullvpn.net/download.html",
+    "description": "Official NullVPN Android app. Downloads and SHA-256 checksums are published with every release on GitHub Releases.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": { "@type": "Organization", "name": "NullVPN", "url": "https://nullvpn.net/" }
+  }
+  </script>
+  <meta property="og:title" content="NullVPN — Download the app"/>
+  <meta property="og:description" content="Download the NullVPN app — official Android builds with checksums on GitHub Releases."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://nullvpn.net/download.html"/>
+  <meta property="og:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <meta property="og:site_name" content="NullVPN"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:locale:alternate" content="ru_RU"/>
+  <meta property="og:locale:alternate" content="fa_IR"/>
+  <meta property="og:locale:alternate" content="ar_AR"/>
+  <meta property="og:locale:alternate" content="es_ES"/>
+  <meta property="og:locale:alternate" content="ne_NP"/>
+  <meta property="og:locale:alternate" content="fr_FR"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="NullVPN — Download the app"/>
+  <meta name="twitter:description" content="Download the NullVPN app — official Android builds with checksums on GitHub Releases."/>
+  <meta name="twitter:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta name="twitter:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <link rel="stylesheet" href="style.css?v=61"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <style>
+    .dl-hero {
+      min-height: 52vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 0;
+    }
+    .dl-hero .container { max-width: 560px; }
+    .dh-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .dh-title { font-size: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem); font-weight: 700; margin-bottom: 0.75rem; }
+    .dh-sub { color: var(--text2); margin-bottom: 2rem; max-width: 42ch; margin-left: auto; margin-right: auto; line-height: 1.6; }
+    .dh-cta { margin-bottom: 12px; }
+    .dh-note { color: var(--text2); font-size: 0.85rem; }
+    .dh-note a { color: var(--accent); }
+  </style>
+  <!-- r67: BreadcrumbList — Home > Download. Static JSON-LD; the name matches
+       the site's nav/footer label. Search engines use it for result subtitles. -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://nullvpn.net/"},{"@type":"ListItem","position":2,"name":"Download","item":"https://nullvpn.net/download.html"}]}
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-top-row">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <div class="nav-actions">
+          <a href="download.html" class="btn-nav active" aria-current="page" data-i18n="nav.download">Download App</a>
+          <a href="contact.html" class="btn-nav" data-i18n="nav.contact">Contact</a>
+          <a href="pricing.html" class="btn-nav btn-nav-primary" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+        </div>
+        <div class="nav-controls">
+          <div class="lang-selector">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">EN</button>
+            <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" title="&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;">&#1056;&#1059;</button>
+            <button class="lang-btn" data-lang="fa" onclick="setLang('fa')" title="&#1601;&#1575;&#1585;&#1587;&#1740;">&#1601;&#1575;</button>
+            <button class="lang-btn" data-lang="ar" onclick="setLang('ar')" title="&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;">&#1593;</button>
+            <button class="lang-btn" data-lang="es" onclick="setLang('es')" title="Espa&ntilde;ol">ES</button>
+            <button class="lang-btn" data-lang="ne" onclick="setLang('ne')" title="&#2344;&#2375;&#2346;&#2366;&#2354;&#2368;">&#2344;&#2375;</button>
+            <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" title="Français">FR</button>
+          </div>
+          <div class="theme-toggle">
+            <button class="theme-btn" id="themeLight" onclick="setTheme('light')" data-i18n-aria="theme.light" aria-label="Light mode">&#9728;&#65039;</button>
+            <button class="theme-btn" id="themeDark" onclick="setTheme('dark')" data-i18n-aria="theme.dark" aria-label="Dark mode">&#127769;</button>
+          </div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+        <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+        <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+        <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+        <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1" class="dl-hero">
+    <div class="container">
+      <div class="dh-icon" aria-hidden="true">⬇️</div>
+      <h1 class="dh-title" data-i18n="dl.hero.h">Download NullVPN</h1>
+      <p class="dh-sub" data-i18n="dl.hero.p">Get the official Android app from our GitHub Releases page — every build ships with its checksum.</p>
+      <p class="dh-cta"><a class="btn-primary btn-large" href="https://github.com/nullvpnsoft/nullvpnnet.github.io/releases" target="_blank" rel="noopener" data-i18n="dl.hero.btn" referrerpolicy="no-referrer">Get it on GitHub Releases →</a>
+        <a class="btn-ghost btn-large" href="https://github.com/nullvpnsoft/nullvpnnet.github.io" target="_blank" rel="noopener" data-i18n="dl.hero.source" referrerpolicy="no-referrer">Browse the source code</a> <button id="dl-install" class="btn-ghost btn-large" type="button" hidden data-i18n="dl.install">Install the app</button> <button type="button" class="share-chip" data-i18n-aria="share.btn" aria-label="Share NullVPN"><span data-i18n="share.btn">Share</span><span class="share-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span></button></p>
+      <p class="os-hint" id="osHintAndroid" hidden data-i18n="dl.hint.android">You’re on Android — the APK above is exactly what you need.</p>
+      <p class="os-hint os-hint-alt" id="osHintOther" hidden data-i18n="dl.hint.other">Not on Android? The app currently ships as an Android APK — for other platforms, ask via the Telegram bot.</p>
+      <p class="dh-note" data-i18n="dl.hero.note">Locked out of GitHub? Reach us via <a href="https://t.me/nullvpnnetbot" target="_blank" rel="noopener" referrerpolicy="no-referrer">@nullvpnnetbot</a>.</p>
+    </div>
+  </main>
+
+  <section class="dl-verify">
+    <div class="container">
+      <div id="release-meta" aria-live="polite"></div>
+      <h3 data-i18n="dl.verify.h">Verify before you install</h3>
+      <p data-i18n="dl.meta.none">Version, checksum (SHA-256) and system requirements are published with every release on our GitHub Releases page — check them before installing.</p>
+      <h3 data-i18n="dl.steps.h">Installation</h3>
+      <ol class="dl-steps">
+        <li data-i18n="dl.step1">Download the APK from our GitHub Releases page — not from third-party mirrors.</li>
+        <li data-i18n="dl.step2">Verify the SHA-256 checksum matches the value published with the release.</li>
+        <li data-i18n="dl.step3">Allow installation from this source only for this file.</li>
+        <li data-i18n="dl.step4">Open the app, sign in or create an account, and tap Connect.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <p data-i18n="footer.tagline">Private internet for everyone, everywhere.</p>
+        <div class="footer-links-social">
+          <a href="contact.html" data-i18n="nav.contact">Contact</a>
+          <a href="https://t.me/nullvpn_net" target="_blank" rel="noopener" data-i18n="footer.support" referrerpolicy="no-referrer">Support</a>
+          <a href="mailto:support@nullvpn.net?subject=NullVPN%20Support">support@nullvpn.net</a>
+          <a href="pricing.html" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+          <a href="https://github.com/nullvpnsoft/nullvpnnet.github.io/releases" target="_blank" rel="noopener" data-i18n="footer.releases" referrerpolicy="no-referrer">GitHub Releases</a>
+          <a href="web3.html">TON Web3</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.pages">Pages</h4>
+        <ul>
+          <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+          <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+          <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+          <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.legal">Legal</h4>
+        <ul>
+          <li><a href="refund.html" data-i18n="footer.refund">Refund Policy</a></li>
+          <li><a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+          <li><a href="terms.html" data-i18n="footer.terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer.copy">© 2026 NullVPN. Available on Web2, TON Web3, and all HTTP networks.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ── Release metadata ──────────────────────────────────────────────────────
+    // 1) Static data island (optional, wins if filled):
+    //    { version, released, packageName, sizeMB, sha256, minAndroid, status }
+    // 2) Live source: the public GitHub Releases of this repo. Once a release
+    //    with an .apk asset is published, this page fills the meta grid and
+    //    repoints the hero button at the direct APK download — no redeploy
+    //    needed. Fails silent; static fallbacks stay.
+    // r71: seed a placeholder snapshot so the metadata grid renders at FULL
+    // size on first paint — the async GitHub fetch then swaps values into an
+    // identically-shaped grid, so the fill causes no layout shift (the page's
+    // dominant CLS source: 7 cards appearing mid-page after the fetch lands).
+    // Em dashes are the honest "could not load" marker; DL_META_I18N
+    // localizes the row labels in every language.
+    window.RELEASE_META = { version: '—', released: '—', packageName: '—', sizeMB: '—', sha256: '—', minAndroid: '—', status: '—' };
+    var RELEASES_API = 'https://api.github.com/repos/nullvpnsoft/nullvpnnet.github.io/releases/latest';
+    var APK_RE = /\.apk$/i;
+    var SHA_RE = /sha-?256[^a-f0-9]*([a-f0-9]{64})/i;
+
+    function L(k, fb) {
+      var m = window.DL_META_I18N;
+      return (m && m[k]) || fb;
+    }
+    function renderMeta(rows) {
+      var el = document.getElementById('release-meta');
+      if (!el) return;
+      var html = '<dl class="rel-grid">';
+      rows.forEach(function (r) { if (r[1]) html += '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; });
+      el.innerHTML = html + '</dl>';
+    }
+
+    function renderStatic(m) {
+      renderMeta([[L('version', 'Version'), m.version], [L('released', 'Released'), m.released], [L('package', 'Package'), m.packageName],
+                  [L('size', 'Size'), m.sizeMB ? m.sizeMB + ' MB' : '—'], ['SHA-256', m.sha256],
+                  [L('minandroid', 'Minimum Android'), m.minAndroid], [L('status', 'Status'), m.status]]);
+    }
+
+    // r112: minimum-Android line in release notes, e.g. "Minimum Android: 8.0"
+    // (optional — releases without it keep the honest em-dash placeholder, so
+    // the grid keeps the placeholder's 7-cell shape and the r71 zero-CLS
+    // contract survives the fill).
+    var MIN_ANDROID_RE = /minimum\s+android\s*[:\u2014-]?\s*v?(\d+(?:\.\d+)?)/i;
+
+    function applyRelease(rel) {
+      if (!rel || !rel.tag_name) return;
+      // r112: remembered so a language switch can re-render the SAME release
+      // with fresh labels (see RERENDER_RELEASE_META below).
+      window.__lastRelease = rel;
+      var apk = null;
+      (rel.assets || []).forEach(function (a) { if (!apk && APK_RE.test(a.name)) apk = a; });
+      var sha = rel.body ? (SHA_RE.exec(rel.body) || [])[1] : null;
+      var minA = rel.body ? (MIN_ANDROID_RE.exec(rel.body) || [])[1] : null;
+      renderMeta([
+        [L('version', 'Version'), rel.tag_name],
+        [L('released', 'Released'), rel.published_at ? rel.published_at.slice(0, 10) : '—'],
+        [L('package', 'Package'), apk ? apk.name : '—'],
+        [L('size', 'Size'), apk ? Math.round(apk.size / 1048576 * 10) / 10 + ' MB' : '—'],
+        ['SHA-256', sha || '—'],
+        [L('minandroid', 'Minimum Android'), minA || '—'],
+        [L('status', 'Status'), apk ? L('stable', 'Stable') : '—'],
+      ]);
+      // Hero button → direct APK download when an asset exists
+      if (apk && apk.browser_download_url) {
+        var btn = document.querySelector('.dh-cta a');
+        if (btn) btn.href = apk.browser_download_url;
+      }
+    }
+
+    (function () {
+      if (window.RELEASE_META) renderStatic(window.RELEASE_META);
+      if (typeof fetch !== 'function') return;
+      try {
+        fetch(RELEASES_API, { headers: { 'Accept': 'application/vnd.github+json' } })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (rel) { if (rel && rel.tag_name) applyRelease(rel); })
+          .catch(function () { /* offline / rate-limited: static fallback stays */ });
+      } catch (_) { /* never break the page over release metadata */ }
+    })();
+
+    /* r112: language-switch re-render — i18n.js refreshes DL_META_I18N on
+       every applyLang, but nothing re-rendered the ALREADY-RENDERED grid, so
+       after switching language the cells kept the previous language's labels
+       (and the hardcoded EN "Stable" stayed forever). This hook re-renders
+       from the best data known — the live release if the fetch landed, else
+       the static placeholder — and i18n.js calls it right after refreshing
+       the label map. Guarded: only download.html defines it. */
+    window.RERENDER_RELEASE_META = function () {
+      if (window.__lastRelease) applyRelease(window.__lastRelease);
+      else if (window.RELEASE_META) renderStatic(window.RELEASE_META);
+    };
+  </script>
+  <script>
+    // ── Platform hint (r38) ─────────────────────────────────────────
+    // Android visitors get reassurance; everyone else a pointer to the bot.
+    (function () {
+      var isAndroid = /Android/i.test(navigator.userAgent || '');
+      var el = document.getElementById(isAndroid ? 'osHintAndroid' : 'osHintOther');
+      if (el) el.hidden = false;
+    })();
+  </script>
+  <script src="i18n.js?v=71"></script>
+  <script>
+    function setTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');
+      document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');
+    }
+    (function() {
+      var t = localStorage.getItem('theme') || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+      document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');
+      document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');
+    })();
+  </script>
+
+</body>
+</html>

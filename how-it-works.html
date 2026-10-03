@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light dark"/>
+  <script>(function(){var L=["en","ru","fa","ar","es","ne","fr"],m=location.search.match(/[?&]lang=([a-zA-Z]{2})/),l=m?m[1].toLowerCase():null;try{l=l&&L.indexOf(l)>-1?l:(localStorage.getItem("nullvpn_lang")||"");}catch(e){l="";}if(l&&L.indexOf(l)>-1){document.documentElement.lang=l;document.documentElement.dir=(l==="fa"||l==="ar")?"rtl":"ltr";if(l!=="en"){document.documentElement.classList.add("nv-l");setTimeout(function(){document.documentElement.classList.remove("nv-l")},2000);}}})();</script>
+  <style>html.nv-l .nav-inner{visibility:hidden}</style>
+  <link rel="preload" href="/fonts/manrope-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <meta name="theme-color" content="#f7e7ce"/>
+  <meta name="theme-color" content="#0a0f1a" media="(prefers-color-scheme: dark)"/>
+  <script src="branding.js?v=5" defer></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="How NullVPN works — why it is different from consumer VPNs, how the tunnel handles restrictive networks, and how to get connected."/>
+  <title>How It Works — NullVPN</title>
+  <link rel="canonical" href="https://nullvpn.net/how-it-works.html"/>
+  <meta property="og:title" content="How It Works — NullVPN"/>
+  <meta property="og:description" content="How NullVPN works — why it is different from consumer VPNs, how the tunnel handles restrictive networks, and how to get connected."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://nullvpn.net/how-it-works.html"/>
+  <meta property="og:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <meta property="og:site_name" content="NullVPN"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:locale:alternate" content="ru_RU"/>
+  <meta property="og:locale:alternate" content="fa_IR"/>
+  <meta property="og:locale:alternate" content="ar_AR"/>
+  <meta property="og:locale:alternate" content="es_ES"/>
+  <meta property="og:locale:alternate" content="ne_NP"/>
+  <meta property="og:locale:alternate" content="fr_FR"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="How It Works — NullVPN"/>
+  <meta name="twitter:description" content="How NullVPN works — why it is different from consumer VPNs, how the tunnel handles restrictive networks, and how to get connected."/>
+  <meta name="twitter:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta name="twitter:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <link rel="stylesheet" href="style.css?v=61"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <style>
+    .unblock-section{padding:64px 24px;background:var(--bg2)}
+    .unblock-section h2{text-align:center;margin-bottom:12px;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:700}
+    .unblock-section .lead{text-align:center;color:var(--text2);max-width:600px;margin:0 auto 36px}
+    .method-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:800px;margin:0 auto}
+    @media(max-width:600px){.method-grid{grid-template-columns:1fr}}
+    .method-card{border:1px solid var(--border);border-radius:12px;padding:28px 24px;background:var(--bg)}
+    .method-card.featured{border-color:var(--accent);background:rgba(var(--accent-rgb),.07)}
+    .method-card h3{font-size:1rem;margin-bottom:14px;font-weight:600}
+    .method-card ul{padding-left:18px;color:var(--text2);font-size:.93rem;line-height:1.7}
+    .method-card .verdict{margin-top:14px;font-size:.88rem;padding:8px 12px;border-radius:7px;background:rgba(0,0,0,.04)}
+    .method-card.featured .verdict{color:var(--accent)}
+    .analogy-box{max-width:680px;margin:40px auto 0;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:28px 32px}
+    .analogy-box h3{margin-bottom:14px;font-size:1rem;font-weight:600}
+    .analogy-box p{color:var(--text2);font-size:.95rem;line-height:1.65;margin-bottom:10px}
+    .port-insight{max-width:680px;margin:28px auto 0;background:rgba(var(--accent-rgb),.09);border:1.5px solid var(--accent);border-radius:12px;padding:24px 28px;text-align:center}
+    .port-insight h4{margin-bottom:10px;font-weight:600}
+    .port-insight p{color:var(--text2);font-size:.93rem;line-height:1.6}
+    .flow-section{padding:64px 24px;background:var(--bg)}
+    .flow-section h2{text-align:center;margin-bottom:12px;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:700}
+    .flow-lead{text-align:center;color:var(--text2);max-width:620px;margin:0 auto 34px}
+    .flow-group-h{max-width:860px;margin:0 auto 6px;font-size:.85rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;text-align:center}
+    .flow-grid{display:grid;gap:0;max-width:860px;margin:0 auto;position:relative}
+    .flow-group-h + .flow-grid{margin-bottom:34px}
+    .flow-grid:last-of-type{margin-bottom:0}
+    .flow-grid-3{grid-template-columns:repeat(3,1fr)}
+    .flow-grid-4{grid-template-columns:repeat(4,1fr)}
+    .flow-step{text-align:center;padding:24px 16px;position:relative}
+    @media(min-width:801px){.flow-grid-3 .flow-step:not(:last-child)::after,.flow-grid-4 .flow-step:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--accent)}}
+    .flow-icon{font-size:2rem;margin-bottom:10px;line-height:1.2}
+    .flow-icon.glyph{color:var(--accent);font-weight:700}
+    .flow-step h4{font-size:.9rem;margin-bottom:6px;font-weight:600}
+    .flow-step p{font-size:.82rem;color:var(--text2)}
+    @media(max-width:800px){.flow-grid-3,.flow-grid-4{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.flow-grid-3,.flow-grid-4{grid-template-columns:1fr}}
+    .tech-list{padding-left:20px;color:var(--text2);font-size:.93rem;line-height:1.8;margin-top:12px}
+  </style>
+  <!-- r67: BreadcrumbList — Home > How It Works. Static JSON-LD; the name matches
+       the site's nav/footer label. Search engines use it for result subtitles. -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://nullvpn.net/"},{"@type":"ListItem","position":2,"name":"How It Works","item":"https://nullvpn.net/how-it-works.html"}]}
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-top-row">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <div class="nav-actions">
+          <a href="download.html" class="btn-nav" data-i18n="nav.download">Download App</a>
+          <a href="contact.html" class="btn-nav" data-i18n="nav.contact">Contact</a>
+          <a href="pricing.html" class="btn-nav-primary" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+        </div>
+        <div class="nav-controls">
+          <div class="lang-selector">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">EN</button>
+            <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" title="Русский">РУ</button>
+            <button class="lang-btn" data-lang="fa" onclick="setLang('fa')" title="فارسی">فا</button>
+            <button class="lang-btn" data-lang="ar" onclick="setLang('ar')" title="العربية">ع</button>
+            <button class="lang-btn" data-lang="es" onclick="setLang('es')" title="Español">ES</button>
+            <button class="lang-btn" data-lang="ne" onclick="setLang('ne')" title="नेपाली">ने</button>
+            <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" title="Français">FR</button>
+          </div>
+          <div class="theme-toggle">
+            <button class="theme-btn" id="themeLight" onclick="setTheme('light')" data-i18n-aria="theme.light" aria-label="Light mode">☀️</button>
+            <button class="theme-btn" id="themeDark" onclick="setTheme('dark')" data-i18n-aria="theme.dark" aria-label="Dark mode">🌙</button>
+          </div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+        <li><a aria-current="page" href="how-it-works.html" class="active" data-i18n="nav.how">How It Works</a></li>
+        <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+        <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+        <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1" class="page-hero">
+    <div class="container">
+      <h1><span data-i18n="how.h1a">A secure tunnel,</span><br/><span data-i18n="how.h1b">not a shared VPN.</span></h1>
+      <p data-i18n="how.sub">Up and running in 60 seconds. Here's how the technology actually works — and why it succeeds where other VPNs fail.</p>
+    </div>
+  </main>
+
+  <section class="unblock-section">
+    <div class="container">
+      <h2 id="built-for-difficult-networks" data-i18n="how.unblock.h">Built for difficult networks</h2>
+      <p class="lead" data-i18n="how.unblock.lead">Traditional VPNs put many users behind one shared endpoint, which makes them crowded and inconsistent. NullVPN takes a fundamentally different approach: a private tunnel that belongs to you alone.</p>
+      <div class="method-grid">
+        <div class="method-card">
+          <h3 data-i18n="how.regular.h">❌ Regular VPNs</h3>
+          <ul>
+            <li data-i18n="how.regular.1">Route everyone through the same shared endpoints</li>
+            <li data-i18n="how.regular.2">Predictable, single-path connections</li>
+            <li data-i18n="how.regular.3">Crowded servers degrade speed and stability</li>
+            <li data-i18n="how.regular.4">Shared address ranges that perform inconsistently</li>
+            <li data-i18n="how.regular.5">Require app store installation</li>
+          </ul>
+          <p class="verdict" data-i18n="how.regular.verdict">Result: inconsistent performance on demanding networks</p>
+        </div>
+        <div class="method-card featured">
+          <h3 data-i18n="how.nullvpn.h">✅ NullVPN</h3>
+          <ul>
+            <li data-i18n="how.nullvpn.1">A private tunnel dedicated to you</li>
+            <li data-i18n="how.nullvpn.2">Traffic encrypted end-to-end, from your device outward</li>
+            <li data-i18n="how.nullvpn.3">No shared-server congestion — performance is yours alone</li>
+            <li data-i18n="how.nullvpn.4">Multiple independent encryption layers</li>
+            <li data-i18n="how.nullvpn.5">Automatic switching to the best working path</li>
+            <li data-i18n="how.nullvpn.6">No app store required — direct APK</li>
+          </ul>
+          <p class="verdict" data-i18n="how.nullvpn.verdict">✅ Works on corporate, mobile, fixed, and public networks</p>
+        </div>
+      </div>
+      <div class="analogy-box">
+        <h3 data-i18n="how.analogy.h">The Simple Analogy</h3>
+        <p data-i18n="how.analogy.p1">Shared VPN servers are like a single busy entrance for an entire building — crowded, unpredictable, and one closed door locks everyone out.</p>
+        <p data-i18n="how.analogy.p2">NullVPN gives every user a private entrance on a common, well-maintained road. It's direct, it's encrypted, and closing one path never affects anyone else.</p>
+      </div>
+      <div class="port-insight">
+        <h4 data-i18n="how.port.h">Engineered for Reliability</h4>
+        <p data-i18n="how.port.p">NullVPN operates over the standard port used by every secure website on the internet — banking, healthcare, retail. Because these paths carry ordinary encrypted traffic, they stay open and fast everywhere.</p>
+      </div>
+      <div style="margin-top:2rem">
+        <h4 data-i18n="how.tech.h" style="font-weight:600;margin-bottom:8px">Technology at a glance</h4>
+        <ul class="tech-list">
+          <li data-i18n="how.tech.1">A private tunnel with dedicated endpoints — never shared crowds</li>
+          <li data-i18n="how.tech.2">Minimal connection metadata — connection details are kept private by design to protect the integrity of our service</li>
+          <li data-i18n="how.tech.3">Multiple independent military-grade encryption layers</li>
+          <li data-i18n="how.tech.4">Automatic backup routes — other paths ready if one is unavailable</li>
+          <li data-i18n="how.tech.5">Dedicated private server — only your traffic, ever</li>
+          <li data-i18n="how.tech.6">No activity logs by architecture, not just policy</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="flow-section">
+    <div class="container">
+      <h2 id="connection-experience" data-i18n="how.flow.h">Your connection experience</h2>
+      <p class="flow-lead" data-i18n="how.flow.lead">Install, tap Connect, and you're online in under a minute — then try it free for 3 days.</p>
+      <h3 class="flow-group-h" data-i18n="how.flow.g1">Get connected</h3>
+      <div class="flow-grid flow-grid-3">
+        <div class="flow-step"><div class="flow-icon">📲</div><h4 data-i18n="how.flow.1">Tap to install</h4><p data-i18n="how.flow.1.d">The APK installs and configures itself silently — no manual setup.</p></div>
+        <div class="flow-step"><div class="flow-icon">⚡</div><h4 data-i18n="how.flow.2">Auto-provisioned</h4><p data-i18n="how.flow.2.d">The system generates your personal connection instantly.</p></div>
+        <div class="flow-step"><div class="flow-icon">🟢</div><h4 data-i18n="how.flow.3">Connected</h4><p data-i18n="how.flow.3.d">Tap Connect — you're online.</p></div>
+      </div>
+      <h3 class="flow-group-h" data-i18n="how.flow.g2">Then keep going</h3>
+      <div class="flow-grid flow-grid-4">
+        <div class="flow-step"><div class="flow-icon">💎</div><h4 data-i18n="how.flow.4">3 days free</h4><p data-i18n="how.flow.4.d">You try NullVPN free for 3 days.</p></div>
+        <div class="flow-step"><div class="flow-icon glyph">$</div><h4 data-i18n="how.flow.5">You pay</h4><p data-i18n="how.flow.5.d">Debit/credit cards or crypto (TON, USDT) — payments are handled by certified providers.</p></div>
+        <div class="flow-step"><div class="flow-icon">🔗</div><h4 data-i18n="how.flow.6">Token sent</h4><p data-i18n="how.flow.6.d">You receive a token by e-mail — use it to connect other devices or to re-connect your current one.</p></div>
+        <div class="flow-step"><div class="flow-icon glyph">@</div><h4 data-i18n="how.flow.7">Get More</h4><p data-i18n="how.flow.7.d">Join our Telegram channel with your TG login, or get quick connect to your account — no app needed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps-section">
+    <div class="container">
+      <h2 id="three-steps" style="text-align:center;margin-bottom:36px" data-i18n="how.steps.h">3 steps. 60 seconds.</h2>
+      <div class="steps-list">
+        <div class="step"><div class="step-number">01</div><div class="step-content"><h2 id="install-the-app" data-i18n="how.s1.h">Install the app</h2><p data-i18n="how.s1.p">Get the APK directly from our website — no app store needed. It installs and configures itself silently.</p></div></div>
+        <div class="step"><div class="step-number">02</div><div class="step-content"><h2 id="tap-connect" data-i18n="how.s2.h">Tap Connect</h2><p data-i18n="how.s2.p">Your personal connection is provisioned automatically. One tap and you’re online — free for the first 3 days.</p></div></div>
+        <div class="step"><div class="step-number">03</div><div class="step-content"><h2 id="pay-when-ready" data-i18n="how.s3.h">Pay when you’re ready</h2><p data-i18n="how.s3.p">After your 3 free days, pay with debit/credit cards or crypto (TON, USDT) via certified providers. A token arrives by e-mail for the renewal.</p></div></div>
+      </div>
+      <div class="hiw-note"><h3 data-i18n="how.note1.h">🔒 What happens to your data?</h3><p data-i18n="how.note1.p">Your browsing content is never stored — it passes through your tunnel encrypted, end to end. We keep only minimal operational data needed to run the service (such as approximate data volume per billing period), and nothing that links your identity to the sites you visit.</p></div>
+      <div class="hiw-note"><h3 data-i18n="how.note2.h">📱 Which devices are supported?</h3><p data-i18n="how.note2.p">Android phones and tablets with our dedicated app, routers running our custom firmware, and other devices via standard configuration files — full instructions provided after purchase.</p></div>
+      <div class="hiw-note"><h3 data-i18n="how.note3.h">🔄 What if a connection path fails?</h3><p data-i18n="how.note3.p">NullVPN includes automatic backup paths. If one route becomes unavailable, your tunnel can switch to another one. If you experience any issues, message <a href="https://t.me/nullvpn_net" target="_blank" rel="noopener" referrerpolicy="no-referrer">@nullvpn_net</a> on Telegram.</p></div>
+      <div class="hiw-note"><h3 data-i18n="how.note4.h">🌐 Where else can you reach us?</h3><p data-i18n="how.note4.p">Reach us via <a href="https://t.me/nullvpnnetbot" target="_blank" rel="noopener" referrerpolicy="no-referrer">@nullvpnnetbot</a> on Telegram or via <a href="web3.html" target="_blank" rel="noopener">our TON Web3 page</a> — works in any browser, no special software needed.</p></div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2 id="ready-to-connect" data-i18n="how.cta.h">Ready to connect?</h2>
+      <p data-i18n="how.cta.p">From $3/month. Cancel anytime. Works in 60 seconds.</p>
+      <a href="pricing.html" class="btn-primary btn-large" data-i18n="how.cta.btn">See Pricing →</a>
+      <button type="button" class="share-chip" data-i18n-aria="share.btn" aria-label="Share NullVPN"><span data-i18n="share.btn">Share</span><span class="share-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span></button>
+      <p class="cta-small"><a href="comparison.html" data-i18n="how.cta.small">See how NullVPN compares to NordVPN, ExpressVPN, ProtonVPN →</a></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <p data-i18n="footer.tagline">Private internet for everyone, everywhere.</p>
+        <div class="footer-links-social">
+          <a href="contact.html" data-i18n="nav.contact">Contact</a>
+          <a href="https://t.me/nullvpn_net" target="_blank" rel="noopener" data-i18n="footer.support" referrerpolicy="no-referrer">Support</a>
+          <a href="mailto:support@nullvpn.net?subject=NullVPN%20Support">support@nullvpn.net</a>
+          <a href="pricing.html" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+          <a href="web3.html">TON Web3</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.pages">Pages</h4>
+        <ul>
+          <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+          <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+          <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+          <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.legal">Legal</h4>
+        <ul>
+          <li><a href="refund.html" data-i18n="footer.refund">Refund Policy</a></li>
+          <li><a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+          <li><a href="terms.html" data-i18n="footer.terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p data-i18n="footer.copy">© 2026 NullVPN. Available on Web2, TON Web3, and all HTTP networks.</p></div>
+  </footer>
+
+  <script src="i18n.js?v=71"></script>
+  <script>
+    function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t);document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');}
+    (function(){var t=localStorage.getItem('theme')||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');})();
+  </script>
+</body>
+</html>

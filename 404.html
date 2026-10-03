@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light dark"/>
+  <script>(function(){var L=["en","ru","fa","ar","es","ne","fr"],m=location.search.match(/[?&]lang=([a-zA-Z]{2})/),l=m?m[1].toLowerCase():null;try{l=l&&L.indexOf(l)>-1?l:(localStorage.getItem("nullvpn_lang")||"");}catch(e){l="";}if(l&&L.indexOf(l)>-1){document.documentElement.lang=l;document.documentElement.dir=(l==="fa"||l==="ar")?"rtl":"ltr";if(l!=="en"){document.documentElement.classList.add("nv-l");setTimeout(function(){document.documentElement.classList.remove("nv-l")},2000);}}})();</script>
+  <style>html.nv-l .nav-inner{visibility:hidden}</style>
+  <link rel="preload" href="/fonts/manrope-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <meta name="theme-color" content="#f7e7ce"/>
+  <meta name="theme-color" content="#0a0f1a" media="(prefers-color-scheme: dark)"/>
+  <script src="branding.js?v=5" defer></script>
+  <script src="i18n.js?v=71" defer></script>
+  <meta name="robots" content="noindex"/>
+  <title>404 — Page not found — NullVPN</title>
+  <meta name="description" content="Page not found. NullVPN — private connectivity designed for difficult networks."/>
+  <link rel="canonical" href="https://nullvpn.net/404.html"/>
+  <meta property="og:title" content="404 — Page not found — NullVPN"/>
+  <meta property="og:description" content="NullVPN — private connectivity designed for difficult networks."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://nullvpn.net/404.html"/>
+  <meta property="og:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <meta property="og:site_name" content="NullVPN"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:locale:alternate" content="ru_RU"/>
+  <meta property="og:locale:alternate" content="fa_IR"/>
+  <meta property="og:locale:alternate" content="ar_AR"/>
+  <meta property="og:locale:alternate" content="es_ES"/>
+  <meta property="og:locale:alternate" content="ne_NP"/>
+  <meta property="og:locale:alternate" content="fr_FR"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="404 — Page not found — NullVPN"/>
+  <meta name="twitter:description" content="NullVPN — private connectivity designed for difficult networks."/>
+  <meta name="twitter:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta name="twitter:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <link rel="stylesheet" href="/style.css?v=61"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <style>
+    .nf-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .nf-card { max-width: 560px; width: 100%; text-align: center; background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 48px 32px; }
+    .nf-code { font-size: clamp(3.5rem, 10vw, 5.5rem); font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 12px; }
+    .nf-card h1 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .nf-card .nf-sub { color: var(--text2); font-size: .95rem; margin-bottom: 26px; }
+    .nf-suggest { margin: -10px 0 24px; font-size: .92rem; color: var(--text2); }
+    .nf-suggest a { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(var(--accent-rgb), .4); }
+    .nf-suggest a:hover { border-bottom-color: var(--accent); }
+    .nf-suggest a:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+    /* r81: the rescue appears mid-load (script runs before deferred i18n) —
+       a short fade+rise makes it feel deliberate instead of a pop-in.
+       Reduced-motion users get the instant state via the global 0.01ms nuke
+       in style.css (404.html loads the estate stylesheet). */
+    @keyframes nfSuggestIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    .nf-suggest:not([hidden]) { animation: nfSuggestIn .28s ease both; }
+    .nf-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .nf-actions a { min-height: 44px; display: inline-flex; align-items: center; }
+    /* r105: FAQ-search recovery — mirrors the faq-filter input language:
+       border-strong functional boundary (r98 taxonomy), accent focus ring,
+       16px input font (iOS focus-zoom guard), 44px touch floor (r72).
+       Logical margin auto-centering is direction-safe; the btn-primary
+       submit reuses the estate button (font already set, r53 wrap-safe). */
+    .nf-search { display: flex; gap: 8px; max-width: 380px; margin: -8px auto 24px; }
+    .nf-inputwrap { position: relative; flex: 1; min-width: 0; }
+    /* r108: kbd chip hides while typing — same language as .faq-filter */
+    .nf-search:focus-within .faq-filter-kbd { display: none; }
+    /* r109: chip also hides once the field HOLDS a query (even blurred) —
+       CSS-only via :placeholder-shown (no JS, form stays zero-JS). Long
+       queries no longer slide under the re-appearing chip after blur. */
+    .nf-search input:not(:placeholder-shown) ~ .faq-filter-kbd { display: none; }
+    .nf-search input {
+      width: 100%; box-sizing: border-box; height: 44px;
+      padding: 0 14px; padding-inline-end: 34px; /* r108: clear the kbd chip */ background: var(--bg2); color: var(--text);
+      border: 1px solid var(--border-strong); border-radius: 10px; /* r98: input boundary 1.4.11 */
+      font-size: 16px; font-family: var(--font); caret-color: var(--accent-text);
+    }
+    .nf-search input::placeholder { color: var(--text2); }
+    .nf-search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb),.15); }
+    .nf-search .btn-primary { min-height: 44px; display: inline-flex; align-items: center; }
+    .nf-legal { margin-top: 26px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+    .nf-legal a { color: var(--text2); font-size: .85rem; text-decoration: none; }
+    .nf-legal a:hover { color: var(--accent); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+  <div class="nf-wrap">
+    <main id="main" tabindex="-1" class="nf-card">
+      <div class="nf-code">404</div>
+      <h1 data-i18n="nf.title">Page not found</h1>
+      <p class="nf-sub" data-i18n="nf.sub">The page you’re looking for doesn’t exist or has moved.</p>
+      <p class="nf-suggest" id="nfSuggest" aria-live="polite" hidden><span data-i18n="nf.suggest">Did you mean:</span> <a id="nfSuggestLink" href="/">—</a></p>
+      <!-- r105: FAQ-search recovery — a plain GET form (works without JS)
+           that lands on the verified faq.html ?q= boot contract (r96/r100):
+           pre-filtered matches, shareable URL, language-switch reset.
+           404s collect typo traffic; this turns dead ends into answers. -->
+      <form class="nf-search" role="search" action="/faq.html" method="get">
+        <span class="nf-inputwrap"><input type="search" name="q" maxlength="80" autocomplete="off" spellcheck="false" autocapitalize="off" enterkeyhint="search" aria-keyshortcuts="/"
+               data-i18n="nf.search.ph" placeholder="Search the FAQ…" data-i18n-aria="nf.search.ph" aria-label="Search the FAQ…"><kbd class="faq-filter-kbd" aria-hidden="true">/</kbd></span>
+        <button type="submit" class="btn-primary" data-i18n="nf.search.go">Search</button>
+      </form>
+            <div class="lang-selector" data-i18n-aria="a11y.lang.selector" aria-label="Language">
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">EN</button>
+        <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" title="Русский">РУ</button>
+        <button class="lang-btn" data-lang="fa" onclick="setLang('fa')" title="فارسی">فا</button>
+        <button class="lang-btn" data-lang="ar" onclick="setLang('ar')" title="العربية">ع</button>
+        <button class="lang-btn" data-lang="es" onclick="setLang('es')" title="Español">ES</button>
+        <button class="lang-btn" data-lang="ne" onclick="setLang('ne')" title="नेपाली">ने</button>
+        <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" title="Français">FR</button>
+      </div>
+<div class="nf-actions">
+        <a class="btn-primary" href="index.html" data-i18n="nav.home">Home</a>
+        <a class="btn-outline" href="/faq.html" data-i18n="nav.faq">FAQ</a>
+        <a class="btn-outline" href="/pricing.html" data-i18n="nav.pricing">Pricing</a>
+        <a class="btn-outline" href="https://t.me/nullvpnnetbot" target="_blank" rel="noopener" data-i18n="contact.bot.btn" referrerpolicy="no-referrer">Telegram Bot</a>
+      </div>
+      <div class="nf-legal">
+        <a href="/privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+        <a href="/terms.html" data-i18n="footer.terms">Terms of Service</a>
+        <a href="/refund.html" data-i18n="footer.refund">Refund Policy</a>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme') || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <script>
+    // r79: 404 rescue — GitHub Pages serves this file at the REQUESTED URL, so
+    // location.pathname still names the dead path. Fuzzy-match it against the
+    // real page inventory (first-match-wins; specific aliases before bare
+    // ones) and surface a localized "did you mean" link. Labels reuse the
+    // nav./footer. keys — zero new per-page vocabulary (r69 convention);
+    // web3.html is brand-static (null key) like the offline inventory. The
+    // suggest box starts hidden: no match → zero visual change. The link
+    // carries data-i18n so the deferred i18n.js pass translates it at load
+    // and every setLang rebuild retranslates it like all engine text.
+    (function() {
+      var MAP = [
+        ['how-it-works', '/how-it-works.html', 'nav.how'],
+        ['howitworks',   '/how-it-works.html', 'nav.how'],
+        ['comparison',   '/comparison.html',   'nav.compare'],
+        ['compare',      '/comparison.html',   'nav.compare'],
+        ['versus',       '/comparison.html',   'nav.compare'],
+        ['features',     '/features.html',     'nav.features'],
+        ['feature',      '/features.html',     'nav.features'],
+        ['download',     '/download.html',     'nav.download'],
+        ['android',      '/download.html',     'nav.download'],
+        ['apk',          '/download.html',     'nav.download'],
+        // r81: billing-cycle typos rescue to the EXACT plan card (r78 anchors
+        // + page-local scroll-margin already handle the landing). Label stays
+        // nav.pricing — the recipient arrives scrolled to the right card.
+        // Listed BEFORE the generic pricing aliases: first-match-wins, and a
+        // path like /annual-plan should land on the annual card, not the top.
+        ['annual',       '/pricing.html#plan-annual',    'nav.pricing'],
+        ['yearly',       '/pricing.html#plan-annual',    'nav.pricing'],
+        ['quarterly',    '/pricing.html#plan-quarterly', 'nav.pricing'],
+        ['monthly',      '/pricing.html#plan-monthly',   'nav.pricing'],
+        ['pricing',      '/pricing.html',      'nav.pricing'],
+        ['price',        '/pricing.html',      'nav.pricing'],
+        ['plan',         '/pricing.html',      'nav.pricing'],
+        ['checkout',     '/pricing.html',      'nav.pricing'],
+        ['privacy',      '/privacy.html',      'footer.privacy'],
+        ['terms',        '/terms.html',        'footer.terms'],
+        ['refund',       '/refund.html',       'footer.refund'],
+        ['contact',      '/contact.html',      'nav.contact'],
+        ['support',      '/contact.html',      'nav.contact'],
+        // r124: the Telegram surface — the brand's primary support channel and
+        // the most plausible guessed URLs (/telegram, /tg, /bot, /channel).
+        // contact.html carries dedicated Support/Bot/Channel cards, so it is
+        // the correct rescue target for all four; short aliases sit AFTER the
+        // specific rows (first-match-wins, same rule as the pricing block).
+        ['telegram',     '/contact.html',      'nav.contact'],
+        ['channel',      '/contact.html',      'nav.contact'],
+        ['tg',           '/contact.html',      'nav.contact'],
+        ['bot',          '/contact.html',      'nav.contact'],
+        ['faq',          '/faq.html',          'nav.faq'],
+        ['question',     '/faq.html',          'nav.faq'],
+        ['web3',         '/web3.html',         null, 'NullVPN Web3'],
+        ['mirror',       '/web3.html',         null, 'NullVPN Web3'],
+        ['setup',        '/how-it-works.html', 'nav.how'],
+        ['guide',        '/how-it-works.html', 'nav.how'],
+        ['app',          '/download.html',     'nav.download'],
+        ['pay',          '/pricing.html',      'nav.pricing'],
+        ['buy',          '/pricing.html',      'nav.pricing'],
+        ['vs',           '/comparison.html',   'nav.compare'],
+        ['how',          '/how-it-works.html', 'nav.how'],
+        ['index',        '/',                  'nav.home'],
+        ['home',         '/',                  'nav.home'],
+        ['main',         '/',                  'nav.home']
+      ];
+      var raw = location.pathname || '';
+      var path;
+      try { path = decodeURIComponent(raw); } catch (_) { path = raw; }
+      path = path.toLowerCase().replace(/\.html?$/, '').replace(/^\/+/, '').replace(/\/+$/, '');
+      if (!path) return; // root never 404s
+      var hit = null;
+      for (var i = 0; i < MAP.length; i++) {
+        if (path.indexOf(MAP[i][0]) !== -1) { hit = MAP[i]; break; }
+      }
+      if (!hit) return;
+      var box = document.getElementById('nfSuggest');
+      var a = document.getElementById('nfSuggestLink');
+      if (!box || !a) return;
+      a.setAttribute('href', hit[1]);
+      if (hit[2]) {
+        a.setAttribute('data-i18n', hit[2]);
+      } else {
+        a.removeAttribute('data-i18n');
+        a.textContent = hit[3] || 'NullVPN';
+      }
+      box.hidden = false;
+    })();
+  </script>
+</body>
+</html>

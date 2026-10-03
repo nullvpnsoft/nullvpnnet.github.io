@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light dark"/>
+  <script>(function(){var L=["en","ru","fa","ar","es","ne","fr"],m=location.search.match(/[?&]lang=([a-zA-Z]{2})/),l=m?m[1].toLowerCase():null;try{l=l&&L.indexOf(l)>-1?l:(localStorage.getItem("nullvpn_lang")||"");}catch(e){l="";}if(l&&L.indexOf(l)>-1){document.documentElement.lang=l;document.documentElement.dir=(l==="fa"||l==="ar")?"rtl":"ltr";if(l!=="en"){document.documentElement.classList.add("nv-l");setTimeout(function(){document.documentElement.classList.remove("nv-l")},2000);}}})();</script>
+  <style>html.nv-l .nav-inner{visibility:hidden}</style>
+  <link rel="preload" href="/fonts/manrope-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin/>
+  <meta name="theme-color" content="#f7e7ce"/>
+  <!-- r75: preconnect — this page's whole purpose is sending visitors to the
+       TON mirror; warming the tonviewer.com connection makes the 1500ms
+       redirect land faster on the far side. -->
+  <link rel="preconnect" href="https://tonviewer.com"/>
+  <meta name="theme-color" content="#0a0f1a" media="(prefers-color-scheme: dark)"/>
+  <script src="branding.js?v=5" defer></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="NullVPN on TON Web3 — accessible even when this website is blocked. No VPN needed."/>
+  <title>NullVPN — TON Web3</title>
+  <link rel="canonical" href="https://nullvpn.net/web3.html"/>
+  <!-- r102: this page is a 1.5s auto-redirect bridge for humans arriving from
+       TON-ecosystem links (QR codes, x-callbacks), not search content. It was
+       the only utility page missing noindex (success/offline/404 already had
+       it) and was still listed in sitemap.xml — an indexed bridge page is a
+       doorway-signal liability and a dead search result. -->
+  <meta name="robots" content="noindex"/>
+  <meta property="og:title" content="NullVPN — TON Web3"/>
+  <meta property="og:description" content="NullVPN on TON Web3 — accessible even when this website is blocked. No VPN needed."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://nullvpn.net/web3.html"/>
+  <meta property="og:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <meta property="og:site_name" content="NullVPN"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:locale:alternate" content="ru_RU"/>
+  <meta property="og:locale:alternate" content="fa_IR"/>
+  <meta property="og:locale:alternate" content="ar_AR"/>
+  <meta property="og:locale:alternate" content="es_ES"/>
+  <meta property="og:locale:alternate" content="ne_NP"/>
+  <meta property="og:locale:alternate" content="fr_FR"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="NullVPN — TON Web3"/>
+  <meta name="twitter:description" content="NullVPN on TON Web3 — accessible even when this website is blocked. No VPN needed."/>
+  <meta name="twitter:image" content="https://nullvpn.net/og-cover.jpg"/>
+  <meta name="twitter:image:alt" content="NullVPN — private connectivity for difficult networks. Brand cover with gold wave lines on dark navy."/>
+  <link rel="stylesheet" href="style.css?v=61"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <style>
+    .web3-splash {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .web3-splash .container { max-width: 560px; }
+    .dl-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .dl-title { font-size: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem); font-weight: 700; margin-bottom: 0.75rem; }
+    .dl-sub { color: var(--text2); margin-bottom: 1.5rem; max-width: 42ch; margin-left: auto; margin-right: auto; }
+    .dl-progress { display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text2); font-size: 0.875rem; margin-bottom: 2rem; }
+    .dl-spinner {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent2);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .dl-manual { font-size: 0.875rem; color: var(--text2); }
+    .dl-manual a { color: var(--accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .dl-manual a:hover { color: var(--accent2); }
+    /* r74: actions row — chip + cancel side by side, centered; the share chip's
+       global margin-inline-start belongs to inline prose, reset in flex gap. */
+    .web3-actions { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .web3-actions .share-chip { margin-inline-start: 0; }
+    .web3-cancel { min-height: 44px; }
+    @media (prefers-reduced-motion: reduce) { .dl-spinner { animation: none; } }
+    /* r111: no-JS note styling — the <p class="web3-nojs"> inside <noscript>
+       only ever renders when scripting is off (browsers skip noscript
+       content entirely with JS on), so these styles are inert in the normal
+       path. Mirrors the .dl-progress rhythm (same font-size, colour,
+       margin-bottom) so the swap doesn't shift the layout grammar. */
+    .web3-nojs { display: flex; align-items: center; justify-content: center; gap: .5rem; color: var(--text2); font-size: .875rem; margin-bottom: 2rem; text-align: center; }
+  </style>
+  <!-- r111: noscript honesty — this bridge's entire function is a JS timer.
+       With scripting off the spinner spun forever, the progress row kept
+       promising a connection that would never start, and the cancel/share
+       controls sat dead. Scripting-off visitors get the truth instead: no
+       spinner, no dead buttons, a plain note pointing at the manual mirror
+       link below (that link is the no-JS path of last resort and always
+       worked). EN-only by construction — the i18n engine cannot run
+       without JS, same convention as the r110 fallback sync. -->
+  <noscript>
+    <style>
+      .dl-spinner { display: none; }
+      /* :not(#web3Cancelled) instead of the data-i18n attribute selector —
+         a CSS copy of the attribute string would be counted as a real
+         i18n usage by the check_html_i18n gate (r111 count-hygiene note). */
+      .dl-progress span:not(#web3Cancelled) { display: none; }
+      #web3Cancel, .web3-actions .share-chip { display: none; }
+    </style>
+  </noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-top-row">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <div class="nav-actions">
+          <a href="download.html" class="btn-nav" data-i18n="nav.download">Download App</a>
+          <a href="contact.html" class="btn-nav" data-i18n="nav.contact">Contact</a>
+          <a href="pricing.html" class="btn-nav btn-nav-primary" target="_blank" rel="noopener" data-i18n="nav.cta.buy">Buy Premium</a>
+        </div>
+        <div class="nav-controls">
+          <div class="lang-selector">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">EN</button>
+            <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" title="Русский">РУ</button>
+            <button class="lang-btn" data-lang="fa" onclick="setLang('fa')" title="فارسی">فا</button>
+            <button class="lang-btn" data-lang="ar" onclick="setLang('ar')" title="العربية">ع</button>
+            <button class="lang-btn" data-lang="es" onclick="setLang('es')" title="Español">ES</button>
+            <button class="lang-btn" data-lang="ne" onclick="setLang('ne')" title="नेपाली">ने</button>
+            <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" title="Français">FR</button>
+          </div>
+          <div class="theme-toggle">
+            <button class="theme-btn" id="themeLight" onclick="setTheme('light')" data-i18n-aria="theme.light" aria-label="Light mode">☀️</button>
+            <button class="theme-btn" id="themeDark" onclick="setTheme('dark')" data-i18n-aria="theme.dark" aria-label="Dark mode">🌙</button>
+          </div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+        <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+        <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+        <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+        <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1" class="web3-splash">
+    <div class="container">
+      <div class="dl-icon" aria-hidden="true">💎</div>
+      <h1 class="dl-title" data-i18n="web3.h1">Opening NullVPN on TON…</h1>
+      <p class="dl-sub" data-i18n="web3.sub">You're being redirected to NullVPN's decentralised Web3 site on the TON Network — a mirror of this page that works in any browser.</p>
+      <div class="dl-progress" role="status" aria-live="polite">
+        <div class="dl-spinner" aria-hidden="true"></div>
+        <span data-i18n="web3.redirecting">Connecting to TON…</span>
+        <span data-i18n="web3.cancelled" id="web3Cancelled" hidden>Redirect cancelled — the mirror link stays above.</span>
+      </div>
+      <!-- r111: scripting-off note — renders ONLY when JS is unavailable,
+           standing in for the (then hidden) progress row. -->
+      <noscript><p class="web3-nojs">JavaScript is off — the automatic redirect can&rsquo;t run. Open the mirror with the manual link below.</p></noscript>
+      <!-- r74: one-tap save/share of the censorship-proof mirror URL (engine
+           section 12 handles sheet + clipboard fallback + announce), and a
+           cancel control for visitors the redirect doesn't serve (tonviewer
+           may be slow or also blocked). -->
+      <div class="web3-actions">
+        <button type="button" class="share-chip" data-share-url="https://tonviewer.com/nullvpn.ton" data-i18n-aria="web3.share.mirror" aria-label="Share mirror link"><span data-i18n="web3.share.mirror">Share mirror link</span><span class="share-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span></button>
+        <button type="button" id="web3Cancel" class="btn-ghost web3-cancel" data-i18n="web3.cancel">Stay here</button>
+      </div>
+      <p class="dl-manual"><span data-i18n="web3.manual">Not redirected? Open the mirror manually:</span>
+        <a href="https://tonviewer.com/nullvpn.ton" target="_blank" rel="noopener" referrerpolicy="no-referrer">tonviewer.com/nullvpn.ton</a></p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Null<span>VPN</span></a>
+        <p data-i18n="footer.tagline">Private internet for everyone, everywhere.</p>
+        <div class="footer-links-social">
+          <a href="contact.html" data-i18n="nav.contact">Contact</a>
+          <a href="https://t.me/nullvpn_net" target="_blank" rel="noopener" data-i18n="footer.support" referrerpolicy="no-referrer">Support</a>
+          <a href="mailto:support@nullvpn.net?subject=NullVPN%20Support">support@nullvpn.net</a>
+          <a href="pricing.html" data-i18n="nav.cta.buy">Buy Premium</a>
+          <a href="web3.html">TON Web3</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.pages">Pages</h4>
+        <ul>
+          <li><a href="features.html" data-i18n="nav.features">Features</a></li>
+          <li><a href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+          <li><a href="comparison.html" data-i18n="nav.compare">Compare</a></li>
+          <li><a href="pricing.html" data-i18n="nav.pricing">Pricing</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4 data-i18n="footer.legal">Legal</h4>
+        <ul>
+          <li><a href="refund.html" data-i18n="footer.refund">Refund Policy</a></li>
+          <li><a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+          <li><a href="terms.html" data-i18n="footer.terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer.copy">© 2026 NullVPN. Available on Web2, TON Web3, and all HTTP networks.</p>
+    </div>
+  </footer>
+
+  <script src="i18n.js?v=71"></script>
+  <script>
+    function setTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');
+      document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');
+    }
+    (function() {
+      var t = localStorage.getItem('theme') || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+      document.getElementById('themeLight').classList.toggle('active', t === 'light'), document.getElementById('themeLight').setAttribute('aria-pressed', t === 'light');
+      document.getElementById('themeDark').classList.toggle('active', t === 'dark'), document.getElementById('themeDark').setAttribute('aria-pressed', t === 'dark');
+    })();
+
+    // Redirect after 1500ms — page renders long enough for CF RUM (edge-injected) + CrUX to record
+    var redirectTimer = setTimeout(function() {
+      window.location.href = 'https://tonviewer.com/nullvpn.ton';
+    }, 1500);
+
+    // r74: cancel control — keep the bridge page open. tonviewer may be slow
+    // or itself blocked, and some visitors want to copy/share the mirror URL
+    // before leaving. Swaps the progress row to its pre-translated cancelled
+    // state (the span ships in the DOM, so no re-translation is needed).
+    var web3Cancelled = false;
+    document.getElementById('web3Cancel').addEventListener('click', function() {
+      if (web3Cancelled) return;
+      web3Cancelled = true;
+      clearTimeout(redirectTimer);
+      document.querySelector('.dl-spinner').style.display = 'none';
+      var r = document.querySelector('.dl-progress span[data-i18n="web3.redirecting"]');
+      if (r) r.hidden = true;
+      document.getElementById('web3Cancelled').hidden = false;
+    });
+
+    // r74: bfcache fix — the 1500ms timer is SUSPENDED while the page sits in
+    // the back/forward cache and fires the moment the visitor navigates back,
+    // yanking them to the mirror against their will (they came back on
+    // purpose). Kill the pending timer on restore and show the cancelled
+    // state so the page doesn't promise a redirect that will never come.
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted && !web3Cancelled) {
+        web3Cancelled = true;
+        clearTimeout(redirectTimer);
+        document.querySelector('.dl-spinner').style.display = 'none';
+        var r = document.querySelector('.dl-progress span[data-i18n="web3.redirecting"]');
+        if (r) r.hidden = true;
+        document.getElementById('web3Cancelled').hidden = false;
+      }
+    });
+  </script>
+
+  <!-- r89: estate convention — every content page carries a BreadcrumbList;
+       web3.html was the last page without one. Page name mirrors og:title. -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://nullvpn.net/"},{"@type":"ListItem","position":2,"name":"TON Web3","item":"https://nullvpn.net/web3.html"}]}
+  </script>
+</body>
+</html>
