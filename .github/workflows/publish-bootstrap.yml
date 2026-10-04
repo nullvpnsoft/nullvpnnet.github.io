@@ -1,0 +1,78 @@
+name: publish-bootstrap
+
+# Static bootstrap profile distribution (owner 2026-10-04).
+#
+# Mirrors the tokenless bootstrap body from the live CF-worker source into
+# this Pages repo -> https://nullvpn.net/bootstrap (+ /sub/android drop-in
+# path). Rationale: the RU-side network path degrades ALL TLS to the
+# Cloudflare edge (every CF HTTPS port stalls; http:80 is the only live CF
+# path there), while GitHub Pages rides Fastly/GitHub IPs (185.199.0.0/16)
+# and stays reachable — verified from the degraded path 2026-10-04.
+# tunnel.sh keeps its port-80 CF default (scheme law 2026-10-04); this file
+# is the tamper-resistant https mirror, not a scheme change.
+
+on:
+  workflow_dispatch:
+    inputs:
+      body_base64:
+        description: 'Optional: full bootstrap body (base64 vless list). Empty = fetch live source.'
+        required: false
+        default: ''
+  schedule:
+    - cron: '37 4 * * 1' # weekly sync from the live source
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch + validate bootstrap body
+        env:
+          BODY_INPUT: ${{ inputs.body_base64 }}
+        run: |
+          set -euo pipefail
+          got=""
+          if [ -n "$BODY_INPUT" ]; then
+            printf '%s\n' "$BODY_INPUT" > /tmp/bootstrap.body
+            got="workflow_dispatch input"
+          else
+            for U in "https://bootstrap-dev.nullvpn.net/sub/android" "http://bootstrap-dev.nullvpn.net/sub/android"; do
+              echo ">> trying $U"
+              if curl -fsS --max-time 25 -A 'NullVPN-Android/1.0' -o /tmp/bootstrap.body "$U"; then
+                got="$U"
+                break
+              fi
+              echo ">> WARN: $U failed"
+            done
+          fi
+          [ -n "$got" ] || { echo "ERROR: all sources failed"; exit 1; }
+          [ -s /tmp/bootstrap.body ] || { echo "ERROR: empty body"; exit 1; }
+          base64 -d < /tmp/bootstrap.body | grep -q '^vless://' \
+            || { echo "ERROR: validation failed — no vless:// in decoded body"; exit 1; }
+          echo ">> source: $got | bytes: $(wc -c < /tmp/bootstrap.body) | links: $(base64 -d < /tmp/bootstrap.body | grep -c '^vless://')"
+
+      - name: Publish (commit only on change)
+        run: |
+          set -euo pipefail
+          mkdir -p sub
+          cp /tmp/bootstrap.body bootstrap
+          cp /tmp/bootstrap.body sub/android
+          git config user.name 'nullvpn-bot'
+          git config user.email 'dev@nullvpn.net'
+          git add bootstrap sub/android
+          if git diff --cached --quiet; then
+            echo '>> body unchanged — nothing to publish'
+          else
+            git commit -m "refresh static bootstrap profile (publish-bootstrap CI)"
+            git push
+            echo '>> pushed — GitHub Pages will rebuild'
+          fi
