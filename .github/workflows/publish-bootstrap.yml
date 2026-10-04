@@ -3,8 +3,9 @@ name: publish-bootstrap
 # Static bootstrap profile distribution (owner 2026-10-04).
 #
 # Mirrors the tokenless bootstrap body from the live CF-worker source into
-# this Pages repo -> https://nullvpn.net/bootstrap (+ /sub/android drop-in
-# path). Rationale: the RU-side network path degrades ALL TLS to the
+# this Pages repo -> https://nullvpn.net/bootstrap + /bootstrap-dev (the
+# app's r135 fetch-ladder backup paths baked by config/{prod,dev}.env) +
+# /sub/android (drop-in path). Rationale: the RU-side network path degrades ALL TLS to the
 # Cloudflare edge (every CF HTTPS port stalls; http:80 is the only live CF
 # path there), while GitHub Pages rides Fastly/GitHub IPs (185.199.0.0/16)
 # and stays reachable — verified from the degraded path 2026-10-04.
@@ -64,11 +65,15 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p sub
+          # r137: also publish /bootstrap-dev — the DEV variant's
+          # BOOTSTRAP_BACKUP_URL (config/dev.env, PR #266) points here; the
+          # path was 404 until now (found during the post-merge CI check).
           cp /tmp/bootstrap.body bootstrap
+          cp /tmp/bootstrap.body bootstrap-dev
           cp /tmp/bootstrap.body sub/android
           git config user.name 'nullvpn-bot'
           git config user.email 'dev@nullvpn.net'
-          git add bootstrap sub/android
+          git add bootstrap bootstrap-dev sub/android
           if git diff --cached --quiet; then
             echo '>> body unchanged — nothing to publish'
           else

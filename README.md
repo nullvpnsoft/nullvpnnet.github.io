@@ -19,7 +19,8 @@ Unified NullVPN website — works identically on **Web2**, **TON Web3**, and **a
 
 | Path | Body |
 |---|---|
-| `/bootstrap` | tokenless bootstrap profile — base64 vless link list |
+| `/bootstrap` | tokenless bootstrap profile — base64 vless link list (PROD backup path) |
+| `/bootstrap-dev` | same body at the DEV variant's backup path (`BOOTSTRAP_BACKUP_URL` in `config/dev.env`, PR #266; was 404 until r137) |
 | `/sub/android` | same body at the app path (drop-in URL swap) |
 
 - **Source of truth:** CF-worker route `bootstrap(-dev).nullvpn.net` (byte-identical body).
