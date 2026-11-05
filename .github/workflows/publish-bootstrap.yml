@@ -1,0 +1,135 @@
+name: publish-bootstrap
+
+# Static bootstrap profile distribution (owner 2026-10-04).
+#
+# Mirrors the tokenless bootstrap body from the live CF-worker source into
+# this Pages repo -> https://nullvpn.net/bootstrap + /bootstrap-dev (the
+# app's r135 fetch-ladder backup paths baked by config/{prod,dev}.env) +
+# /sub/android (drop-in path). Rationale: the RU-side network path degrades ALL TLS to the
+# Cloudflare edge (every CF HTTPS port stalls; http:80 is the only live CF
+# path there), while GitHub Pages rides Fastly/GitHub IPs (185.199.0.0/16)
+# and stays reachable — verified from the degraded path 2026-10-04.
+# tunnel.sh keeps its port-80 CF default (scheme law 2026-10-04); this file
+# is the tamper-resistant https mirror, not a scheme change.
+#
+# 2026-10-12 (failover incident): the mirror used to fetch ONE body (dev
+# source) and copy it into ALL THREE files — a stale dev profile poisoned
+# the prod backup rung and every device that fell down the ladder dialed
+# the dead leg first. Since this commit the sources are PER-CHANNEL:
+#   bootstrap + sub/android <- bootstrap.nullvpn.net/sub/android (prod)
+#   bootstrap-dev           <- bootstrap-dev.nullvpn.net/sub/android (dev)
+# Each body is validated independently; a failure of one channel fails the
+# run without touching the other (no more cross-channel contamination).
+
+on:
+  workflow_dispatch:
+    inputs:
+      body_base64:
+        description: 'Optional: override body for BOTH channels (base64 vless list). Empty = fetch live sources.'
+        required: false
+        default: ''
+  schedule:
+    - cron: '37 4 * * 1' # weekly sync from the live sources
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch + validate channel bodies (prod and dev separately)
+        env:
+          BODY_INPUT: ${{ inputs.body_base64 }}
+        run: |
+          set -euo pipefail
+          fetch_one() { # $1=outfile $2..=candidate urls
+            local out="$1"; shift
+            for U in "$@"; do
+              echo ">> trying $U"
+              if curl -fsS --max-time 25 -A 'NullVPN-Android/1.0' -o "$out" "$U"; then
+                [ -s "$out" ] || { echo ">> WARN: $U returned empty body"; continue; }
+                base64 -d < "$out" | grep -q '^vless://' \
+                  || { echo ">> WARN: $U validation failed — no vless:// in decoded body"; continue; }
+                echo ">> OK $U | bytes: $(wc -c < "$out") | links: $(base64 -d < "$out" | grep -c '^vless://')"
+                return 0
+              fi
+              echo ">> WARN: $U failed"
+            done
+            return 1
+          }
+          if [ -n "$BODY_INPUT" ]; then
+            printf '%s\n' "$BODY_INPUT" > /tmp/bootstrap-prod.body
+            cp /tmp/bootstrap-prod.body /tmp/bootstrap-dev.body
+            echo ">> source: workflow_dispatch input (both channels)"
+          else
+            fetch_one /tmp/bootstrap-prod.body \
+              "https://bootstrap.nullvpn.net/sub/android" \
+              "http://bootstrap.nullvpn.net/sub/android" \
+              || { echo "ERROR: prod sources failed"; exit 1; }
+            fetch_one /tmp/bootstrap-dev.body \
+              "https://bootstrap-dev.nullvpn.net/sub/android" \
+              "http://bootstrap-dev.nullvpn.net/sub/android" \
+              || { echo "ERROR: dev sources failed"; exit 1; }
+          fi
+
+      - name: Publish (commit only on change)
+        run: |
+          set -euo pipefail
+          mkdir -p sub
+          # r137: also publish /bootstrap-dev — the DEV variant's
+          # BOOTSTRAP_BACKUP_URL (config/dev.env, PR #266) points here; the
+          # path was 404 until now (found during the post-merge CI check).
+          # 2026-10-12: per-channel bodies (see fetch step comment).
+          cp /tmp/bootstrap-prod.body bootstrap
+          cp /tmp/bootstrap-dev.body bootstrap-dev
+          cp /tmp/bootstrap-prod.body sub/android
+          git config user.name 'nullvpn-bot'
+          git config user.email 'dev@nullvpn.net'
+          git add bootstrap bootstrap-dev sub/android
+          if git diff --cached --quiet; then
+            echo '>> bodies unchanged — nothing to publish'
+          else
+            git commit -m "refresh static bootstrap profile (publish-bootstrap CI)"
+            git push
+            echo '>> pushed — GitHub Pages will rebuild'
+          fi
+
+      - name: Refresh RU whitelist (client bypass data, owner 2026-10-13)
+        run: |
+          set -euo pipefail
+          SRC="https://www.ipdeny.com/ipblocks/data/countries/ru.zone"
+          DST="whitelist/ru-ipv4.txt"
+          mkdir -p whitelist
+          if ! curl -fsS --max-time 90 -o /tmp/ru.zone "$SRC"; then
+            echo '>> WARN: ipdeny unreachable - keeping previous whitelist'
+            exit 0
+          fi
+          COUNT=$(grep -cE '^([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$' /tmp/ru.zone || echo 0)
+          echo ">> upstream CIDRs: $COUNT"
+          if [ "$COUNT" -lt 5000 ]; then
+            echo ">> WARN: sanity gate failed ($COUNT CIDRs) - keeping previous whitelist"
+            exit 0
+          fi
+          {
+            echo '# NullVPN RU-bypass whitelist - IPv4 CIDRs (client route rule ip_cidr -> direct)'
+            echo '# Source: https://www.ipdeny.com/ipblocks/data/countries/ru.zone'
+            echo '# Refreshed by publish-bootstrap CI (this repo). Parsed by the app\'s NullVpnRuBypass:'
+            echo "# '#' comments/blank lines stripped, v4 CIDRs only (octets<=255, mask<=32)."
+          } > "$DST"
+          grep -E '^([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$' /tmp/ru.zone >> "$DST"
+          git add "$DST"
+          if git diff --cached --quiet; then
+            echo '>> whitelist unchanged'
+          else
+            git commit -m 'refresh RU whitelist (client bypass data)'
+            git push
+            echo '>> pushed - GitHub Pages will rebuild'
+          fi
